@@ -1,3 +1,5 @@
 .Container {
   border: 1px solid #CCCCCC;
+  display: flex;
+  flex-wrap: wrap;
 }

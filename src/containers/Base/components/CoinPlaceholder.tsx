@@ -14,8 +14,8 @@ export class CoinPlaceholder extends React.PureComponent<ICoinPlaceholderProps> 
   render() {
     const { baseColor } = this.props;
     return (
-      <div className={styles.Container} style={getStyleObject(COIN_PLACEHOLDER_SIZE)}>
-        <div className={styles.Circle} style={getStyleObject(COIN_SIZE, baseColor)}/>
+      <div className={styles.Container} style={getStyleObject(COIN_PLACEHOLDER_SIZE, COIN_PLACEHOLDER_SIZE)}>
+        <div className={styles.Circle} style={getStyleObject(COIN_SIZE, COIN_SIZE, baseColor)}/>
       </div>
     );
   }
