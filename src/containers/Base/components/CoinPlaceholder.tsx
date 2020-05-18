@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { getStyleObject } from 'containers/utils';
 import { COIN_PLACEHOLDER_SIZE, COIN_SIZE } from 'globalConstants';
-import { BaseColors } from 'interfaces';
-import { getStyleObject } from 'utils';
+import { BaseColors } from 'state/interfaces';
 
 import styles from './CoinPlaceholder.module.css';
 

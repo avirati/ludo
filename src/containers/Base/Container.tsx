@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { getStyleObject } from 'containers/utils';
 import { BASE_SIZE, INNER_BASE_SIZE } from 'globalConstants';
-import { BaseColors } from 'interfaces';
-import { getStyleObject } from 'utils';
+import { BaseColors } from 'state/interfaces';
 
 import { CoinPlaceholder } from './components/CoinPlaceholder';
 

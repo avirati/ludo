@@ -1,6 +1,6 @@
-import { BaseColors } from 'interfaces';
+import { BaseColors } from 'state/interfaces';
 
-import { BASE_COLORS, CELL_DIMENSION } from './globalConstants';
+import { BASE_COLORS, CELL_DIMENSION } from 'globalConstants';
 
 export const getStyleObject = (
   cellCountLengthwise: number,

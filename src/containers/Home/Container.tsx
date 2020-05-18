@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { getStyleObject } from 'containers/utils';
 import { HOME_SIZE } from 'globalConstants';
-import { getStyleObject } from 'utils';
 
 export class Home extends React.PureComponent {
   render() {

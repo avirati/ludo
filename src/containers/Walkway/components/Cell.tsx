@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { getStyleObject } from 'containers/utils';
 import { CELL_SIZE } from 'globalConstants';
-import { getStyleObject } from 'utils';
 
 import styles from './Cell.module.css';
 

@@ -1,15 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
-import { Ludo } from './Ludo';
+import { Ludo } from 'containers/Ludo/Container';
+import { store } from 'state/store';
+
 import * as serviceWorker from './serviceWorker';
 
 import './index.css';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Ludo />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <Ludo />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root'),
 );
 

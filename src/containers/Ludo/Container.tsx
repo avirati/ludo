@@ -3,12 +3,11 @@ import React from 'react';
 import { Base } from 'containers/Base/Container';
 import { Home } from 'containers/Home/Container';
 import { Walkway } from 'containers/Walkway/Container';
-import { BaseColors, WalkwayPosition } from 'interfaces';
+import { getStyleObject } from 'containers/utils';
+import { BOARD_SIZE } from 'globalConstants';
+import { BaseColors, WalkwayPosition } from 'state/interfaces';
 
-import { BOARD_SIZE } from './globalConstants';
-import { getStyleObject } from './utils';
-
-import styles from './Ludo.module.css';
+import styles from './Container.module.css';
 
 export class Ludo extends React.PureComponent {
   render() {
