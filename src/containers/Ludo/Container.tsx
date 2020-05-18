@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { Base } from 'containers/Base/Container';
 import { Home } from 'containers/Home/Container';
@@ -7,9 +9,37 @@ import { getStyleObject } from 'containers/utils';
 import { BOARD_SIZE } from 'globalConstants';
 import { BaseColors, WalkwayPosition } from 'state/interfaces';
 
+import { getInitialGameData } from './state/actions';
+import { initialGameDataSelector } from './state/selectors';
+
 import styles from './Container.module.css';
 
-export class Ludo extends React.PureComponent {
+interface IDispatchProps {
+  getInitialGameData: typeof getInitialGameData;
+}
+
+interface IStateProps {
+  initialGameData: any;
+}
+
+interface IPublicProps {
+
+}
+
+interface IProps extends IPublicProps, IStateProps, IDispatchProps {}
+
+const mapStateToProps = createStructuredSelector<any, IStateProps>({
+  initialGameData: initialGameDataSelector,
+})
+
+const mapDispatchToProps = {
+  getInitialGameData,
+}
+
+class LudoBare extends React.PureComponent<IProps> {
+  componentDidMount() {
+    this.props.getInitialGameData();
+  }
   render() {
     return (
       <div className={styles.Container} style={getStyleObject(BOARD_SIZE, BOARD_SIZE)}>
@@ -28,3 +58,5 @@ export class Ludo extends React.PureComponent {
     );
   }
 }
+
+export const Ludo = connect(mapStateToProps, mapDispatchToProps)(LudoBare) as unknown as React.ComponentClass<IPublicProps>;

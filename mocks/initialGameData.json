@@ -1,0 +1,53 @@
+{
+  "bases": [
+    {
+      "ID": "BASE_1",
+      "coins": [],
+      "color": "RED"
+    },
+    {
+      "ID": "BASE_2",
+      "coins": [],
+      "color": "GREEN"
+    },
+    {
+      "ID": "BASE_3",
+      "coins": [],
+      "color": "BLUE"
+    },
+    {
+      "ID": "BASE_4",
+      "coins": [],
+      "color": "YELLOW"
+    }
+  ],
+  "walkways": [
+    {
+      "ID": "WALKWAY_1",
+      "position": "NORTH"
+    },
+    {
+      "ID": "WALKWAY_2",
+      "position": "EAST"
+    },
+    {
+      "ID": "WALKWAY_3",
+      "position": "WEST"
+    },
+    {
+      "ID": "WALKWAY_4",
+      "position": "SOUTH"
+    }
+  ],
+  "relationships": [
+    "BASE_1",
+    "WALKWAY_1",
+    "BASE_2",
+    "WALKWAY_3",
+    "HOME",
+    "WALKWAY_2",
+    "BASE_3",
+    "WALKWAY_4",
+    "BASE_4"
+  ]
+}

@@ -1,30 +1,21 @@
-import { BaseColors, IReduxAction } from 'state/interfaces';
-
+import { Actions, ActionTypes } from './actions';
 import { IState } from './interfaces';
 
 const initialState: IState = {
-  bases: [
-    {
-      coins: [],
-      color: BaseColors.RED,
-    },
-    {
-      coins: [],
-      color: BaseColors.GREEN,
-    },
-    {
-      coins: [],
-      color: BaseColors.YELLOW,
-    },
-    {
-      coins: [],
-      color: BaseColors.BLUE,
-    },
-  ],
+  bases: [],
+  relationships: [],
+  walkways: [],
 };
 
-export const reducer = (state: IState = initialState, action: IReduxAction): IState => {
+export const reducer = (state: IState = initialState, action: Actions): IState => {
   switch (action.type) {
+    case ActionTypes.GET_INITIAL_GAME_DATA_SUCCESS:
+      return {
+        ...state,
+        bases: action.data!.gameData.bases,
+        relationships: action.data!.gameData.relationships,
+        walkways: action.data!.gameData.walkways,
+      }
     default:
       return state;
   }

@@ -37,10 +37,12 @@ export class Walkway extends React.PureComponent<IWalkwayProps> {
     const cells = [];
 
     if (isHorizontal) {
+      let count = 0;
       for (let row = 0; row < WALKWAY_WIDTH; row++) {
         for (let column = 0; column < WALKWAY_LENGTH; column++) {
           cells.push(
             <Cell
+              key={count++}
               column={column}
               row={row}
               walkwayPosition={this.props.position}
@@ -49,10 +51,12 @@ export class Walkway extends React.PureComponent<IWalkwayProps> {
         }
       }
     } else {
+      let count = 0;
       for (let row = 0; row < WALKWAY_LENGTH; row++) {
         for (let column = 0; column < WALKWAY_WIDTH; column++) {
           cells.push(
             <Cell
+              key={count++}
               column={column}
               row={row}
               walkwayPosition={this.props.position}

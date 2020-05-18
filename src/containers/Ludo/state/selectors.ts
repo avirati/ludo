@@ -10,3 +10,8 @@ export const basesSelector = createSelector(
   [ludoStateSelector],
   (state) => state.bases,
 );
+
+export const initialGameDataSelector = createSelector(
+  [ludoStateSelector],
+  (state) => state.bases,
+);
