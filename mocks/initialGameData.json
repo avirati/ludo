@@ -3,7 +3,7 @@
     {
       "ID": "BASE_1",
       "coins": [],
-      "color": "RED"
+      "color": "BLUE"
     },
     {
       "ID": "BASE_2",
@@ -13,7 +13,7 @@
     {
       "ID": "BASE_3",
       "coins": [],
-      "color": "BLUE"
+      "color": "RED"
     },
     {
       "ID": "BASE_4",
@@ -40,14 +40,41 @@
     }
   ],
   "relationships": [
-    "BASE_1",
-    "WALKWAY_1",
-    "BASE_2",
-    "WALKWAY_3",
-    "HOME",
-    "WALKWAY_2",
-    "BASE_3",
-    "WALKWAY_4",
-    "BASE_4"
+    {
+      "ID": "BASE_1",
+      "type": "BASE"
+    },
+    {
+      "ID": "WALKWAY_1",
+      "type": "WALKWAY"
+    },
+    {
+      "ID": "BASE_2",
+      "type": "BASE"
+    },
+    {
+      "ID": "WALKWAY_3",
+      "type": "WALKWAY"
+    },
+    {
+      "ID": "HOME",
+      "type": "HOME"
+    },
+    {
+      "ID": "WALKWAY_2",
+      "type": "WALKWAY"
+    },
+    {
+      "ID": "BASE_3",
+      "type": "BASE"
+    },
+    {
+      "ID": "WALKWAY_4",
+      "type": "WALKWAY"
+    },
+    {
+      "ID": "BASE_4",
+      "type": "BASE"
+    }
   ]
 }

@@ -11,7 +11,12 @@ export const basesSelector = createSelector(
   (state) => state.bases,
 );
 
-export const initialGameDataSelector = createSelector(
+export const relationshipsSelector = createSelector(
   [ludoStateSelector],
-  (state) => state.bases,
+  (state) => state.relationships,
+);
+
+export const walkwaysSelector = createSelector(
+  [ludoStateSelector],
+  (state) => state.walkways,
 );

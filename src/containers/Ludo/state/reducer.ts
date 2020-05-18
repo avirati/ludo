@@ -2,9 +2,9 @@ import { Actions, ActionTypes } from './actions';
 import { IState } from './interfaces';
 
 const initialState: IState = {
-  bases: [],
+  bases: new Map(),
   relationships: [],
-  walkways: [],
+  walkways: new Map(),
 };
 
 export const reducer = (state: IState = initialState, action: Actions): IState => {
