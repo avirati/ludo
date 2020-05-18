@@ -14,11 +14,7 @@ interface IWalkwayProps {
 
 export class Walkway extends React.PureComponent<IWalkwayProps> {
   render() {
-    const { position } = this.props;
-    const isHorizontal = [
-      WalkwayPosition.EAST,
-      WalkwayPosition.WEST,
-    ].includes(position);
+    const isHorizontal = this.isHorizontalWalkway();
 
     return (
       <div
@@ -37,14 +33,40 @@ export class Walkway extends React.PureComponent<IWalkwayProps> {
   }
 
   private renderCells = () => {
+    const isHorizontal = this.isHorizontalWalkway();
     const cells = [];
 
-    for (let i = 0; i < WALKWAY_LENGTH * WALKWAY_WIDTH; i++) {
-      cells.push(
-        <Cell key={i}/>,
-      )
+    if (isHorizontal) {
+      for (let row = 0; row < WALKWAY_WIDTH; row++) {
+        for (let column = 0; column < WALKWAY_LENGTH; column++) {
+          cells.push(
+            <Cell
+              column={column}
+              row={row}
+              walkwayPosition={this.props.position}
+            />,
+          )
+        }
+      }
+    } else {
+      for (let row = 0; row < WALKWAY_LENGTH; row++) {
+        for (let column = 0; column < WALKWAY_WIDTH; column++) {
+          cells.push(
+            <Cell
+              column={column}
+              row={row}
+              walkwayPosition={this.props.position}
+            />,
+          )
+        }
+      }
     }
 
     return cells;
   }
+
+  private isHorizontalWalkway = () => [
+    WalkwayPosition.EAST,
+    WalkwayPosition.WEST,
+  ].includes(this.props.position)
 }
