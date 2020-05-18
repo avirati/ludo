@@ -1,0 +1,14 @@
+.OuterContainer {
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.InnerContainer {
+  display: flex;
+  flex-direction: row;
+  background-color: #FFFFFF;
+  flex-wrap: wrap;
+  box-shadow: 0px 2px 5px 0px;
+}
