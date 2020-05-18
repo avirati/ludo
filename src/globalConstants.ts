@@ -1,8 +1,9 @@
 import { BaseColors } from 'interfaces';
 
-export const CELL_SIZE = 40;                                  // Pixels
+export const CELL_DIMENSION = 40;                             // Pixels
+export const CELL_SIZE = 1;                                   // Pixels
 export const BOARD_SIZE = 15;                                 // Cells
-export const BOARD_DIMENSION = CELL_SIZE * BOARD_SIZE;        // Pixels
+export const BOARD_DIMENSION = CELL_DIMENSION * BOARD_SIZE;   // Pixels
 export const BASE_SIZE = 6;                                   // Cells
 export const INNER_BASE_SIZE = 4;                             // Cells
 export const COIN_PLACEHOLDER_SIZE = 2;                       // Cells

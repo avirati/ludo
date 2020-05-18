@@ -4,6 +4,8 @@ import { WALKWAY_LENGTH, WALKWAY_WIDTH } from 'globalConstants';
 import { WalkwayPosition } from 'interfaces';
 import { getStyleObject } from 'utils';
 
+import { Cell } from './components/Cell';
+
 import styles from './Container.module.css';
 
 interface IWalkwayProps {
@@ -13,18 +15,36 @@ interface IWalkwayProps {
 export class Walkway extends React.PureComponent<IWalkwayProps> {
   render() {
     const { position } = this.props;
+    const isHorizontal = [
+      WalkwayPosition.EAST,
+      WalkwayPosition.WEST,
+    ].includes(position);
+
     return (
       <div
         className={styles.Container}
         style={
-          [
-            WalkwayPosition.EAST,
-            WalkwayPosition.WEST,
-          ].includes(position)
+          isHorizontal
           ? getStyleObject(WALKWAY_LENGTH, WALKWAY_WIDTH)
           : getStyleObject(WALKWAY_WIDTH, WALKWAY_LENGTH)
         }
-      />
+      >
+        {
+          this.renderCells()
+        }
+      </div>
     );
+  }
+
+  private renderCells = () => {
+    const cells = [];
+
+    for (let i = 0; i < WALKWAY_LENGTH * WALKWAY_WIDTH; i++) {
+      cells.push(
+        <Cell key={i}/>,
+      )
+    }
+
+    return cells;
   }
 }
