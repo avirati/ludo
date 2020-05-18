@@ -58,7 +58,13 @@
     },
     {
       "ID": "HOME",
-      "type": "HOME"
+      "type": "HOME",
+      "baseIDs": [
+        "BASE_2",
+        "BASE_4",
+        "BASE_3",
+        "BASE_1"
+      ]
     },
     {
       "ID": "WALKWAY_2",

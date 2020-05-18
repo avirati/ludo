@@ -23,7 +23,8 @@ export enum BoardEntities {
 
 export interface IRelationship {
   ID: string;
-  type: BoardEntities,
+  type: BoardEntities;
+  baseIDs?: IBase<BaseColors>['ID'][];
 }
 
 export interface IState {
