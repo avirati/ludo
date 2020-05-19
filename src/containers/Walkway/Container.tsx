@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
+import { flatArray } from 'common/utils';
 import { CellType, ICell, IWalkway } from 'containers/Ludo/state/interfaces';
 import { basesSelector, cellsSelector } from 'containers/Ludo/state/selectors';
 import { getStyleObject } from 'containers/utils';
@@ -56,49 +57,27 @@ class WalkwayBare extends React.PureComponent<IProps> {
   private renderCells = () => {
     const { walkway: { position, baseID }, cells: cellConfigurations, bases } = this.props;
 
-    const isHorizontal = this.isHorizontalWalkway();
-    const cellComponents = [];
+    const cellComponents: any[][] = [[]];
 
-    const cellConfigurationsForWalkway = cellConfigurations[position];
+    const cellConfigurationsForWalkway = Object.values(cellConfigurations[position]);
     const base = bases.get(baseID);
 
-    if (isHorizontal) {
-      let count = 0;
-      for (let row = 0; row < WALKWAY_WIDTH; row++) {
-        for (let column = 0; column < WALKWAY_LENGTH; column++) {
-          const cellType = cellConfigurationsForWalkway[generateCellID(position, row, column)].type;
-          cellComponents.push(
-            <Cell
-              key={count++}
-              column={column}
-              row={row}
-              walkwayPosition={position}
-              onContextMenuOpened={this.onContextMenuOpened}
-              color={[CellType.HOMEPATH, CellType.SPAWN].includes(cellType) ? base!.color : undefined}
-            />,
-          )
-        }
-      }
-    } else {
-      let count = 0;
-      for (let row = 0; row < WALKWAY_LENGTH; row++) {
-        for (let column = 0; column < WALKWAY_WIDTH; column++) {
-          const cellType = cellConfigurationsForWalkway[generateCellID(position, row, column)].type;
-          cellComponents.push(
-            <Cell
-              key={count++}
-              column={column}
-              row={row}
-              walkwayPosition={position}
-              onContextMenuOpened={this.onContextMenuOpened}
-              color={[CellType.HOMEPATH, CellType.SPAWN].includes(cellType) ? base!.color : undefined}
-            />,
-          )
-        }
-      }
-    }
+    cellConfigurationsForWalkway.forEach((cellConfiguration, index) => {
+      const { row, column, position } = cellConfiguration;
+      const cellType = cellConfigurations[position][generateCellID(position, row, column)].type;
+      cellComponents[cellConfiguration.row] = cellComponents[cellConfiguration.row] || [];
+      cellComponents[cellConfiguration.row][cellConfiguration.column] =
+      <Cell
+        key={index}
+        column={column}
+        row={row}
+        walkwayPosition={position}
+        onContextMenuOpened={this.onContextMenuOpened}
+        color={[CellType.HOMEPATH, CellType.SPAWN].includes(cellType) ? base!.color : undefined}
+      />;
+    });
 
-    return cellComponents;
+    return flatArray(cellComponents)
   }
 
   private isHorizontalWalkway = () => [
