@@ -8,9 +8,9 @@ import {
 import { api } from 'common/http';
 import { mapByProperty } from 'common/utils';
 
-import { getInitialGameDataSuccess, spawnCoin, ActionTypes } from './actions';
-import { IServerGameData, IState } from './interfaces';
-import { basesSelector } from './selectors';
+import { getInitialGameDataSuccess, spawnCoin, ActionTypes, spawnCoinSuccess } from './actions';
+import { IServerGameData, IState, CellType } from './interfaces';
+import { basesSelector, walkwaysSelector, cellsSelector } from './selectors';
 
 function * watchForGetInitialGameData() {
   yield takeLatest(ActionTypes.GET_INITIAL_GAME_DATA, getInitialGameDataSaga);
@@ -41,9 +41,15 @@ function * watchForSpawnCoin() {
 function * spawnCoinSaga(action: ReturnType<typeof spawnCoin>) {
   const { baseID, coinID } = action.data!;
   const bases: ReturnType<typeof basesSelector> = yield select(basesSelector);
+  const walkways: ReturnType<typeof walkwaysSelector> = yield select(walkwaysSelector);
+  const cells: ReturnType<typeof cellsSelector> = yield select(cellsSelector);
   const base = bases[baseID];
+  const walkway = Object.values(walkways).find((walkway) => walkway.baseID === baseID)!;
+  const walkwayCells = cells[walkway.position];
+  const spawnCellForCoin = Object.values(walkwayCells).find((cell) => cell.cellType === CellType.SPAWN)!;
   const coin = base.coins.find((coin) => coin.coinID === coinID)!;
-  console.log(base, coin);
+
+  yield put(spawnCoinSuccess(spawnCellForCoin.cellID, coin.coinID, baseID, walkway.position));
 }
 
 export const sagas = [
