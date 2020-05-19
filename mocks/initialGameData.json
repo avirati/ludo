@@ -741,6 +741,10 @@
     "SOUTH_4_1": ["SOUTH_3_1"],
     "SOUTH_3_1": ["SOUTH_2_1"],
     "SOUTH_2_1": ["SOUTH_1_1"],
-    "SOUTH_1_1": ["SOUTH_0_1"]
+    "SOUTH_1_1": ["SOUTH_0_1"],
+    "SOUTH_0_1": ["HOME"],
+    "EAST_1_0": ["HOME"],
+    "NORTH_5_1": ["HOME"],
+    "WEST_1_5": ["HOME"]
   }
 }
