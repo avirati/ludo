@@ -3,6 +3,7 @@ import { IState } from './interfaces';
 
 const initialState: IState = {
   bases: new Map(),
+  cells: {},
   relationships: [],
   walkways: new Map(),
 };
@@ -10,11 +11,13 @@ const initialState: IState = {
 export const reducer = (state: IState = initialState, action: Actions): IState => {
   switch (action.type) {
     case ActionTypes.GET_INITIAL_GAME_DATA_SUCCESS:
+      const { bases, cells, relationships, walkways } = action.data!.gameData;
       return {
         ...state,
-        bases: action.data!.gameData.bases,
-        relationships: action.data!.gameData.relationships,
-        walkways: action.data!.gameData.walkways,
+        bases,
+        cells,
+        relationships,
+        walkways,
       }
     default:
       return state;

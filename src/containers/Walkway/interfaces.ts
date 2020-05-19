@@ -1,12 +1,10 @@
-export enum CellType {
-  SPAWN = 'SPAWN',
-  STAR = 'STAR',
-  HOMEPATH = 'HOMEPATH',
-  NORMAL = 'NORMAL',
-}
+import { WalkwayPosition } from 'state/interfaces';
 
-export interface ICellMapping {
-  cellID: string;
-  nextCellIDs: string[];
-  cellType: CellType;
+export interface IContextMenuOptions {
+  cellID: string,
+  column: number,
+  position: WalkwayPosition,
+  row: number,
+  x: number,
+  y: number,
 }

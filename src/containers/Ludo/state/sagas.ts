@@ -18,6 +18,7 @@ function * getInitialGameDataSaga() {
   const data: IServerGameData = yield call(api.get, { url: 'http://localhost:8080/initialGameData.json' });
   const gameData: IState = {
     bases: mapByProperty(data.bases, 'ID'),
+    cells: data.cells,
     relationships: data.relationships,
     walkways: mapByProperty(data.walkways, 'ID'),
   }

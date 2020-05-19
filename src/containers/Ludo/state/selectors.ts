@@ -20,3 +20,8 @@ export const walkwaysSelector = createSelector(
   [ludoStateSelector],
   (state) => state.walkways,
 );
+
+export const cellsSelector = createSelector(
+  [ludoStateSelector],
+  (state) => state.cells,
+);

@@ -22,6 +22,22 @@ export enum BoardEntities {
   HOME = 'HOME',
 }
 
+export enum CellType {
+  SPAWN = 'SPAWN',
+  STAR = 'STAR',
+  HOMEPATH = 'HOMEPATH',
+  NORMAL = 'NORMAL',
+}
+
+export interface ICell {
+  cellID: string;
+  column: number;
+  position: WalkwayPosition;
+  row: number;
+  type: CellType;
+  baseID: IBase<BaseColors>['ID'];
+}
+
 export interface IRelationship {
   ID: string;
   type: BoardEntities;
@@ -31,11 +47,17 @@ export interface IRelationship {
 export interface IState {
   bases: Map<IBase<BaseColors>['ID'], IBase<BaseColors>>;
   walkways: Map<IWalkway['ID'], IWalkway>;
-  relationships: IRelationship[];
+  relationships: IServerGameData['relationships'];
+  cells: IServerGameData['cells'];
 }
 
 export interface IServerGameData {
   bases: IBase<BaseColors>[];
   walkways: IWalkway[];
   relationships: IRelationship[];
+  cells: {
+    [walkwayPosition: string]: {
+      [cellID: string]: ICell;
+    };
+  }
 }
