@@ -22,7 +22,7 @@ export class ContextMenu extends React.PureComponent<IProps> {
       >
         {
           menuContents.map((menuContent, index) => (
-            <div onClick={() => menuContent.action()} key={index}>
+            <div className={styles.MenuItem} onClick={() => menuContent.action()} key={index}>
               { menuContent.label }
             </div>
           ))
