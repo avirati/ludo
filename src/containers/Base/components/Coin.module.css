@@ -1,0 +1,18 @@
+.Container {
+  border-radius: 50% 50% 50% 0;
+  background: #89849b;
+  transform: rotate(-45deg);
+  box-shadow: 0 0 5px;
+  margin-bottom: 50%;
+}
+
+.Container:after {
+  content: '';
+  width: 50%;
+  height: 50%;
+  margin: 25% 0 0 25%;
+  background: #FFFFFF;
+  position: absolute;
+  border-radius: 50%;
+  box-shadow: inset -3px 3px 5px #999999;
+}
