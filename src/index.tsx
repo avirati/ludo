@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import { Ludo } from 'containers/Ludo/Container';
 import { store } from 'state/store';
 
+import './prototypeOverrides';
+
 import * as serviceWorker from './serviceWorker';
 
 import './index.css';
