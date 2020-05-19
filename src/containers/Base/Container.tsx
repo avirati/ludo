@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
+import { spawnCoin } from 'containers/Ludo/state/actions';
 import { IBase, ICoin } from 'containers/Ludo/state/interfaces';
 import { getStyleObject } from 'containers/utils';
 import { BASE_SIZE, INNER_BASE_SIZE } from 'globalConstants';
@@ -8,11 +10,21 @@ import { CoinPlaceholder } from './components/CoinPlaceholder';
 
 import styles from './Container.module.css';
 
-interface IBaseProps {
+interface IPublicProps {
   base: IBase;
 }
 
-export class Base extends React.PureComponent<IBaseProps> {
+interface IDispatchProps {
+  spawnCoin: typeof spawnCoin;
+}
+
+interface IProps extends IPublicProps, IDispatchProps {}
+
+const mapDispatchToProps = {
+  spawnCoin,
+}
+
+class BaseBare extends React.PureComponent<IProps> {
   render() {
     const { base } = this.props;
 
@@ -21,12 +33,11 @@ export class Base extends React.PureComponent<IBaseProps> {
         <div className={styles.InnerContainer} style={getStyleObject(INNER_BASE_SIZE, INNER_BASE_SIZE)}>
           {
             base.coins.map((coin, index) => {
-              return coin.isRetired
-              ? null
-              : (
+              return (
                 <CoinPlaceholder
                   key={index}
                   baseColor={base.color}
+                  isCoinHidden={coin.isSpawned || coin.isRetired}
                   onCoinClicked={() => this.onCoinClicked(base, coin)}
                 />
               )
@@ -38,6 +49,15 @@ export class Base extends React.PureComponent<IBaseProps> {
   }
 
   private onCoinClicked = (base: IBase, coin: ICoin) => {
-    console.log(base, coin);
+    if (coin.isSpawned) {
+      // Move the coin
+    } else if (coin.isRetired) {
+      // Do nothing
+    } else {
+      // Spawn coin
+      this.props.spawnCoin(base.ID, coin.coinID);
+    }
   }
 }
+
+export const Base = connect(null, mapDispatchToProps)(BaseBare) as unknown as React.ComponentClass<IPublicProps>;

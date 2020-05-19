@@ -2,6 +2,7 @@ import { BaseColors, WalkwayPosition } from 'state/interfaces';
 
 export interface ICoin {
   isRetired: boolean;
+  isSpawned: boolean;
   coinID: string;
   walkway?: WalkwayPosition;
   row?: number;

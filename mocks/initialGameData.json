@@ -4,16 +4,20 @@
       "ID": "BASE_1",
       "coins": [{
         "coinID": "BASE_1_COIN_1",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }, {
         "coinID": "BASE_1_COIN_2",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }, {
         "coinID": "BASE_1_COIN_3",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }, {
         "coinID": "BASE_1_COIN_4",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }],
       "color": "BLUE"
     },
@@ -21,16 +25,20 @@
       "ID": "BASE_2",
       "coins": [{
         "coinID": "BASE_2_COIN_1",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }, {
         "coinID": "BASE_2_COIN_2",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }, {
         "coinID": "BASE_2_COIN_3",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }, {
         "coinID": "BASE_2_COIN_4",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }],
       "color": "GREEN"
     },
@@ -38,16 +46,20 @@
       "ID": "BASE_3",
       "coins": [{
         "coinID": "BASE_3_COIN_1",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }, {
         "coinID": "BASE_3_COIN_2",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }, {
         "coinID": "BASE_3_COIN_3",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }, {
         "coinID": "BASE_3_COIN_4",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }],
       "color": "RED"
     },
@@ -55,16 +67,20 @@
       "ID": "BASE_4",
       "coins": [{
         "coinID": "BASE_4_COIN_1",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }, {
         "coinID": "BASE_4_COIN_2",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }, {
         "coinID": "BASE_4_COIN_3",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }, {
         "coinID": "BASE_4_COIN_4",
-        "isRetired": false
+        "isRetired": false,
+        "isSpawned": false
       }],
       "color": "YELLOW"
     }

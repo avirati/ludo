@@ -7,7 +7,7 @@ import {
 import { api } from 'common/http';
 import { mapByProperty } from 'common/utils';
 
-import { getInitialGameDataSuccess, ActionTypes } from './actions';
+import { getInitialGameDataSuccess, spawnCoin, ActionTypes } from './actions';
 import { IServerGameData, IState } from './interfaces';
 
 function * watchForGetInitialGameData() {
@@ -32,6 +32,16 @@ function * getInitialGameDataSaga() {
   yield put(getInitialGameDataSuccess(gameData));
 }
 
+function * watchForSpawnCoin() {
+  yield takeLatest(ActionTypes.SPAWN_COIN, spawnCoinSaga);
+}
+
+function * spawnCoinSaga(action: ReturnType<typeof spawnCoin>) {
+  const { baseID, coinID } = action.data!;
+  console.log(baseID, coinID);
+}
+
 export const sagas = [
   watchForGetInitialGameData,
+  watchForSpawnCoin,
 ];
