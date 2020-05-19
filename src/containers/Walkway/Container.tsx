@@ -74,6 +74,7 @@ class WalkwayBare extends React.PureComponent<IProps> {
         walkwayPosition={position}
         onContextMenuOpened={this.onContextMenuOpened}
         color={[CellType.HOMEPATH, CellType.SPAWN].includes(cellType) ? base!.color : undefined}
+        isStar={cellType === CellType.STAR}
       />;
     });
 

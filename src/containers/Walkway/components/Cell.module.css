@@ -1,3 +1,7 @@
 .Container {
   box-shadow: inset 0 0 1px;
 }
+
+.Star {
+  width: 100%;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getStyleObject } from 'containers/utils';
-import { CELL_SIZE } from 'globalConstants';
+import { CELL_SIZE, STAR_BASE64 } from 'globalConstants';
 import { BaseColors, WalkwayPosition } from 'state/interfaces';
 
 import { IContextMenuOptions } from '../interfaces';
@@ -13,6 +13,7 @@ interface ICellProps {
   row: number;
   column: number;
   walkwayPosition: WalkwayPosition;
+  isStar: boolean;
   color?: BaseColors;
 
   onContextMenuOpened: (options: IContextMenuOptions) => void;
@@ -25,6 +26,7 @@ export class Cell extends React.PureComponent<ICellProps> {
       column,
       row,
       walkwayPosition,
+      isStar,
     } = this.props;
     return (
       <div
@@ -35,7 +37,13 @@ export class Cell extends React.PureComponent<ICellProps> {
         data-column={column}
         data-position={walkwayPosition}
         onContextMenu={(event) => this.handleContextMenu(event)}
-      />
+      >
+        {
+          isStar
+          ? <img className={styles.Star} src={STAR_BASE64} alt=''/>
+          : null
+        }
+      </div>
     );
   }
 
