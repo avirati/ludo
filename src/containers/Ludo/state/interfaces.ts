@@ -4,9 +4,6 @@ export interface ICoin {
   isRetired: boolean;
   isSpawned: boolean;
   coinID: string;
-  walkway?: WalkwayPosition;
-  row?: number;
-  column?: number;
 }
 
 export interface IBase {
@@ -41,6 +38,7 @@ export interface ICell {
   row: number;
   cellType: CellType;
   baseID: IBase['ID'];
+  coinIDs: ICoin['coinID'][];
 }
 
 export interface IRelationship {
@@ -50,11 +48,11 @@ export interface IRelationship {
 }
 
 export interface IState {
-  bases: Map<IBase['ID'], IBase>;
-  walkways: Map<IWalkway['ID'], IWalkway>;
+  bases: { [baseID: string]: IBase };
+  walkways: { [walkwayID: string]: IWalkway };
   relationships: IServerGameData['relationships'];
   cells: IServerGameData['cells'];
-  links: Map<ICell['cellID'], Set<ICell['cellID']>>;
+  links: { [cellID: string]: ICell['cellID'][] };
 }
 
 export interface IServerGameData {

@@ -7,6 +7,7 @@ export enum ActionTypes {
   GET_INITIAL_GAME_DATA_SUCCESS = 'ludo/GET_INITIAL_GAME_DATA_SUCCESS',
 
   SPAWN_COIN = 'ludo/SPAWN_COIN',
+  MOVE_COIN = 'ludo/MOVE_COIN',
 }
 
 export const getInitialGameData = (): IReduxAction<ActionTypes.GET_INITIAL_GAME_DATA, void> => ({
@@ -21,9 +22,15 @@ export const getInitialGameDataSuccess = (gameData: IState): IReduxAction<Action
 export const spawnCoin = (baseID: IBase['ID'], coinID: ICoin['coinID']): IReduxAction<ActionTypes.SPAWN_COIN, { baseID: IBase['ID'], coinID: ICoin['coinID'] }> => ({
   data: { baseID, coinID },
   type: ActionTypes.SPAWN_COIN,
-})
+});
+
+export const moveCoin = (coinID: ICoin['coinID']): IReduxAction<ActionTypes.MOVE_COIN, { coinID: ICoin['coinID'] }> => ({
+  data: { coinID },
+  type: ActionTypes.MOVE_COIN,
+});
 
 export type Actions =
   | ReturnType<typeof getInitialGameDataSuccess>
   | ReturnType<typeof spawnCoin>
+  | ReturnType<typeof moveCoin>
   ;

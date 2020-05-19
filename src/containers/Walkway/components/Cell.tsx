@@ -46,7 +46,11 @@ export class Cell extends React.PureComponent<ICellProps> {
         data-cell-type={cellType}
         onContextMenu={(event) => this.handleContextMenu(event)}
         onMouseEnter={(event) => this.highlightNextCells(event)}
-      />
+      >
+        {
+          React.Children.map(this.props.children, (child) => child)
+        }
+      </div>
     );
   }
 

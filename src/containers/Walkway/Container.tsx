@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { flatArray } from 'common/utils';
+import { Coin } from 'containers/Base/components/Coin';
+import { moveCoin } from 'containers/Ludo/state/actions';
 import { CellType, ICell, IServerGameData, IWalkway } from 'containers/Ludo/state/interfaces';
 import { basesSelector, cellsSelector, linksSelector } from 'containers/Ludo/state/selectors';
 import { getStyleObject } from 'containers/utils';
@@ -26,7 +28,11 @@ interface IStateProps {
   links: ReturnType<typeof linksSelector>;
 }
 
-interface IProps extends IPublicProps, IStateProps {}
+interface IDispatchProps {
+  moveCoin: typeof moveCoin;
+}
+
+interface IProps extends IPublicProps, IStateProps, IDispatchProps {}
 
 const cells: IServerGameData['cells'] = {};
 const cellLinks: { [cellID: string]: Set<ICell['cellID']> } = {};
@@ -36,6 +42,10 @@ const mapStateToProps = createStructuredSelector<any, IStateProps>({
   cells: cellsSelector,
   links: linksSelector,
 });
+
+const mapDispatchToProps = {
+  moveCoin,
+};
 
 class WalkwayBare extends React.PureComponent<IProps> {
   render() {
@@ -63,7 +73,7 @@ class WalkwayBare extends React.PureComponent<IProps> {
     const cellComponents: any[][] = [[]];
 
     const cellConfigurationsForWalkway = Object.values(cellConfigurations[position]);
-    const base = bases.get(baseID);
+    const base = bases[baseID];
 
     cellConfigurationsForWalkway.forEach((cellConfiguration, index) => {
       const { row, column, position } = cellConfiguration;
@@ -75,12 +85,22 @@ class WalkwayBare extends React.PureComponent<IProps> {
         column={column}
         row={row}
         walkwayPosition={position}
-        color={[CellType.HOMEPATH, CellType.SPAWN].includes(cellType) ? base!.color : undefined}
+        color={[CellType.HOMEPATH, CellType.SPAWN].includes(cellType) ? base.color : undefined}
         isStar={cellType === CellType.STAR}
         cellType={cellType}
         onContextMenuOpened={this.onContextMenuOpened}
         onHighlightNextCells={this.onHighlightNextCells}
-      />;
+      >
+        {
+          cellConfiguration.coinIDs.map((coinID, index) => (
+            <Coin
+              baseColor={base.color}
+              onCoinClicked={() => this.props.moveCoin(coinID)}
+              key={index}
+            />
+          ))
+        }
+      </Cell>
     });
 
     return flatArray(cellComponents)
@@ -106,6 +126,7 @@ class WalkwayBare extends React.PureComponent<IProps> {
       baseID,
       cellID,
       cellType,
+      coinIDs: [],
       column,
       position,
       row,
@@ -134,7 +155,7 @@ class WalkwayBare extends React.PureComponent<IProps> {
 
   private onHighlightNextCells = (cellID: ICell['cellID']) => {
     const { links } = this.props;
-    const linkedCellIDs = links.get(cellID)!;
+    const linkedCellIDs = links[cellID];
     console.log(`${cellID} -> ${Array.from(linkedCellIDs)}`);
   }
 
@@ -163,4 +184,4 @@ class WalkwayBare extends React.PureComponent<IProps> {
   }
 }
 
-export const Walkway = connect(mapStateToProps)(WalkwayBare) as unknown as React.ComponentClass<IPublicProps>;
+export const Walkway = connect(mapStateToProps, mapDispatchToProps)(WalkwayBare) as unknown as React.ComponentClass<IPublicProps>;

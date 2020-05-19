@@ -159,7 +159,8 @@
         "column": 0,
         "position": "SOUTH",
         "row": 5,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "SOUTH_5_1": {
         "baseID": "BASE_3",
@@ -167,7 +168,8 @@
         "column": 1,
         "position": "SOUTH",
         "row": 5,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "SOUTH_5_2": {
         "baseID": "BASE_3",
@@ -175,7 +177,8 @@
         "column": 2,
         "position": "SOUTH",
         "row": 5,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "SOUTH_4_0": {
         "baseID": "BASE_3",
@@ -183,7 +186,8 @@
         "column": 0,
         "position": "SOUTH",
         "row": 4,
-        "cellType": "SPAWN"
+        "cellType": "SPAWN",
+        "coinIDs": []
       },
       "SOUTH_4_1": {
         "baseID": "BASE_3",
@@ -191,7 +195,8 @@
         "column": 1,
         "position": "SOUTH",
         "row": 4,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "SOUTH_4_2": {
         "baseID": "BASE_3",
@@ -199,7 +204,8 @@
         "column": 2,
         "position": "SOUTH",
         "row": 4,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "SOUTH_3_0": {
         "baseID": "BASE_3",
@@ -207,7 +213,8 @@
         "column": 0,
         "position": "SOUTH",
         "row": 3,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "SOUTH_3_1": {
         "baseID": "BASE_3",
@@ -215,7 +222,8 @@
         "column": 1,
         "position": "SOUTH",
         "row": 3,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "SOUTH_3_2": {
         "baseID": "BASE_3",
@@ -223,7 +231,8 @@
         "column": 2,
         "position": "SOUTH",
         "row": 3,
-        "cellType": "STAR"
+        "cellType": "STAR",
+        "coinIDs": []
       },
       "SOUTH_2_0": {
         "baseID": "BASE_3",
@@ -231,7 +240,8 @@
         "column": 0,
         "position": "SOUTH",
         "row": 2,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "SOUTH_2_1": {
         "baseID": "BASE_3",
@@ -239,7 +249,8 @@
         "column": 1,
         "position": "SOUTH",
         "row": 2,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "SOUTH_2_2": {
         "baseID": "BASE_3",
@@ -247,7 +258,8 @@
         "column": 2,
         "position": "SOUTH",
         "row": 2,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "SOUTH_1_0": {
         "baseID": "BASE_3",
@@ -255,7 +267,8 @@
         "column": 0,
         "position": "SOUTH",
         "row": 1,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "SOUTH_1_1": {
         "baseID": "BASE_3",
@@ -263,7 +276,8 @@
         "column": 1,
         "position": "SOUTH",
         "row": 1,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "SOUTH_1_2": {
         "baseID": "BASE_3",
@@ -271,7 +285,8 @@
         "column": 2,
         "position": "SOUTH",
         "row": 1,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "SOUTH_0_0": {
         "baseID": "BASE_3",
@@ -279,7 +294,8 @@
         "column": 0,
         "position": "SOUTH",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "SOUTH_0_1": {
         "baseID": "BASE_3",
@@ -287,7 +303,8 @@
         "column": 1,
         "position": "SOUTH",
         "row": 0,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "SOUTH_0_2": {
         "baseID": "BASE_3",
@@ -295,7 +312,8 @@
         "column": 2,
         "position": "SOUTH",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       }
     },
     "WEST": {
@@ -305,7 +323,8 @@
         "column": 5,
         "position": "WEST",
         "row": 2,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "WEST_2_4": {
         "baseID": "BASE_1",
@@ -313,7 +332,8 @@
         "column": 4,
         "position": "WEST",
         "row": 2,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "WEST_2_3": {
         "baseID": "BASE_1",
@@ -321,7 +341,8 @@
         "column": 3,
         "position": "WEST",
         "row": 2,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "WEST_2_2": {
         "baseID": "BASE_1",
@@ -329,7 +350,8 @@
         "column": 2,
         "position": "WEST",
         "row": 2,
-        "cellType": "STAR"
+        "cellType": "STAR",
+        "coinIDs": []
       },
       "WEST_2_1": {
         "baseID": "BASE_1",
@@ -337,7 +359,8 @@
         "column": 1,
         "position": "WEST",
         "row": 2,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "WEST_2_0": {
         "baseID": "BASE_1",
@@ -345,7 +368,8 @@
         "column": 0,
         "position": "WEST",
         "row": 2,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "WEST_1_0": {
         "baseID": "BASE_1",
@@ -353,7 +377,8 @@
         "column": 0,
         "position": "WEST",
         "row": 1,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "WEST_1_1": {
         "baseID": "BASE_1",
@@ -361,7 +386,8 @@
         "column": 1,
         "position": "WEST",
         "row": 1,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "WEST_1_2": {
         "baseID": "BASE_1",
@@ -369,7 +395,8 @@
         "column": 2,
         "position": "WEST",
         "row": 1,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "WEST_1_3": {
         "baseID": "BASE_1",
@@ -377,7 +404,8 @@
         "column": 3,
         "position": "WEST",
         "row": 1,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "WEST_1_4": {
         "baseID": "BASE_1",
@@ -385,7 +413,8 @@
         "column": 4,
         "position": "WEST",
         "row": 1,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "WEST_1_5": {
         "baseID": "BASE_1",
@@ -393,7 +422,8 @@
         "column": 5,
         "position": "WEST",
         "row": 1,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "WEST_0_0": {
         "baseID": "BASE_1",
@@ -401,7 +431,8 @@
         "column": 0,
         "position": "WEST",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "WEST_0_1": {
         "baseID": "BASE_1",
@@ -409,7 +440,8 @@
         "column": 1,
         "position": "WEST",
         "row": 0,
-        "cellType": "SPAWN"
+        "cellType": "SPAWN",
+        "coinIDs": []
       },
       "WEST_0_2": {
         "baseID": "BASE_1",
@@ -417,7 +449,8 @@
         "column": 2,
         "position": "WEST",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "WEST_0_3": {
         "baseID": "BASE_1",
@@ -425,7 +458,8 @@
         "column": 3,
         "position": "WEST",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "WEST_0_4": {
         "baseID": "BASE_1",
@@ -433,7 +467,8 @@
         "column": 4,
         "position": "WEST",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "WEST_0_5": {
         "baseID": "BASE_1",
@@ -441,7 +476,8 @@
         "column": 5,
         "position": "WEST",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       }
     },
     "NORTH": {
@@ -451,7 +487,8 @@
         "column": 0,
         "position": "NORTH",
         "row": 5,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "NORTH_4_0": {
         "baseID": "BASE_2",
@@ -459,7 +496,8 @@
         "column": 0,
         "position": "NORTH",
         "row": 4,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "NORTH_3_0": {
         "baseID": "BASE_2",
@@ -467,7 +505,8 @@
         "column": 0,
         "position": "NORTH",
         "row": 3,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "NORTH_2_0": {
         "baseID": "BASE_2",
@@ -475,7 +514,8 @@
         "column": 0,
         "position": "NORTH",
         "row": 2,
-        "cellType": "STAR"
+        "cellType": "STAR",
+        "coinIDs": []
       },
       "NORTH_1_0": {
         "baseID": "BASE_2",
@@ -483,7 +523,8 @@
         "column": 0,
         "position": "NORTH",
         "row": 1,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "NORTH_0_0": {
         "baseID": "BASE_2",
@@ -491,7 +532,8 @@
         "column": 0,
         "position": "NORTH",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "NORTH_0_1": {
         "baseID": "BASE_2",
@@ -499,7 +541,8 @@
         "column": 1,
         "position": "NORTH",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "NORTH_1_1": {
         "baseID": "BASE_2",
@@ -507,7 +550,8 @@
         "column": 1,
         "position": "NORTH",
         "row": 1,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "NORTH_2_1": {
         "baseID": "BASE_2",
@@ -515,7 +559,8 @@
         "column": 1,
         "position": "NORTH",
         "row": 2,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "NORTH_3_1": {
         "baseID": "BASE_2",
@@ -523,7 +568,8 @@
         "column": 1,
         "position": "NORTH",
         "row": 3,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "NORTH_4_1": {
         "baseID": "BASE_2",
@@ -531,7 +577,8 @@
         "column": 1,
         "position": "NORTH",
         "row": 4,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "NORTH_5_1": {
         "baseID": "BASE_2",
@@ -539,7 +586,8 @@
         "column": 1,
         "position": "NORTH",
         "row": 5,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "NORTH_0_2": {
         "baseID": "BASE_2",
@@ -547,7 +595,8 @@
         "column": 2,
         "position": "NORTH",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "NORTH_1_2": {
         "baseID": "BASE_2",
@@ -555,7 +604,8 @@
         "column": 2,
         "position": "NORTH",
         "row": 1,
-        "cellType": "SPAWN"
+        "cellType": "SPAWN",
+        "coinIDs": []
       },
       "NORTH_2_2": {
         "baseID": "BASE_2",
@@ -563,7 +613,8 @@
         "column": 2,
         "position": "NORTH",
         "row": 2,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "NORTH_3_2": {
         "baseID": "BASE_2",
@@ -571,7 +622,8 @@
         "column": 2,
         "position": "NORTH",
         "row": 3,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "NORTH_4_2": {
         "baseID": "BASE_2",
@@ -579,7 +631,8 @@
         "column": 2,
         "position": "NORTH",
         "row": 4,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "NORTH_5_2": {
         "baseID": "BASE_2",
@@ -587,7 +640,8 @@
         "column": 2,
         "position": "NORTH",
         "row": 5,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       }
     },
     "EAST": {
@@ -597,7 +651,8 @@
         "column": 0,
         "position": "EAST",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "EAST_0_1": {
         "baseID": "BASE_4",
@@ -605,7 +660,8 @@
         "column": 1,
         "position": "EAST",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "EAST_0_2": {
         "baseID": "BASE_4",
@@ -613,7 +669,8 @@
         "column": 2,
         "position": "EAST",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "EAST_0_3": {
         "baseID": "BASE_4",
@@ -621,7 +678,8 @@
         "column": 3,
         "position": "EAST",
         "row": 0,
-        "cellType": "STAR"
+        "cellType": "STAR",
+        "coinIDs": []
       },
       "EAST_0_4": {
         "baseID": "BASE_4",
@@ -629,7 +687,8 @@
         "column": 4,
         "position": "EAST",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "EAST_0_5": {
         "baseID": "BASE_4",
@@ -637,7 +696,8 @@
         "column": 5,
         "position": "EAST",
         "row": 0,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "EAST_1_5": {
         "baseID": "BASE_4",
@@ -645,7 +705,8 @@
         "column": 5,
         "position": "EAST",
         "row": 1,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "EAST_1_4": {
         "baseID": "BASE_4",
@@ -653,7 +714,8 @@
         "column": 4,
         "position": "EAST",
         "row": 1,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "EAST_1_3": {
         "baseID": "BASE_4",
@@ -661,7 +723,8 @@
         "column": 3,
         "position": "EAST",
         "row": 1,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "EAST_1_2": {
         "baseID": "BASE_4",
@@ -669,7 +732,8 @@
         "column": 2,
         "position": "EAST",
         "row": 1,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "EAST_1_1": {
         "baseID": "BASE_4",
@@ -677,7 +741,8 @@
         "column": 1,
         "position": "EAST",
         "row": 1,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "EAST_1_0": {
         "baseID": "BASE_4",
@@ -685,7 +750,8 @@
         "column": 0,
         "position": "EAST",
         "row": 1,
-        "cellType": "HOMEPATH"
+        "cellType": "HOMEPATH",
+        "coinIDs": []
       },
       "EAST_2_0": {
         "baseID": "BASE_4",
@@ -693,7 +759,8 @@
         "column": 0,
         "position": "EAST",
         "row": 2,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "EAST_2_1": {
         "baseID": "BASE_4",
@@ -701,7 +768,8 @@
         "column": 1,
         "position": "EAST",
         "row": 2,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "EAST_2_2": {
         "baseID": "BASE_4",
@@ -709,7 +777,8 @@
         "column": 2,
         "position": "EAST",
         "row": 2,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "EAST_2_3": {
         "baseID": "BASE_4",
@@ -717,7 +786,8 @@
         "column": 3,
         "position": "EAST",
         "row": 2,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       },
       "EAST_2_4": {
         "baseID": "BASE_4",
@@ -725,7 +795,8 @@
         "column": 4,
         "position": "EAST",
         "row": 2,
-        "cellType": "SPAWN"
+        "cellType": "SPAWN",
+        "coinIDs": []
       },
       "EAST_2_5": {
         "baseID": "BASE_4",
@@ -733,7 +804,8 @@
         "column": 5,
         "position": "EAST",
         "row": 2,
-        "cellType": "NORMAL"
+        "cellType": "NORMAL",
+        "coinIDs": []
       }
     }
   },

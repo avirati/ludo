@@ -69,8 +69,8 @@ class LudoBare extends React.PureComponent<IProps> {
     } = this.props;
 
     return relationships.map((relationship, index) => {
-      const base = bases.get(relationship.ID);
-      const walkway = walkways.get(relationship.ID);
+      const base = bases[relationship.ID];
+      const walkway = walkways[relationship.ID];
       switch (relationship.type) {
         case BoardEntities.BASE:
           return <Base base={base!} key={index}/>;

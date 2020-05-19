@@ -31,9 +31,9 @@ class HomeBare extends React.PureComponent<IProps> {
       <div className={styles.Container} style={getStyleObject(HOME_SIZE, HOME_SIZE)}>
         {
           baseIDs!.map((baseID, index) => {
-            const base = bases.get(baseID);
+            const base = bases[baseID];
             return (
-              <div key={index} className={styles.HomeContainer} style={this.getCSS(HOME_SIZE, base!.color, index)} />
+              <div key={index} className={styles.HomeContainer} style={this.getCSS(HOME_SIZE, base.color, index)} />
             );
           })
         }

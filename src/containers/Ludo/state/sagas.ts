@@ -1,6 +1,7 @@
 import {
   call,
   put,
+  select,
   takeLatest,
 } from 'redux-saga/effects';
 
@@ -9,6 +10,7 @@ import { mapByProperty } from 'common/utils';
 
 import { getInitialGameDataSuccess, spawnCoin, ActionTypes } from './actions';
 import { IServerGameData, IState } from './interfaces';
+import { basesSelector } from './selectors';
 
 function * watchForGetInitialGameData() {
   yield takeLatest(ActionTypes.GET_INITIAL_GAME_DATA, getInitialGameDataSaga);
@@ -16,10 +18,10 @@ function * watchForGetInitialGameData() {
 
 function * getInitialGameDataSaga() {
   const data: IServerGameData = yield call(api.get, { url: 'http://localhost:8080/initialGameData.json' });
-  const links: IState['links'] = new Map();
+  const links: IState['links'] = {};
   for (const key in data.links) {
     if (data.links[key]) {
-      links.set(key, new Set(data.links[key]));
+      links[key] = data.links[key];
     }
   }
   const gameData: IState = {
@@ -38,7 +40,10 @@ function * watchForSpawnCoin() {
 
 function * spawnCoinSaga(action: ReturnType<typeof spawnCoin>) {
   const { baseID, coinID } = action.data!;
-  console.log(baseID, coinID);
+  const bases: ReturnType<typeof basesSelector> = yield select(basesSelector);
+  const base = bases[baseID];
+  const coin = base.coins.find((coin) => coin.coinID === coinID)!;
+  console.log(base, coin);
 }
 
 export const sagas = [

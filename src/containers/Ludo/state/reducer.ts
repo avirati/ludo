@@ -2,11 +2,11 @@ import { Actions, ActionTypes } from './actions';
 import { IState } from './interfaces';
 
 const initialState: IState = {
-  bases: new Map(),
+  bases: {},
   cells: {},
-  links: new Map(),
+  links: {},
   relationships: [],
-  walkways: new Map(),
+  walkways: {},
 };
 
 export const reducer = (state: IState = initialState, action: Actions): IState => {
