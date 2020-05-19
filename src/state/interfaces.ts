@@ -1,6 +1,7 @@
 import { ForkEffect } from 'redux-saga/effects';
 
 import { IState as ILudoState } from 'containers/Ludo/state/interfaces';
+import { IState as IContextMenuState } from 'services/contextMenu/interfaces';
 
 export enum BaseColors {
   RED = 'RED',
@@ -18,6 +19,7 @@ export enum WalkwayPosition {
 
 export interface IApplicationState {
   ludo: ILudoState;
+  contextMenu: IContextMenuState;
 }
 
 export interface IReduxAction<T = any, D = any> {

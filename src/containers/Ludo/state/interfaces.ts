@@ -13,6 +13,7 @@ export interface IBase<T> {
 export interface IWalkway {
   position: WalkwayPosition;
   ID: string;
+  baseID: IBase<BaseColors>['ID'];
 }
 
 export enum BoardEntities {

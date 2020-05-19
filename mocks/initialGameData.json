@@ -24,19 +24,23 @@
   "walkways": [
     {
       "ID": "WALKWAY_1",
-      "position": "NORTH"
+      "position": "NORTH",
+      "baseID": "BASE_2"
     },
     {
       "ID": "WALKWAY_2",
-      "position": "EAST"
+      "position": "EAST",
+      "baseID": "BASE_4"
     },
     {
       "ID": "WALKWAY_3",
-      "position": "WEST"
+      "position": "WEST",
+      "baseID": "BASE_1"
     },
     {
       "ID": "WALKWAY_4",
-      "position": "SOUTH"
+      "position": "SOUTH",
+      "baseID": "BASE_3"
     }
   ],
   "relationships": [

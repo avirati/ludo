@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { getStyleObject } from 'containers/utils';
 import { WALKWAY_LENGTH, WALKWAY_WIDTH } from 'globalConstants';
@@ -6,13 +8,26 @@ import { WalkwayPosition } from 'state/interfaces';
 
 import { Cell } from './components/Cell';
 
+import { IWalkway } from 'containers/Ludo/state/interfaces';
+import { basesSelector } from 'containers/Ludo/state/selectors';
+
 import styles from './Container.module.css';
 
-interface IWalkwayProps {
-  position: WalkwayPosition;
+interface IPublicProps {
+  walkway: IWalkway;
 }
 
-export class Walkway extends React.PureComponent<IWalkwayProps> {
+interface IStateProps {
+  bases: ReturnType<typeof basesSelector>;
+}
+
+interface IProps extends IPublicProps, IStateProps {}
+
+const mapStateToProps = createStructuredSelector<any, IStateProps>({
+  bases: basesSelector,
+})
+
+class WalkwayBare extends React.PureComponent<IProps> {
   render() {
     const isHorizontal = this.isHorizontalWalkway();
 
@@ -33,6 +48,8 @@ export class Walkway extends React.PureComponent<IWalkwayProps> {
   }
 
   private renderCells = () => {
+    const { walkway: { position } } = this.props;
+
     const isHorizontal = this.isHorizontalWalkway();
     const cells = [];
 
@@ -45,7 +62,7 @@ export class Walkway extends React.PureComponent<IWalkwayProps> {
               key={count++}
               column={column}
               row={row}
-              walkwayPosition={this.props.position}
+              walkwayPosition={position}
             />,
           )
         }
@@ -59,7 +76,7 @@ export class Walkway extends React.PureComponent<IWalkwayProps> {
               key={count++}
               column={column}
               row={row}
-              walkwayPosition={this.props.position}
+              walkwayPosition={position}
             />,
           )
         }
@@ -72,5 +89,7 @@ export class Walkway extends React.PureComponent<IWalkwayProps> {
   private isHorizontalWalkway = () => [
     WalkwayPosition.EAST,
     WalkwayPosition.WEST,
-  ].includes(this.props.position)
+  ].includes(this.props.walkway.position)
 }
+
+export const Walkway = connect(mapStateToProps)(WalkwayBare) as unknown as React.ComponentClass<IPublicProps>;

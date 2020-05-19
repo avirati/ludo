@@ -7,6 +7,7 @@ import { Home } from 'containers/Home/Container';
 import { Walkway } from 'containers/Walkway/Container';
 import { getStyleObject } from 'containers/utils';
 import { BOARD_SIZE } from 'globalConstants';
+import { ContextMenu } from 'services/contextMenu/Container';
 
 import { getInitialGameData } from './state/actions';
 import { BoardEntities } from './state/interfaces';
@@ -55,6 +56,7 @@ class LudoBare extends React.PureComponent<IProps> {
         {
           this.renderBoardEntities()
         }
+        <ContextMenu />
       </div>
     );
   }
@@ -71,11 +73,11 @@ class LudoBare extends React.PureComponent<IProps> {
       const walkway = walkways.get(relationship.ID);
       switch (relationship.type) {
         case BoardEntities.BASE:
-          return <Base baseColor={base!.color} key={index}/>;
+          return <Base base={base!} key={index}/>;
         case BoardEntities.HOME:
           return <Home baseIDs={relationship.baseIDs} key={index}/>;
         case BoardEntities.WALKWAY:
-          return <Walkway position={walkway!.position} key={index}/>;
+          return <Walkway walkway={walkway!} key={index}/>;
         default:
           return null;
       }
