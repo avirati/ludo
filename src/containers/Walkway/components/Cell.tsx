@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { CellType, ICell } from 'containers/Ludo/state/interfaces';
 import { getStyleObject } from 'containers/utils';
 import { CELL_SIZE, STAR_BASE64 } from 'globalConstants';
 import { BaseColors, WalkwayPosition } from 'state/interfaces';
@@ -14,9 +15,11 @@ interface ICellProps {
   column: number;
   walkwayPosition: WalkwayPosition;
   isStar: boolean;
+  cellType: CellType;
   color?: BaseColors;
 
   onContextMenuOpened: (options: IContextMenuOptions) => void;
+  onHighlightNextCells: (cellID: ICell['cellID']) => void;
 }
 
 export class Cell extends React.PureComponent<ICellProps> {
@@ -24,6 +27,7 @@ export class Cell extends React.PureComponent<ICellProps> {
     const {
       color,
       column,
+      cellType,
       row,
       walkwayPosition,
       isStar,
@@ -31,19 +35,18 @@ export class Cell extends React.PureComponent<ICellProps> {
     return (
       <div
         className={styles.Container}
-        style={getStyleObject(CELL_SIZE, CELL_SIZE, color)}
+        style={{
+          ...getStyleObject(CELL_SIZE, CELL_SIZE, color),
+          backgroundImage: isStar ? `url(${STAR_BASE64})` : undefined,
+        }}
         data-id={generateCellID(walkwayPosition, row, column)}
         data-row={row}
         data-column={column}
         data-position={walkwayPosition}
+        data-cell-type={cellType}
         onContextMenu={(event) => this.handleContextMenu(event)}
-      >
-        {
-          isStar
-          ? <img className={styles.Star} src={STAR_BASE64} alt=''/>
-          : null
-        }
-      </div>
+        onMouseEnter={(event) => this.highlightNextCells(event)}
+      />
     );
   }
 
@@ -52,11 +55,18 @@ export class Cell extends React.PureComponent<ICellProps> {
     const target = event.target as HTMLDivElement;
     this.props.onContextMenuOpened({
       cellID: target.getAttribute('data-id')!,
+      cellType: target.getAttribute('data-cell-type') as CellType,
       column: Number(target.getAttribute('data-column')),
       position: target.getAttribute('data-position') as WalkwayPosition,
       row: Number(target.getAttribute('data-row')),
       x: event.clientX,
       y: event.clientY,
     });
+  }
+
+  private highlightNextCells = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const target = event.target as HTMLDivElement;
+    const cellID = target.getAttribute('data-id')!;
+    this.props.onHighlightNextCells(cellID);
   }
 }

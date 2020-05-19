@@ -25,3 +25,8 @@ export const cellsSelector = createSelector(
   [ludoStateSelector],
   (state) => state.cells,
 );
+
+export const linksSelector = createSelector(
+  [ludoStateSelector],
+  (state) => state.links,
+);

@@ -34,7 +34,7 @@ export interface ICell {
   column: number;
   position: WalkwayPosition;
   row: number;
-  type: CellType;
+  cellType: CellType;
   baseID: IBase<BaseColors>['ID'];
 }
 
@@ -49,6 +49,7 @@ export interface IState {
   walkways: Map<IWalkway['ID'], IWalkway>;
   relationships: IServerGameData['relationships'];
   cells: IServerGameData['cells'];
+  links: Map<ICell['cellID'], Set<ICell['cellID']>>;
 }
 
 export interface IServerGameData {
@@ -59,5 +60,8 @@ export interface IServerGameData {
     [walkwayPosition: string]: {
       [cellID: string]: ICell;
     };
+  },
+  links: {
+    [cellID: string]: ICell['cellID'][];
   }
 }

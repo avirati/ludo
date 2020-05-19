@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { flatArray } from 'common/utils';
-import { CellType, ICell, IWalkway } from 'containers/Ludo/state/interfaces';
-import { basesSelector, cellsSelector } from 'containers/Ludo/state/selectors';
+import { CellType, ICell, IServerGameData, IWalkway } from 'containers/Ludo/state/interfaces';
+import { basesSelector, cellsSelector, linksSelector } from 'containers/Ludo/state/selectors';
 import { getStyleObject } from 'containers/utils';
 import { WALKWAY_LENGTH, WALKWAY_WIDTH } from 'globalConstants';
 import { hideContextMenu, showContextMenu } from 'services/contextMenu/service';
@@ -12,9 +12,9 @@ import { WalkwayPosition } from 'state/interfaces';
 
 import { Cell } from './components/Cell';
 import { IContextMenuOptions } from './interfaces';
+import { generateCellID } from './utils';
 
 import styles from './Container.module.css';
-import { generateCellID } from './utils';
 
 interface IPublicProps {
   walkway: IWalkway;
@@ -23,16 +23,19 @@ interface IPublicProps {
 interface IStateProps {
   bases: ReturnType<typeof basesSelector>;
   cells: ReturnType<typeof cellsSelector>;
+  links: ReturnType<typeof linksSelector>;
 }
 
 interface IProps extends IPublicProps, IStateProps {}
 
-const cells: { [walkwayPosition: string] : { [cellID: string]: ICell } } = {};
+const cells: IServerGameData['cells'] = {};
+const cellLinks: { [cellID: string]: Set<ICell['cellID']> } = {};
 
 const mapStateToProps = createStructuredSelector<any, IStateProps>({
   bases: basesSelector,
   cells: cellsSelector,
-})
+  links: linksSelector,
+});
 
 class WalkwayBare extends React.PureComponent<IProps> {
   render() {
@@ -64,7 +67,7 @@ class WalkwayBare extends React.PureComponent<IProps> {
 
     cellConfigurationsForWalkway.forEach((cellConfiguration, index) => {
       const { row, column, position } = cellConfiguration;
-      const cellType = cellConfigurations[position][generateCellID(position, row, column)].type;
+      const cellType = cellConfigurations[position][generateCellID(position, row, column)].cellType;
       cellComponents[cellConfiguration.row] = cellComponents[cellConfiguration.row] || [];
       cellComponents[cellConfiguration.row][cellConfiguration.column] =
       <Cell
@@ -72,9 +75,11 @@ class WalkwayBare extends React.PureComponent<IProps> {
         column={column}
         row={row}
         walkwayPosition={position}
-        onContextMenuOpened={this.onContextMenuOpened}
         color={[CellType.HOMEPATH, CellType.SPAWN].includes(cellType) ? base!.color : undefined}
         isStar={cellType === CellType.STAR}
+        cellType={cellType}
+        onContextMenuOpened={this.onContextMenuOpened}
+        onHighlightNextCells={this.onHighlightNextCells}
       />;
     });
 
@@ -90,15 +95,17 @@ class WalkwayBare extends React.PureComponent<IProps> {
     const { walkway: { baseID } } = this.props;
     const {
       cellID,
+      cellType,
       column,
       position,
       row,
       x,
       y,
     } = options;
-    const cellInfo: Omit<ICell, 'type'> = {
+    const cellInfo: ICell = {
       baseID,
       cellID,
+      cellType,
       column,
       position,
       row,
@@ -107,19 +114,28 @@ class WalkwayBare extends React.PureComponent<IProps> {
       x,
       y,
       [{
-        action: () => this.markCells({ ...cellInfo, type: CellType.NORMAL }),
+        action: () => this.markCells({ ...cellInfo, cellType: CellType.NORMAL }),
         label: CellType.NORMAL,
       }, {
-        action: () => this.markCells({ ...cellInfo, type: CellType.SPAWN }),
+        action: () => this.markCells({ ...cellInfo, cellType: CellType.SPAWN }),
         label: CellType.SPAWN,
       }, {
-        action: () => this.markCells({ ...cellInfo, type: CellType.STAR }),
+        action: () => this.markCells({ ...cellInfo, cellType: CellType.STAR }),
         label: CellType.STAR,
       }, {
-        action: () => this.markCells({ ...cellInfo, type: CellType.HOMEPATH }),
+        action: () => this.markCells({ ...cellInfo, cellType: CellType.HOMEPATH }),
         label: CellType.HOMEPATH,
+      }, {
+        action: () => this.linkCells(cellInfo),
+        label: 'Link',
       }],
     );
+  }
+
+  private onHighlightNextCells = (cellID: ICell['cellID']) => {
+    const { links } = this.props;
+    const linkedCellIDs = links.get(cellID)!;
+    console.log(`${cellID} -> ${Array.from(linkedCellIDs)}`);
   }
 
   private markCells = (cellInfo: ICell) => {
@@ -127,6 +143,23 @@ class WalkwayBare extends React.PureComponent<IProps> {
     cells[cellInfo.position][cellInfo.cellID] = cellInfo;
     hideContextMenu();
     console.log(JSON.stringify(cells));
+  }
+
+  private linkCells = (cellInfo: ICell) => {
+    hideContextMenu();
+    const onClick = (event: MouseEvent) => {
+      const element = event.target as HTMLDivElement;
+      const cellID = element.getAttribute('data-id') as string;
+      const shouldLink = window.confirm(`Link ${cellInfo.cellID} to ${cellID} ?`);
+
+      if (shouldLink) {
+        cellLinks[cellInfo.cellID] = cellLinks[cellInfo.cellID] || new Set();
+        cellLinks[cellInfo.cellID].add(cellID);
+      }
+      document.removeEventListener('click', onClick);
+      (window as any).cellLinks = cellLinks;
+    }
+    document.addEventListener('click', onClick);
   }
 }
 
