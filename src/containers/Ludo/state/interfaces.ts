@@ -1,19 +1,23 @@
 import { BaseColors, WalkwayPosition } from 'state/interfaces';
 
-export interface ICoin<T> {
-  readonly color: T;
+export interface ICoin {
+  isRetired: boolean;
+  coinID: string;
+  walkway?: WalkwayPosition;
+  row?: number;
+  column?: number;
 }
 
-export interface IBase<T> {
-  coins: ICoin<T>[];
-  color: T;
+export interface IBase {
+  coins: ICoin[];
+  color: BaseColors;
   ID: string;
 }
 
 export interface IWalkway {
   position: WalkwayPosition;
   ID: string;
-  baseID: IBase<BaseColors>['ID'];
+  baseID: IBase['ID'];
 }
 
 export enum BoardEntities {
@@ -35,17 +39,17 @@ export interface ICell {
   position: WalkwayPosition;
   row: number;
   cellType: CellType;
-  baseID: IBase<BaseColors>['ID'];
+  baseID: IBase['ID'];
 }
 
 export interface IRelationship {
   ID: string;
   type: BoardEntities;
-  baseIDs?: IBase<BaseColors>['ID'][];
+  baseIDs?: IBase['ID'][];
 }
 
 export interface IState {
-  bases: Map<IBase<BaseColors>['ID'], IBase<BaseColors>>;
+  bases: Map<IBase['ID'], IBase>;
   walkways: Map<IWalkway['ID'], IWalkway>;
   relationships: IServerGameData['relationships'];
   cells: IServerGameData['cells'];
@@ -53,7 +57,7 @@ export interface IState {
 }
 
 export interface IServerGameData {
-  bases: IBase<BaseColors>[];
+  bases: IBase[];
   walkways: IWalkway[];
   relationships: IRelationship[];
   cells: {

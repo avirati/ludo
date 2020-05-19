@@ -2,22 +2,70 @@
   "bases": [
     {
       "ID": "BASE_1",
-      "coins": [],
+      "coins": [{
+        "coinID": "BASE_1_COIN_1",
+        "isRetired": false
+      }, {
+        "coinID": "BASE_1_COIN_2",
+        "isRetired": false
+      }, {
+        "coinID": "BASE_1_COIN_3",
+        "isRetired": false
+      }, {
+        "coinID": "BASE_1_COIN_4",
+        "isRetired": false
+      }],
       "color": "BLUE"
     },
     {
       "ID": "BASE_2",
-      "coins": [],
+      "coins": [{
+        "coinID": "BASE_2_COIN_1",
+        "isRetired": false
+      }, {
+        "coinID": "BASE_2_COIN_2",
+        "isRetired": false
+      }, {
+        "coinID": "BASE_2_COIN_3",
+        "isRetired": false
+      }, {
+        "coinID": "BASE_2_COIN_4",
+        "isRetired": false
+      }],
       "color": "GREEN"
     },
     {
       "ID": "BASE_3",
-      "coins": [],
+      "coins": [{
+        "coinID": "BASE_3_COIN_1",
+        "isRetired": false
+      }, {
+        "coinID": "BASE_3_COIN_2",
+        "isRetired": false
+      }, {
+        "coinID": "BASE_3_COIN_3",
+        "isRetired": false
+      }, {
+        "coinID": "BASE_3_COIN_4",
+        "isRetired": false
+      }],
       "color": "RED"
     },
     {
       "ID": "BASE_4",
-      "coins": [],
+      "coins": [{
+        "coinID": "BASE_4_COIN_1",
+        "isRetired": false
+      }, {
+        "coinID": "BASE_4_COIN_2",
+        "isRetired": false
+      }, {
+        "coinID": "BASE_4_COIN_3",
+        "isRetired": false
+      }, {
+        "coinID": "BASE_4_COIN_4",
+        "isRetired": false
+      }],
       "color": "YELLOW"
     }
   ],

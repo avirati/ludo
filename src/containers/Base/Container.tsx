@@ -1,31 +1,43 @@
 import React from 'react';
 
+import { IBase, ICoin } from 'containers/Ludo/state/interfaces';
 import { getStyleObject } from 'containers/utils';
 import { BASE_SIZE, INNER_BASE_SIZE } from 'globalConstants';
-import { IBase } from 'containers/Ludo/state/interfaces';
-import { BaseColors } from 'state/interfaces';
 
 import { CoinPlaceholder } from './components/CoinPlaceholder';
 
 import styles from './Container.module.css';
 
 interface IBaseProps {
-  base: IBase<BaseColors>;
+  base: IBase;
 }
 
 export class Base extends React.PureComponent<IBaseProps> {
   render() {
-    const { base: { color } } = this.props;
+    const { base } = this.props;
 
     return (
-      <div className={styles.OuterContainer} style={getStyleObject(BASE_SIZE, BASE_SIZE, color)}>
+      <div className={styles.OuterContainer} style={getStyleObject(BASE_SIZE, BASE_SIZE, base.color)}>
         <div className={styles.InnerContainer} style={getStyleObject(INNER_BASE_SIZE, INNER_BASE_SIZE)}>
-          <CoinPlaceholder baseColor={color}/>
-          <CoinPlaceholder baseColor={color}/>
-          <CoinPlaceholder baseColor={color}/>
-          <CoinPlaceholder baseColor={color}/>
+          {
+            base.coins.map((coin, index) => {
+              return coin.isRetired
+              ? null
+              : (
+                <CoinPlaceholder
+                  key={index}
+                  baseColor={base.color}
+                  onCoinClicked={() => this.onCoinClicked(base, coin)}
+                />
+              )
+            })
+          }
         </div>
       </div>
     );
+  }
+
+  private onCoinClicked = (base: IBase, coin: ICoin) => {
+    console.log(base, coin);
   }
 }
