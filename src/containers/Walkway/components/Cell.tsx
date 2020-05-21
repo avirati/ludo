@@ -70,7 +70,9 @@ export class Cell extends React.PureComponent<ICellProps> {
 
   private highlightNextCells = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const target = event.target as HTMLDivElement;
-    const cellID = target.getAttribute('data-id')!;
-    this.props.onHighlightNextCells(cellID);
+    const cellID = target.getAttribute('data-id');
+    if (cellID) {
+      this.props.onHighlightNextCells(cellID);
+    }
   }
 }

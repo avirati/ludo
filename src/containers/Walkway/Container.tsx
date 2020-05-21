@@ -8,7 +8,7 @@ import { moveCoin } from 'containers/Ludo/state/actions';
 import { CellType, ICell, IServerGameData, IWalkway } from 'containers/Ludo/state/interfaces';
 import { basesSelector, cellsSelector, linksSelector } from 'containers/Ludo/state/selectors';
 import { getStyleObject } from 'containers/utils';
-import { WALKWAY_LENGTH, WALKWAY_WIDTH } from 'globalConstants';
+import { WALKWAY_LENGTH, WALKWAY_WIDTH, COIN_SIZE } from 'globalConstants';
 import { hideContextMenu, showContextMenu } from 'services/contextMenu/service';
 import { WalkwayPosition } from 'state/interfaces';
 
@@ -95,6 +95,7 @@ class WalkwayBare extends React.PureComponent<IProps> {
           cellConfiguration.coinIDs.map((coinID, index) => (
             <Coin
               baseColor={base.color}
+              coinSize={cellConfiguration.coinIDs.length > 1 ? COIN_SIZE / 2 : COIN_SIZE}
               onCoinClicked={() => this.props.moveCoin(coinID)}
               key={index}
             />
