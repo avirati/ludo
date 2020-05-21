@@ -1,0 +1,28 @@
+.Container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Die {
+  border-radius: 20%;
+  border: 1px solid #BBBBBB;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  box-shadow: 0 0 5px;
+}
+
+.Dot {
+  width: 30%;
+  height: 30%;
+  background-color: #333333;
+  border-radius: 50%;
+}
+
+.Invisible {
+  background-color: transparent;
+}

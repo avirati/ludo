@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { Base } from 'containers/Base/Container';
+import { Dice } from 'containers/Dice/Container';
 import { Home } from 'containers/Home/Container';
 import { Walkway } from 'containers/Walkway/Container';
 import { getStyleObject } from 'containers/utils';
@@ -57,6 +58,7 @@ class LudoBare extends React.PureComponent<IProps> {
           this.renderBoardEntities()
         }
         <ContextMenu />
+        <Dice />
       </div>
     );
   }
