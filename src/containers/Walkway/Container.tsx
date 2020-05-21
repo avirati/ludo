@@ -164,8 +164,8 @@ class WalkwayBare extends React.PureComponent<IProps> {
 
   private onHighlightNextCells = (cellID: ICell['cellID']) => {
     const { links } = this.props;
-    const linkedCellIDs = links[cellID];
-    console.log(`${cellID} -> ${Array.from(linkedCellIDs)}`);
+    const linkedCellIDs = links[cellID].map((cell) => cell.cellID);
+    console.log(`${cellID} -> ${linkedCellIDs}`);
   }
 
   private markCells = (cellInfo: ICell) => {
