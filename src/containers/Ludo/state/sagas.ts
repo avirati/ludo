@@ -28,6 +28,7 @@ import {
   cellsSelector,
   linksSelector,
   walkwaysSelector,
+  coinsSelector,
 } from './selectors';
 
 function * watchForGetInitialGameData() {
@@ -36,7 +37,7 @@ function * watchForGetInitialGameData() {
 
 function * getInitialGameDataSaga() {
   const data: IServerGameData = yield call(api.get, { url: 'http://localhost:8080/initialGameData.json' });
-  const coins = data.bases.reduce((result, current) => result.concat(current.coins.map((coin) => ({ ...coin, color: current.color }))), [] as ICoin[]);
+  const coins = data.bases.reduce((result, current) => result.concat(current.coins.map((coin) => ({ ...coin, color: current.color, baseID: current.ID }))), [] as ICoin[]);
   const gameData: IState = {
     bases: mapByProperty(data.bases, 'ID'),
     cells: data.cells,
@@ -73,13 +74,24 @@ function * watchForMoveCoin() {
 function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
   const { cellID, coinID, walkwayPosition } = action.data!;
 
+  const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
+  const cells: ReturnType<typeof cellsSelector> = yield select(cellsSelector);
   const links: ReturnType<typeof linksSelector> = yield select(linksSelector);
   const nextCells = links[cellID];
-  const nextCell = nextCells[0];  // TODO: Determine next cell
+  let nextCell;
+
+  // Possibility of entering HOMEPATH
+  nextCell = nextCells.length > 1
+  ? nextCells.find(
+    (cell) =>
+      cells[cell.position][cell.cellID].cellType === CellType.HOMEPATH
+      && coins[coinID].baseID === cells[cell.position][cell.cellID].baseID,
+  ) || nextCells[0]
+  : nextCells[0];
 
   yield put(liftCoin(cellID, coinID, walkwayPosition));
 
-  yield put(placeCoin(nextCell.cellID, coinID, nextCell.position));
+  yield put(placeCoin(nextCell!.cellID, coinID, nextCell!.position));
 }
 
 export const sagas = [

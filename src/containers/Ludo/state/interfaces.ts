@@ -5,6 +5,7 @@ export interface ICoin {
   isSpawned: boolean;
   coinID: string;
   color: BaseColors;
+  baseID: IBase['ID'];
 }
 
 export interface IBase {
