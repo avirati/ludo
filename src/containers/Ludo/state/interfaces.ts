@@ -4,6 +4,7 @@ export interface ICoin {
   isRetired: boolean;
   isSpawned: boolean;
   coinID: string;
+  color: BaseColors;
 }
 
 export interface IBase {
@@ -52,7 +53,8 @@ export interface IState {
   walkways: { [walkwayID: string]: IWalkway };
   relationships: IServerGameData['relationships'];
   cells: IServerGameData['cells'];
-  links: { [cellID: string]: ICell['cellID'][] };
+  links: IServerGameData['links'];
+  coins: { [coinID: string]: ICoin };
 }
 
 export interface IServerGameData {
@@ -64,7 +66,5 @@ export interface IServerGameData {
       [cellID: string]: ICell;
     };
   },
-  links: {
-    [cellID: string]: ICell['cellID'][];
-  }
+  links: { [cellID: string]: Pick<ICell, 'position' | 'cellID'>[] };
 }

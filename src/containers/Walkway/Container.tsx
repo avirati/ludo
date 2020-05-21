@@ -6,9 +6,9 @@ import { flatArray } from 'common/utils';
 import { Coin } from 'containers/Base/components/Coin';
 import { moveCoin } from 'containers/Ludo/state/actions';
 import { CellType, ICell, IServerGameData, IWalkway } from 'containers/Ludo/state/interfaces';
-import { basesSelector, cellsSelector, linksSelector } from 'containers/Ludo/state/selectors';
+import { basesSelector, cellsSelector, linksSelector, coinsSelector } from 'containers/Ludo/state/selectors';
 import { getStyleObject } from 'containers/utils';
-import { WALKWAY_LENGTH, WALKWAY_WIDTH, COIN_SIZE } from 'globalConstants';
+import { COIN_SIZE, WALKWAY_LENGTH, WALKWAY_WIDTH } from 'globalConstants';
 import { hideContextMenu, showContextMenu } from 'services/contextMenu/service';
 import { WalkwayPosition } from 'state/interfaces';
 
@@ -25,6 +25,7 @@ interface IPublicProps {
 interface IStateProps {
   bases: ReturnType<typeof basesSelector>;
   cells: ReturnType<typeof cellsSelector>;
+  coins: ReturnType<typeof coinsSelector>;
   links: ReturnType<typeof linksSelector>;
 }
 
@@ -40,6 +41,7 @@ const cellLinks: { [cellID: string]: Set<ICell['cellID']> } = {};
 const mapStateToProps = createStructuredSelector<any, IStateProps>({
   bases: basesSelector,
   cells: cellsSelector,
+  coins: coinsSelector,
   links: linksSelector,
 });
 
@@ -68,7 +70,12 @@ class WalkwayBare extends React.PureComponent<IProps> {
   }
 
   private renderCells = () => {
-    const { walkway: { position, baseID }, cells: cellConfigurations, bases } = this.props;
+    const {
+      walkway: { position, baseID },
+      cells: cellConfigurations,
+      bases,
+      coins,
+    } = this.props;
 
     const cellComponents: any[][] = [[]];
 
@@ -77,7 +84,8 @@ class WalkwayBare extends React.PureComponent<IProps> {
 
     cellConfigurationsForWalkway.forEach((cellConfiguration, index) => {
       const { row, column, position } = cellConfiguration;
-      const cellType = cellConfigurations[position][generateCellID(position, row, column)].cellType;
+      const cellID = generateCellID(position, row, column);
+      const cellType = cellConfigurations[position][cellID].cellType;
       cellComponents[cellConfiguration.row] = cellComponents[cellConfiguration.row] || [];
       cellComponents[cellConfiguration.row][cellConfiguration.column] =
       <Cell
@@ -94,9 +102,9 @@ class WalkwayBare extends React.PureComponent<IProps> {
         {
           cellConfiguration.coinIDs.map((coinID, index) => (
             <Coin
-              baseColor={base.color}
+              baseColor={coins[coinID].color}
               coinSize={cellConfiguration.coinIDs.length > 1 ? COIN_SIZE / 2 : COIN_SIZE}
-              onCoinClicked={() => this.props.moveCoin(coinID)}
+              onCoinClicked={() => this.props.moveCoin(coinID, position, cellID)}
               key={index}
             />
           ))

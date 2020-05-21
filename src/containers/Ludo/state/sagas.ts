@@ -8,9 +8,27 @@ import {
 import { api } from 'common/http';
 import { mapByProperty } from 'common/utils';
 
-import { getInitialGameDataSuccess, spawnCoin, ActionTypes, spawnCoinSuccess } from './actions';
-import { IServerGameData, IState, CellType } from './interfaces';
-import { basesSelector, walkwaysSelector, cellsSelector } from './selectors';
+import {
+  getInitialGameDataSuccess,
+  liftCoin,
+  moveCoin,
+  placeCoin,
+  spawnCoin,
+  spawnCoinSuccess,
+  ActionTypes,
+} from './actions';
+import {
+  CellType,
+  ICoin,
+  IServerGameData,
+  IState,
+} from './interfaces';
+import {
+  basesSelector,
+  cellsSelector,
+  linksSelector,
+  walkwaysSelector,
+} from './selectors';
 
 function * watchForGetInitialGameData() {
   yield takeLatest(ActionTypes.GET_INITIAL_GAME_DATA, getInitialGameDataSaga);
@@ -18,16 +36,12 @@ function * watchForGetInitialGameData() {
 
 function * getInitialGameDataSaga() {
   const data: IServerGameData = yield call(api.get, { url: 'http://localhost:8080/initialGameData.json' });
-  const links: IState['links'] = {};
-  for (const key in data.links) {
-    if (data.links[key]) {
-      links[key] = data.links[key];
-    }
-  }
+  const coins = data.bases.reduce((result, current) => result.concat(current.coins.map((coin) => ({ ...coin, color: current.color }))), [] as ICoin[]);
   const gameData: IState = {
     bases: mapByProperty(data.bases, 'ID'),
     cells: data.cells,
-    links,
+    coins: mapByProperty(coins, 'coinID'),
+    links: data.links,
     relationships: data.relationships,
     walkways: mapByProperty(data.walkways, 'ID'),
   }
@@ -52,7 +66,24 @@ function * spawnCoinSaga(action: ReturnType<typeof spawnCoin>) {
   yield put(spawnCoinSuccess(spawnCellForCoin.cellID, coin.coinID, baseID, walkway.position));
 }
 
+function * watchForMoveCoin() {
+  yield takeLatest(ActionTypes.MOVE_COIN, moveCoinSaga);
+}
+
+function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
+  const { cellID, coinID, walkwayPosition } = action.data!;
+
+  const links: ReturnType<typeof linksSelector> = yield select(linksSelector);
+  const nextCells = links[cellID];
+  const nextCell = nextCells[0];  // TODO: Determine next cell
+
+  yield put(liftCoin(cellID, coinID, walkwayPosition));
+
+  yield put(placeCoin(nextCell.cellID, coinID, nextCell.position));
+}
+
 export const sagas = [
   watchForGetInitialGameData,
   watchForSpawnCoin,
+  watchForMoveCoin,
 ];

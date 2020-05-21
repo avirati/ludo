@@ -30,3 +30,8 @@ export const linksSelector = createSelector(
   [ludoStateSelector],
   (state) => state.links,
 );
+
+export const coinsSelector = createSelector(
+  [ludoStateSelector],
+  (state) => state.coins,
+);

@@ -1,4 +1,4 @@
-import { IReduxAction } from 'state/interfaces';
+import { IReduxAction, WalkwayPosition } from 'state/interfaces';
 
 import { IState, IBase, ICoin, ICell, IWalkway } from './interfaces';
 
@@ -9,6 +9,8 @@ export enum ActionTypes {
   SPAWN_COIN = 'ludo/SPAWN_COIN',
   SPAWN_COIN_SUCCESS = 'ludo/SPAWN_COIN_SUCCESS',
   MOVE_COIN = 'ludo/MOVE_COIN',
+  LIFT_COIN = 'ludo/LIFT_COIN',
+  PLACE_COIN = 'ludo/PLACE_COIN',
 }
 
 export const getInitialGameData = (): IReduxAction<ActionTypes.GET_INITIAL_GAME_DATA, void> => ({
@@ -35,9 +37,19 @@ export const spawnCoinSuccess = (
   type: ActionTypes.SPAWN_COIN_SUCCESS,
 });
 
-export const moveCoin = (coinID: ICoin['coinID']): IReduxAction<ActionTypes.MOVE_COIN, { coinID: ICoin['coinID'] }> => ({
-  data: { coinID },
+export const moveCoin = (coinID: ICoin['coinID'], walkwayPosition: WalkwayPosition, cellID: ICell['cellID']): IReduxAction<ActionTypes.MOVE_COIN, { coinID: ICoin['coinID']; walkwayPosition: WalkwayPosition; cellID: ICell['cellID']; }> => ({
+  data: { cellID, coinID, walkwayPosition },
   type: ActionTypes.MOVE_COIN,
+});
+
+export const placeCoin = (cellID: ICell['cellID'], coinID: ICoin['coinID'], walkwayPosition: WalkwayPosition): IReduxAction<ActionTypes.PLACE_COIN, { coinID: ICoin['coinID']; walkwayPosition: WalkwayPosition; cellID: ICell['cellID']; }> => ({
+  data: { cellID, coinID, walkwayPosition },
+  type: ActionTypes.PLACE_COIN,
+});
+
+export const liftCoin = (cellID: ICell['cellID'], coinID: ICoin['coinID'], walkwayPosition: WalkwayPosition): IReduxAction<ActionTypes.LIFT_COIN, { coinID: ICoin['coinID']; walkwayPosition: WalkwayPosition; cellID: ICell['cellID']; }> => ({
+  data: { cellID, coinID, walkwayPosition },
+  type: ActionTypes.LIFT_COIN,
 });
 
 export type Actions =
@@ -45,4 +57,6 @@ export type Actions =
   | ReturnType<typeof spawnCoin>
   | ReturnType<typeof spawnCoinSuccess>
   | ReturnType<typeof moveCoin>
+  | ReturnType<typeof liftCoin>
+  | ReturnType<typeof placeCoin>
   ;
