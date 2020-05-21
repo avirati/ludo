@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import React from 'react';
 
 import { CellType, ICell } from 'containers/Ludo/state/interfaces';
@@ -32,9 +33,13 @@ export class Cell extends React.PureComponent<ICellProps> {
       walkwayPosition,
       isStar,
     } = this.props;
+
+    const children = React.Children.map(this.props.children, (child) => child);
+    const mutipleCoinClassName = children && children?.length > 1 ? styles.MultipleCoins : null
+
     return (
       <div
-        className={styles.Container}
+        className={classnames(styles.Container, mutipleCoinClassName)}
         style={{
           ...getStyleObject(CELL_SIZE, CELL_SIZE, color),
           backgroundImage: isStar ? `url(${STAR_BASE64})` : undefined,
@@ -48,7 +53,7 @@ export class Cell extends React.PureComponent<ICellProps> {
         onMouseEnter={(event) => this.highlightNextCells(event)}
       >
         {
-          React.Children.map(this.props.children, (child) => child)
+          children
         }
       </div>
     );

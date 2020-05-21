@@ -6,3 +6,7 @@
   align-items: center;
   justify-content: space-around;
 }
+
+.MultipleCoins > div {
+  margin-bottom: 0;
+}
