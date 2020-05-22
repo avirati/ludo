@@ -100,7 +100,7 @@ class LudoBare extends React.PureComponent<IProps> {
         default:
           return null;
       }
-    })
+    });
   }
 }
 

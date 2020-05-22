@@ -7,7 +7,7 @@ export enum ActionTypes {
   ROLL_DIE_COMPLETE = 'die/ROLL_DIE_COMPLETE',
   ENABLE_DIE = 'die/ENABLE_DIE',
   DISABLE_DIE = 'die/DISABLE_DIE',
-  MARK_DIE_ROLL = 'die/MARK_DIE_ROLL',
+  INVALIDATE_DIE_ROLL = 'die/INVALIDATE_DIE_ROLL',
 }
 
 export const rollDie = (): IReduxAction<ActionTypes.ROLL_DIE, void> => ({
@@ -27,9 +27,8 @@ export const disableDie = (): IReduxAction<ActionTypes.DISABLE_DIE, void> => ({
   type: ActionTypes.DISABLE_DIE,
 });
 
-export const markDieRoll = (valid: boolean): IReduxAction<ActionTypes.MARK_DIE_ROLL, { valid: boolean }> => ({
-  data: { valid },
-  type: ActionTypes.MARK_DIE_ROLL,
+export const invalidateDieRoll = (): IReduxAction<ActionTypes.INVALIDATE_DIE_ROLL, void> => ({
+  type: ActionTypes.INVALIDATE_DIE_ROLL,
 });
 
 export type Actions =
@@ -37,5 +36,5 @@ export type Actions =
   | ReturnType<typeof rollDieComplete>
   | ReturnType<typeof enableDie>
   | ReturnType<typeof disableDie>
-  | ReturnType<typeof markDieRoll>
+  | ReturnType<typeof invalidateDieRoll>
   ;

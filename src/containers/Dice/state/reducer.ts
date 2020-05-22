@@ -29,10 +29,10 @@ export const reducer = (state: IState = initialState, action: Actions): IState =
         isDieRollAllowed: false,
       };
     }
-    case ActionTypes.MARK_DIE_ROLL: {
+    case ActionTypes.INVALIDATE_DIE_ROLL: {
       return {
         ...state,
-        isDieRollValid: action.data!.valid,
+        isDieRollValid: false,
       }
     }
     default:

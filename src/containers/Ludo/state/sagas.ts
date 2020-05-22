@@ -8,14 +8,13 @@ import {
 
 import { api } from 'common/http';
 import { mapByProperty } from 'common/utils';
-import { markDieRoll, enableDie } from 'containers/Dice/state/actions';
+import { invalidateDieRoll } from 'containers/Dice/state/actions';
 import { currentDieRollSelector } from 'containers/Dice/state/selectors';
 import { WalkwayPosition } from 'state/interfaces';
 
 import {
   disqualifyCoin,
   getInitialGameDataSuccess,
-  homeCoin,
   liftCoin,
   moveCoin,
   moveCoinSuccess,
@@ -29,7 +28,6 @@ import {
   CellType,
   ICell,
   ICoin,
-  IPathway,
   IServerGameData,
   IState,
 } from './interfaces';
@@ -78,19 +76,17 @@ function * spawnCoinSaga(action: ReturnType<typeof spawnCoin>) {
   const coinIDToSpawn = base.coinIDs.find((ID) => ID === coinID)!;
 
   yield put(spawnCoinSuccess(spawnCellForCoin.cellID, coinIDToSpawn, baseID, walkway.position));
-  yield put(markDieRoll(false));
+  yield put(invalidateDieRoll());
 }
 
 function * watchForMoveCoin() {
   yield takeLatest(ActionTypes.MOVE_COIN, moveCoinSaga);
 }
 
-function * checkMove(action: ReturnType<typeof moveCoin>) {
+function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
   let { cellID, walkwayPosition } = { ...action.data! };
   const { coinID } = action.data!;
   const currentDieRoll: ReturnType<typeof currentDieRollSelector> = yield select(currentDieRollSelector);
-
-  const pathways: IPathway[] = [];
 
   for (let i = 0; i < currentDieRoll; i++) {
     const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
@@ -98,11 +94,6 @@ function * checkMove(action: ReturnType<typeof moveCoin>) {
     const links: ReturnType<typeof linksSelector> = yield select(linksSelector);
     const nextCells = links[cellID];
     let nextCell;
-
-    if (nextCells[0].cellID === 'HOME' && i !== currentDieRoll - 1) {
-      // Move not possible
-      return [];
-    }
 
     // Possibility of entering HOMEPATH
     nextCell = nextCells.length > 1
@@ -113,61 +104,18 @@ function * checkMove(action: ReturnType<typeof moveCoin>) {
     ) || nextCells[0]
     : nextCells[0];
 
-    pathways.push({
-      coinID,
-      from: {
-        cellID,
-        walkwayPosition,
-      },
-      to: {
-        cellID: nextCell.cellID,
-        walkwayPosition: nextCell.position,
-      },
-    });
+    yield put(liftCoin(cellID, coinID, walkwayPosition));
+    yield put(placeCoin(nextCell.cellID, coinID, nextCell.position));
+
+    yield delay(100);
 
     cellID = nextCell.cellID;
     walkwayPosition = nextCell.position;
   }
 
-  return pathways;
-}
-
-function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
-  let { cellID, walkwayPosition } = { ...action.data! };
-
-  const pathways: IPathway[] = yield call(checkMove, action);
-
-  let bonusChance = false;
-
-  for (const pathway of pathways) {
-    yield put(liftCoin(pathway.from.cellID, pathway.coinID, pathway.from.walkwayPosition));
-
-    if (pathway.to.cellID === 'HOME') {
-      yield put(homeCoin(pathway.from.cellID, pathway.coinID, pathway.from.walkwayPosition));
-      bonusChance = true;
-    }
-    else {
-      yield put(placeCoin(pathway.to.cellID, pathway.coinID, pathway.to.walkwayPosition));
-    }
-
-    yield delay(100);
-    cellID = pathway.to.cellID;
-    walkwayPosition = pathway.to.walkwayPosition;
-  }
-
-  if (pathways.length > 0) {
-    const didDisqualificationHappened = yield call(performDisqualificationCheck, action.data!.coinID, walkwayPosition, cellID);
-    if (didDisqualificationHappened) {
-      bonusChance = true;
-    }
-  } else {
-    yield put(moveCoinSuccess(false));
-  }
-  if (bonusChance) {
-    yield put(enableDie());
-  }
-  yield put(moveCoinSuccess(bonusChance));
-  yield put(markDieRoll(false));
+  const didDisqualificationHappened = yield call(performDisqualificationCheck, action.data!.coinID, walkwayPosition, cellID);
+  yield put(moveCoinSuccess(didDisqualificationHappened));
+  yield put(invalidateDieRoll());
 }
 
 function * performDisqualificationCheck(activeCoinID: ICoin['coinID'], walkwayPosition: WalkwayPosition, cellID: ICell['cellID']) {
