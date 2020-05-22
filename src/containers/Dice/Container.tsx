@@ -20,7 +20,7 @@ interface IStateProps {
 }
 
 interface IDispatchProps {
-  rollDie: typeof rollDie,
+  rollDie: typeof rollDie;
 }
 
 interface IPublicProps {
@@ -36,7 +36,7 @@ const mapStateToProps = createStructuredSelector<any, IStateProps>({
 
 const mapDispatchToProps = {
   rollDie,
-}
+};
 
 class DiceBare extends React.PureComponent<IProps> {
   render() {
@@ -62,7 +62,7 @@ class DiceBare extends React.PureComponent<IProps> {
       const classNames = isVisible ? styles.Dot : [styles.Dot, styles.Invisible];
       elements.push(
         <div className={classnames(classNames)} key={i}/>,
-      )
+      );
     }
 
     return elements;

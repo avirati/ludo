@@ -33,4 +33,6 @@ export const CONFIGURATIONS: { [key: number]: number[] } = {
     0, 0, 0,
     1, 1, 1,
   ],
-}
+};
+
+export const allPossibleRolls = [Rolls.ONE, Rolls.TWO, Rolls.THREE, Rolls.FOUR, Rolls.FIVE, Rolls.SIX];

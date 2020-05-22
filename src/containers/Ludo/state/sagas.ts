@@ -43,7 +43,7 @@ function * watchForGetInitialGameData() {
 function * getInitialGameDataSaga() {
   const data: IServerGameData = yield call(api.get, { url: 'http://localhost:8080/initialGameData.json' });
   const coins = data.bases.reduce((result, current) => result.concat(current.coins.map((coin) => ({ ...coin, color: current.color, baseID: current.ID }))), [] as ICoin[]);
-  const bases = data.bases.map((base) => ({ ...base, spawnable: false }))
+  const bases = data.bases.map((base) => ({ ...base, spawnable: false }));
   const gameData: IState = {
     bases: mapByProperty(bases, 'ID'),
     cells: data.cells,
@@ -52,7 +52,7 @@ function * getInitialGameDataSaga() {
     links: data.links,
     relationships: data.relationships,
     walkways: mapByProperty(data.walkways, 'ID'),
-  }
+  };
   yield put(getInitialGameDataSuccess(gameData));
 }
 
@@ -80,7 +80,8 @@ function * watchForMoveCoin() {
 }
 
 function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
-  let { cellID, coinID, walkwayPosition } = { ...action.data! };
+  let { cellID, walkwayPosition } = { ...action.data! };
+  const { coinID } = action.data!;
 
   const currentDieRoll: ReturnType<typeof currentDieRollSelector> = yield select(currentDieRollSelector);
 
@@ -111,6 +112,7 @@ function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
   }
 
   yield put(moveCoinSuccess());
+  yield put(markDieRoll(false));
 }
 
 export const sagas = [

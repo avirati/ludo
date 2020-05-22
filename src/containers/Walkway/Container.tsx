@@ -7,7 +7,7 @@ import { Coin } from 'containers/Base/components/Coin';
 import { isDieRollValidSelector } from 'containers/Dice/state/selectors';
 import { moveCoin } from 'containers/Ludo/state/actions';
 import { CellType, ICell, ICoin, IServerGameData, IWalkway } from 'containers/Ludo/state/interfaces';
-import { basesSelector, cellsSelector, coinsSelector, linksSelector, currentTurnSelector } from 'containers/Ludo/state/selectors';
+import { basesSelector, cellsSelector, coinsSelector, currentTurnSelector, linksSelector } from 'containers/Ludo/state/selectors';
 import { getStyleObject } from 'containers/utils';
 import { COIN_SIZE, WALKWAY_LENGTH, WALKWAY_WIDTH } from 'globalConstants';
 import { hideContextMenu, showContextMenu } from 'services/contextMenu/service';
@@ -114,10 +114,10 @@ class WalkwayBare extends React.PureComponent<IProps> {
             />
           ))
         }
-      </Cell>
+      </Cell>;
     });
 
-    return flatArray(cellComponents)
+    return flatArray(cellComponents);
   }
 
   private isHorizontalWalkway = () => [
@@ -144,7 +144,7 @@ class WalkwayBare extends React.PureComponent<IProps> {
       column,
       position,
       row,
-    }
+    };
     showContextMenu(
       x,
       y,
@@ -193,7 +193,7 @@ class WalkwayBare extends React.PureComponent<IProps> {
       }
       document.removeEventListener('click', onClick);
       (window as any).cellLinks = cellLinks;
-    }
+    };
     document.addEventListener('click', onClick);
   }
 
