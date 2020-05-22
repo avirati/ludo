@@ -1,65 +1,47 @@
 import classnames from 'classnames';
-import { integer, MersenneTwister19937 } from 'random-js';
 import React from 'react';
+
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { getStyleObject } from 'containers/utils';
 import { DICE_SIZE } from 'globalConstants';
 
+import { rollDie } from './state/actions';
+import { CONFIGURATIONS } from './state/constants';
+import { Rolls } from './state/interfaces';
+import { currentDieRollSelector, isDieRollAllowedSelector } from './state/selectors';
+
 import styles from './Container.module.css';
 
-enum Rolls {
-  ONE = 1,
-  TWO = 2,
-  THREE = 3,
-  FOUR = 4,
-  FIVE = 5,
-  SIX = 6,
+interface IStateProps {
+  currentDieRoll: ReturnType<typeof currentDieRollSelector>;
+  isDieRollAllowed: ReturnType<typeof isDieRollAllowedSelector>;
 }
 
-const CONFIGURATIONS = {
-  [Rolls.ONE]: [
-    0, 0, 0,
-    0, 1, 0,
-    0, 0, 0,
-  ],
-  [Rolls.TWO]: [
-    0, 0, 1,
-    0, 0, 0,
-    1, 0, 0,
-  ],
-  [Rolls.THREE]: [
-    0, 0, 1,
-    0, 1, 0,
-    1, 0, 0,
-  ],
-  [Rolls.FOUR]: [
-    1, 0, 1,
-    0, 0, 0,
-    1, 0, 1,
-  ],
-  [Rolls.FIVE]: [
-    1, 0, 1,
-    0, 1, 0,
-    1, 0, 1,
-  ],
-  [Rolls.SIX]: [
-    1, 1, 1,
-    0, 0, 0,
-    1, 1, 1,
-  ],
+interface IDispatchProps {
+  rollDie: typeof rollDie,
 }
 
-interface IState {
-  currentRoll: Rolls;
+interface IProps extends IStateProps, IDispatchProps {}
+
+const mapStateToProps = createStructuredSelector<any, IStateProps>({
+  currentDieRoll: currentDieRollSelector,
+  isDieRollAllowed: isDieRollAllowedSelector,
+});
+
+const mapDispatchToProps = {
+  rollDie,
 }
 
-export class Dice extends React.PureComponent<{}, IState> {
+class DiceBare extends React.PureComponent<IProps> {
   state = { currentRoll: Rolls.SIX }
 
   render() {
+    const dieClassNames = this.props.isDieRollAllowed ? styles.Die : [styles.Die, styles.Disabled];
     return (
       <div className={styles.Container}>
-        <div className={styles.Die} style={getStyleObject(DICE_SIZE, DICE_SIZE)} onClick={() => this.rollDie()}>
+        <div className={classnames(dieClassNames)} style={getStyleObject(DICE_SIZE, DICE_SIZE)} onClick={() => this.props.rollDie()}>
           {
             this.renderDots()
           }
@@ -70,7 +52,7 @@ export class Dice extends React.PureComponent<{}, IState> {
 
   private renderDots = () => {
     const elements: any[] = [];
-    const configurationForCurrentRoll = CONFIGURATIONS[this.state.currentRoll];
+    const configurationForCurrentRoll = CONFIGURATIONS[this.props.currentDieRoll];
 
     for (let i = 0; i < configurationForCurrentRoll.length; i++) {
       const isVisible = Boolean(configurationForCurrentRoll[i]);
@@ -82,11 +64,6 @@ export class Dice extends React.PureComponent<{}, IState> {
 
     return elements;
   }
-
-  private rollDie = () => {
-    const mt = MersenneTwister19937.autoSeed();
-    this.setState({
-      currentRoll: integer(1, 6)(mt),
-    });
-  }
 }
+
+export const Dice = connect(mapStateToProps, mapDispatchToProps)(DiceBare) as unknown as React.ComponentClass<{}>;

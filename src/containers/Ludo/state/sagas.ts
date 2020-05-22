@@ -1,5 +1,6 @@
 import {
   call,
+  delay,
   put,
   select,
   takeLatest,
@@ -7,6 +8,7 @@ import {
 
 import { api } from 'common/http';
 import { mapByProperty } from 'common/utils';
+import { currentDieRollSelector } from 'containers/Dice/state/selectors';
 
 import {
   getInitialGameDataSuccess,
@@ -72,26 +74,35 @@ function * watchForMoveCoin() {
 }
 
 function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
-  const { cellID, coinID, walkwayPosition } = action.data!;
+  let { cellID, coinID, walkwayPosition } = { ...action.data! };
 
-  const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
-  const cells: ReturnType<typeof cellsSelector> = yield select(cellsSelector);
-  const links: ReturnType<typeof linksSelector> = yield select(linksSelector);
-  const nextCells = links[cellID];
-  let nextCell;
+  const currentDieRoll: ReturnType<typeof currentDieRollSelector> = yield select(currentDieRollSelector);
 
-  // Possibility of entering HOMEPATH
-  nextCell = nextCells.length > 1
-  ? nextCells.find(
-    (cell) =>
-      cells[cell.position][cell.cellID].cellType === CellType.HOMEPATH
-      && coins[coinID].baseID === cells[cell.position][cell.cellID].baseID,
-  ) || nextCells[0]
-  : nextCells[0];
+  for (let i = 0; i < currentDieRoll; i++) {
+    const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
+    const cells: ReturnType<typeof cellsSelector> = yield select(cellsSelector);
+    const links: ReturnType<typeof linksSelector> = yield select(linksSelector);
+    const nextCells = links[cellID];
+    let nextCell;
 
-  yield put(liftCoin(cellID, coinID, walkwayPosition));
+    // Possibility of entering HOMEPATH
+    nextCell = nextCells.length > 1
+    ? nextCells.find(
+      (cell) =>
+        cells[cell.position][cell.cellID].cellType === CellType.HOMEPATH
+        && coins[coinID].baseID === cells[cell.position][cell.cellID].baseID,
+    ) || nextCells[0]
+    : nextCells[0];
 
-  yield put(placeCoin(nextCell!.cellID, coinID, nextCell!.position));
+    yield put(liftCoin(cellID, coinID, walkwayPosition));
+
+    yield put(placeCoin(nextCell.cellID, coinID, nextCell.position));
+
+    yield delay(100);
+
+    cellID = nextCell.cellID;
+    walkwayPosition = nextCell.position;
+  }
 }
 
 export const sagas = [
