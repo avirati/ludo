@@ -138,6 +138,7 @@ export const reducer = (state: IState = initialState, action: Actions): IState =
           [coinID]: {
             ...state.coins[coinID],
             isSpawned: false,
+            steps: 0,
           },
         },
       };
@@ -164,6 +165,19 @@ export const reducer = (state: IState = initialState, action: Actions): IState =
           [coinID]: {
             ...state.coins[coinID],
             isRetired: true,
+          },
+        },
+      };
+    }
+    case ActionTypes.MOVE_COIN_SUCCESS: {
+      const { currentDieRoll, coinID } = action.data!;
+      return {
+        ...state,
+        coins: {
+          ...state.coins,
+          [coinID]: {
+            ...state.coins[coinID],
+            steps: state.coins[coinID].steps + currentDieRoll,
           },
         },
       };

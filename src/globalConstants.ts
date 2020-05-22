@@ -12,6 +12,7 @@ export const WALKWAY_LENGTH = 6;                              // Cells
 export const WALKWAY_WIDTH = 3;                               // Cells
 export const HOME_SIZE = 3;                                   // Cells
 export const DICE_SIZE = 1;                                   // Cells
+export const WINNING_MOVES = 56;
 export const BASE_COLORS: { [key: string]: string } = {
   [BaseColors.RED]: '#D22E2E',
   [BaseColors.GREEN]: '#088812',

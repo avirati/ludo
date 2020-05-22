@@ -22,6 +22,7 @@ import {
   spawnCoin,
   spawnCoinSuccess,
   ActionTypes,
+  moveCoinFailure,
 } from './actions';
 import {
   BaseID,
@@ -38,6 +39,8 @@ import {
   linksSelector,
   walkwaysSelector,
 } from './selectors';
+import { Rolls } from 'containers/Dice/state/interfaces';
+import { WINNING_MOVES } from 'globalConstants';
 
 function * watchForGetInitialGameData() {
   yield takeLatest(ActionTypes.GET_INITIAL_GAME_DATA, getInitialGameDataSaga);
@@ -83,10 +86,23 @@ function * watchForMoveCoin() {
   yield takeLatest(ActionTypes.MOVE_COIN, moveCoinSaga);
 }
 
+function * isMoveValid(coinID: ICoin['coinID'], stepsToTake: Rolls) {
+  const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
+  const coin = coins[coinID];
+  return coin.steps + stepsToTake <= WINNING_MOVES;
+}
+
 function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
   let { cellID, walkwayPosition } = { ...action.data! };
   const { coinID } = action.data!;
   const currentDieRoll: ReturnType<typeof currentDieRollSelector> = yield select(currentDieRollSelector);
+
+  const isMovePossible: boolean = yield call(isMoveValid, coinID, currentDieRoll);
+
+  if (!isMovePossible) {
+    yield put(moveCoinFailure());
+    return;
+  }
 
   for (let i = 0; i < currentDieRoll; i++) {
     const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
@@ -113,8 +129,8 @@ function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
     walkwayPosition = nextCell.position;
   }
 
-  const didDisqualificationHappened = yield call(performDisqualificationCheck, action.data!.coinID, walkwayPosition, cellID);
-  yield put(moveCoinSuccess(didDisqualificationHappened));
+  const bonusChance = yield call(performDisqualificationCheck, action.data!.coinID, walkwayPosition, cellID);
+  yield put(moveCoinSuccess(bonusChance, coinID, currentDieRoll));
   yield put(invalidateDieRoll());
 }
 

@@ -6,6 +6,7 @@ export interface ICoin {
   coinID: string;
   color: BaseColors;
   baseID: IBase['ID'];
+  steps: number;
 }
 
 export enum BaseID {

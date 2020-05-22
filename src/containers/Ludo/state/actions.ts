@@ -1,3 +1,4 @@
+import { Rolls } from 'containers/Dice/state/interfaces';
 import { IReduxAction, WalkwayPosition } from 'state/interfaces';
 
 import { IBase, ICell, ICoin, IState, IWalkway } from './interfaces';
@@ -10,6 +11,7 @@ export enum ActionTypes {
   SPAWN_COIN_SUCCESS = 'ludo/SPAWN_COIN_SUCCESS',
   MOVE_COIN = 'ludo/MOVE_COIN',
   MOVE_COIN_SUCCESS = 'ludo/MOVE_COIN_SUCCESS',
+  MOVE_COIN_FAILURE = 'ludo/MOVE_COIN_FAILURE',
   LIFT_COIN = 'ludo/LIFT_COIN',
   PLACE_COIN = 'ludo/PLACE_COIN',
   DISQUALIFY_COIN = 'ludo/DISQUALIFY_COIN',
@@ -68,9 +70,13 @@ export const markCurrentBase = (spawnable: boolean): IReduxAction<ActionTypes.MA
   type: ActionTypes.MARK_CURRENT_BASE,
 });
 
-export const moveCoinSuccess = (bonusChance: boolean): IReduxAction<ActionTypes.MOVE_COIN_SUCCESS, { bonusChance: boolean }> => ({
-  data: { bonusChance },
+export const moveCoinSuccess = (bonusChance: boolean, coinID: ICoin['coinID'], currentDieRoll: Rolls): IReduxAction<ActionTypes.MOVE_COIN_SUCCESS, { bonusChance: boolean, coinID: ICoin['coinID'], currentDieRoll: Rolls }> => ({
+  data: { bonusChance, currentDieRoll, coinID },
   type: ActionTypes.MOVE_COIN_SUCCESS,
+});
+
+export const moveCoinFailure = (): IReduxAction<ActionTypes.MOVE_COIN_FAILURE, void> => ({
+  type: ActionTypes.MOVE_COIN_FAILURE,
 });
 
 export const disqualifyCoin = (coinID: ICoin['coinID'], walkwayPosition: WalkwayPosition, cellID: ICell['cellID']): IReduxAction<ActionTypes.DISQUALIFY_COIN, { coinID: ICoin['coinID'], walkwayPosition: WalkwayPosition, cellID: ICell['cellID'] }> => ({

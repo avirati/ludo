@@ -6,7 +6,13 @@ import {
   takeLatest,
 } from 'redux-saga/effects';
 
-import { markCurrentBase, moveCoinSuccess, nextTurn, ActionTypes as LudoActionTypes } from 'containers/Ludo/state/actions';
+import {
+  markCurrentBase,
+  moveCoinFailure,
+  moveCoinSuccess,
+  nextTurn,
+  ActionTypes as LudoActionTypes,
+} from 'containers/Ludo/state/actions';
 import { basesSelector, coinsSelector, currentTurnSelector } from 'containers/Ludo/state/selectors';
 
 import { enableDie, invalidateDieRoll, rollDieComplete, ActionTypes } from './actions';
@@ -40,17 +46,23 @@ function * rollDieCompleteSaga(action: ReturnType<typeof rollDieComplete>) {
     yield take([LudoActionTypes.SPAWN_COIN_SUCCESS, LudoActionTypes.MOVE_COIN_SUCCESS]);
 
     yield put(markCurrentBase(false));
+    yield put(enableDie());
   } else if (isAnyCoinSpawned) {
-    const result: ReturnType<typeof moveCoinSuccess> = yield take(LudoActionTypes.MOVE_COIN_SUCCESS);
-    if (!result.data!.bonusChance) {
-      yield put(nextTurn());
+    const result: ReturnType<typeof moveCoinSuccess | typeof moveCoinFailure> = yield take([
+      LudoActionTypes.MOVE_COIN_SUCCESS,
+      LudoActionTypes.MOVE_COIN_FAILURE,
+    ]);
+    if (result && result.data) {
+      if (!result.data.bonusChance) {
+        yield put(nextTurn());
+      }
+      yield put(enableDie());
     }
   } else {
     yield put(invalidateDieRoll());
     yield put(nextTurn());
+    yield put(enableDie());
   }
-
-  yield put(enableDie());
 }
 
 export const sagas = [
