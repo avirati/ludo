@@ -20,6 +20,7 @@ import {
   ActionTypes,
 } from './actions';
 import {
+  BaseID,
   CellType,
   ICoin,
   IServerGameData,
@@ -28,9 +29,9 @@ import {
 import {
   basesSelector,
   cellsSelector,
+  coinsSelector,
   linksSelector,
   walkwaysSelector,
-  coinsSelector,
 } from './selectors';
 
 function * watchForGetInitialGameData() {
@@ -44,6 +45,7 @@ function * getInitialGameDataSaga() {
     bases: mapByProperty(data.bases, 'ID'),
     cells: data.cells,
     coins: mapByProperty(coins, 'coinID'),
+    currentTurn: BaseID.BASE_3,
     links: data.links,
     relationships: data.relationships,
     walkways: mapByProperty(data.walkways, 'ID'),

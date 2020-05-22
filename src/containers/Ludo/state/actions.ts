@@ -11,6 +11,8 @@ export enum ActionTypes {
   MOVE_COIN = 'ludo/MOVE_COIN',
   LIFT_COIN = 'ludo/LIFT_COIN',
   PLACE_COIN = 'ludo/PLACE_COIN',
+
+  NEXT_TURN = 'ludo/NEXT_TURN',
 }
 
 export const getInitialGameData = (): IReduxAction<ActionTypes.GET_INITIAL_GAME_DATA, void> => ({
@@ -52,6 +54,10 @@ export const liftCoin = (cellID: ICell['cellID'], coinID: ICoin['coinID'], walkw
   type: ActionTypes.LIFT_COIN,
 });
 
+export const nextTurn = (): IReduxAction<ActionTypes.NEXT_TURN, void> => ({
+  type: ActionTypes.NEXT_TURN,
+});
+
 export type Actions =
   | ReturnType<typeof getInitialGameDataSuccess>
   | ReturnType<typeof spawnCoin>
@@ -59,4 +65,5 @@ export type Actions =
   | ReturnType<typeof moveCoin>
   | ReturnType<typeof liftCoin>
   | ReturnType<typeof placeCoin>
+  | ReturnType<typeof nextTurn>
   ;

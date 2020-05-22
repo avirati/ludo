@@ -1,10 +1,11 @@
 import { Actions, ActionTypes } from './actions';
-import { IState } from './interfaces';
+import { BaseID, IState } from './interfaces';
 
 const initialState: IState = {
   bases: {},
   cells: {},
   coins: {},
+  currentTurn: BaseID.BASE_3,
   links: {},
   relationships: [],
   walkways: {},
@@ -98,6 +99,12 @@ export const reducer = (state: IState = initialState, action: Actions): IState =
         },
       };
     }
+    case ActionTypes.NEXT_TURN:
+      const nextTurn = state.bases[state.currentTurn].nextTurn;
+      return {
+        ...state,
+        currentTurn: nextTurn,
+      };
     default:
       return state;
   }

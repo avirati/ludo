@@ -8,10 +8,18 @@ export interface ICoin {
   baseID: IBase['ID'];
 }
 
+export enum BaseID {
+  BASE_1 = 'BASE_1',
+  BASE_2 = 'BASE_2',
+  BASE_3 = 'BASE_3',
+  BASE_4 = 'BASE_4',
+}
+
 export interface IBase {
   coins: ICoin[];
   color: BaseColors;
-  ID: string;
+  ID: BaseID;
+  nextTurn: BaseID;
 }
 
 export interface IWalkway {
@@ -56,6 +64,7 @@ export interface IState {
   cells: IServerGameData['cells'];
   links: IServerGameData['links'];
   coins: { [coinID: string]: ICoin };
+  currentTurn: BaseID;
 }
 
 export interface IServerGameData {

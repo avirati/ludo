@@ -1,7 +1,6 @@
 .Container {
   display: flex;
   flex-grow: 1;
-  justify-content: space-evenly;
 }
 
 .TopPlacement {
@@ -10,4 +9,9 @@
 
 .BottomPlacement {
   flex-direction: column-reverse;
+}
+
+.Disabled {
+  opacity: 0.3;
+  pointer-events: none;
 }

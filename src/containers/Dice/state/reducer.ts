@@ -3,7 +3,7 @@ import { IState, Rolls } from './interfaces';
 
 const initialState: IState = {
   isDieRollAllowed: true,
-  roll: Rolls.SIX,
+  roll: Rolls.ONE,
 };
 
 export const reducer = (state: IState = initialState, action: Actions): IState => {

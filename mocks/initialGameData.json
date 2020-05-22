@@ -19,7 +19,8 @@
         "isRetired": false,
         "isSpawned": false
       }],
-      "color": "BLUE"
+      "color": "BLUE",
+      "nextTurn": "BASE_2"
     },
     {
       "ID": "BASE_2",
@@ -40,7 +41,8 @@
         "isRetired": false,
         "isSpawned": false
       }],
-      "color": "GREEN"
+      "color": "GREEN",
+      "nextTurn": "BASE_4"
     },
     {
       "ID": "BASE_3",
@@ -61,7 +63,8 @@
         "isRetired": false,
         "isSpawned": false
       }],
-      "color": "RED"
+      "color": "RED",
+      "nextTurn": "BASE_1"
     },
     {
       "ID": "BASE_4",
@@ -82,7 +85,8 @@
         "isRetired": false,
         "isSpawned": false
       }],
-      "color": "YELLOW"
+      "color": "YELLOW",
+      "nextTurn": "BASE_3"
     }
   ],
   "walkways": [

@@ -35,3 +35,8 @@ export const coinsSelector = createSelector(
   [ludoStateSelector],
   (state) => state.coins,
 );
+
+export const currentTurnSelector = createSelector(
+  [ludoStateSelector],
+  (state) => state.currentTurn,
+);

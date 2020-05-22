@@ -3,25 +3,31 @@ import React from 'react';
 
 import { Dice } from 'containers/Dice/Container';
 
-import { BaseColors } from 'state/interfaces';
+import { IBase } from 'containers/Ludo/state/interfaces';
 import { PlayerAvatar } from './components/PlayerAvatar';
 
 import styles from './Container.module.css';
 
 interface IProps {
-  baseColor: BaseColors;
+  base: IBase;
   placement: 'top' | 'bottom';
+  disabled: boolean;
 }
 
 export class Player extends React.PureComponent<IProps> {
   render() {
-    const { baseColor, placement } = this.props;
+    const { base, placement, disabled } = this.props;
     const placementClass = placement === 'top' ? styles.TopPlacement : styles.BottomPlacement;
-    return (
-      <div className={classnames(styles.Container, placementClass)}>
-        <PlayerAvatar baseColor={baseColor}/>
-        <Dice baseColor={baseColor}/>
+    const disabledClass = disabled ? styles.Disabled : null;
+    return base
+    ? (
+      <div className={classnames(styles.Container, placementClass, disabledClass)}>
+        <PlayerAvatar baseColor={base.color}/>
+        {
+          !disabled && <Dice baseColor={base.color}/>
+        }
       </div>
-    );
+    )
+    : null
   }
 }
