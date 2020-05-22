@@ -20,6 +20,7 @@ export interface IBase {
   color: BaseColors;
   ID: BaseID;
   nextTurn: BaseID;
+  spawnable: boolean;
 }
 
 export interface IWalkway {

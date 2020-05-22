@@ -1,7 +1,13 @@
 import { integer, MersenneTwister19937 } from 'random-js';
-import { delay, put, takeLatest } from 'redux-saga/effects';
+import {
+  put,
+  select,
+  take,
+  takeLatest,
+} from 'redux-saga/effects';
 
-import { nextTurn } from 'containers/Ludo/state/actions';
+import { markCurrentBase, nextTurn, ActionTypes as LudoActionTypes } from 'containers/Ludo/state/actions';
+import { basesSelector, currentTurnSelector } from 'containers/Ludo/state/selectors';
 
 import { rollDieComplete, ActionTypes } from './actions';
 import { Rolls } from './interfaces';
@@ -23,9 +29,22 @@ function * watchForRollDieComplete() {
 
 function * rollDieCompleteSaga(action: ReturnType<typeof rollDieComplete>) {
   const { value } = action.data!;
-  console.log(value);
-  yield delay(500);
-  yield put(nextTurn());
+  const currentTurn: ReturnType<typeof currentTurnSelector> = yield select(currentTurnSelector);
+  const bases: ReturnType<typeof basesSelector> = yield select(basesSelector);
+  const currentTurnBase = bases[currentTurn];
+  const isAnyCoinSpawned = Boolean(currentTurnBase.coins.find((coin) => coin.isSpawned));
+  if (value === Rolls.SIX) {
+    yield put(markCurrentBase(true));
+    // Wait for spawn coin or move coin
+    yield take([LudoActionTypes.SPAWN_COIN_SUCCESS, LudoActionTypes.MOVE_COIN_SUCCESS]);
+
+    yield put(markCurrentBase(false));
+  } else if (isAnyCoinSpawned) {
+    yield take([LudoActionTypes.MOVE_COIN_SUCCESS]);
+    yield put(nextTurn());
+  } else {
+    yield put(nextTurn());
+  }
 }
 
 export const sagas = [

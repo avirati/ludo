@@ -11,3 +11,7 @@
   flex-wrap: wrap;
   box-shadow: 0px 2px 5px 0px;
 }
+
+.Spawnable {
+  box-shadow: 0px 2px 30px 0px #FFFFFF;
+}

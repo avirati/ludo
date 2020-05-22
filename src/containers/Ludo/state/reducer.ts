@@ -99,12 +99,25 @@ export const reducer = (state: IState = initialState, action: Actions): IState =
         },
       };
     }
-    case ActionTypes.NEXT_TURN:
+    case ActionTypes.NEXT_TURN: {
       const nextTurn = state.bases[state.currentTurn].nextTurn;
       return {
         ...state,
         currentTurn: nextTurn,
       };
+    }
+    case ActionTypes.MARK_CURRENT_BASE: {
+      return {
+        ...state,
+        bases: {
+          ...state.bases,
+          [state.currentTurn]: {
+            ...state.bases[state.currentTurn],
+            spawnable: action.data!.spawnable,
+          },
+        },
+      }
+    }
     default:
       return state;
   }

@@ -14,6 +14,7 @@ import {
   getInitialGameDataSuccess,
   liftCoin,
   moveCoin,
+  moveCoinSuccess,
   placeCoin,
   spawnCoin,
   spawnCoinSuccess,
@@ -41,8 +42,9 @@ function * watchForGetInitialGameData() {
 function * getInitialGameDataSaga() {
   const data: IServerGameData = yield call(api.get, { url: 'http://localhost:8080/initialGameData.json' });
   const coins = data.bases.reduce((result, current) => result.concat(current.coins.map((coin) => ({ ...coin, color: current.color, baseID: current.ID }))), [] as ICoin[]);
+  const bases = data.bases.map((base) => ({ ...base, spawnable: false }))
   const gameData: IState = {
-    bases: mapByProperty(data.bases, 'ID'),
+    bases: mapByProperty(bases, 'ID'),
     cells: data.cells,
     coins: mapByProperty(coins, 'coinID'),
     currentTurn: BaseID.BASE_3,
@@ -105,6 +107,8 @@ function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
     cellID = nextCell.cellID;
     walkwayPosition = nextCell.position;
   }
+
+  yield put(moveCoinSuccess());
 }
 
 export const sagas = [

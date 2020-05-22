@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -28,9 +29,11 @@ class BaseBare extends React.PureComponent<IProps> {
   render() {
     const { base } = this.props;
 
+    const spawnableClass = base.spawnable ? styles.Spawnable : null;
+
     return (
       <div className={styles.OuterContainer} style={getStyleObject(BASE_SIZE, BASE_SIZE, base.color)}>
-        <div className={styles.InnerContainer} style={getStyleObject(INNER_BASE_SIZE, INNER_BASE_SIZE)}>
+        <div className={classnames(styles.InnerContainer, spawnableClass)} style={getStyleObject(INNER_BASE_SIZE, INNER_BASE_SIZE)}>
           {
             base.coins.map((coin, index) => {
               return (
@@ -53,7 +56,7 @@ class BaseBare extends React.PureComponent<IProps> {
       // Move the coin
     } else if (coin.isRetired) {
       // Do nothing
-    } else {
+    } else if (base.spawnable) {
       // Spawn coin
       this.props.spawnCoin(base.ID, coin.coinID);
     }

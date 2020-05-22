@@ -9,10 +9,13 @@ export enum ActionTypes {
   SPAWN_COIN = 'ludo/SPAWN_COIN',
   SPAWN_COIN_SUCCESS = 'ludo/SPAWN_COIN_SUCCESS',
   MOVE_COIN = 'ludo/MOVE_COIN',
+  MOVE_COIN_SUCCESS = 'ludo/MOVE_COIN_SUCCESS',
   LIFT_COIN = 'ludo/LIFT_COIN',
   PLACE_COIN = 'ludo/PLACE_COIN',
 
   NEXT_TURN = 'ludo/NEXT_TURN',
+
+  MARK_CURRENT_BASE = 'ludo/MARK_CURRENT_BASE',
 }
 
 export const getInitialGameData = (): IReduxAction<ActionTypes.GET_INITIAL_GAME_DATA, void> => ({
@@ -58,6 +61,15 @@ export const nextTurn = (): IReduxAction<ActionTypes.NEXT_TURN, void> => ({
   type: ActionTypes.NEXT_TURN,
 });
 
+export const markCurrentBase = (spawnable: boolean): IReduxAction<ActionTypes.MARK_CURRENT_BASE, { spawnable: boolean }> => ({
+  data: { spawnable },
+  type: ActionTypes.MARK_CURRENT_BASE,
+});
+
+export const moveCoinSuccess = (): IReduxAction<ActionTypes.MOVE_COIN_SUCCESS, void> => ({
+  type: ActionTypes.MOVE_COIN_SUCCESS,
+})
+
 export type Actions =
   | ReturnType<typeof getInitialGameDataSuccess>
   | ReturnType<typeof spawnCoin>
@@ -66,4 +78,6 @@ export type Actions =
   | ReturnType<typeof liftCoin>
   | ReturnType<typeof placeCoin>
   | ReturnType<typeof nextTurn>
+  | ReturnType<typeof markCurrentBase>
+  | ReturnType<typeof moveCoinSuccess>
   ;
