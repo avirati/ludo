@@ -8,6 +8,7 @@ import {
 
 import { api } from 'common/http';
 import { mapByProperty } from 'common/utils';
+import { markDieRoll } from 'containers/Dice/state/actions';
 import { currentDieRollSelector } from 'containers/Dice/state/selectors';
 
 import {
@@ -71,6 +72,7 @@ function * spawnCoinSaga(action: ReturnType<typeof spawnCoin>) {
   const coin = base.coins.find((coin) => coin.coinID === coinID)!;
 
   yield put(spawnCoinSuccess(spawnCellForCoin.cellID, coin.coinID, baseID, walkway.position));
+  yield put(markDieRoll(false));
 }
 
 function * watchForMoveCoin() {

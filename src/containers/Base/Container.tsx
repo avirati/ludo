@@ -52,12 +52,7 @@ class BaseBare extends React.PureComponent<IProps> {
   }
 
   private onCoinClicked = (base: IBase, coin: ICoin) => {
-    if (coin.isSpawned) {
-      // Move the coin
-    } else if (coin.isRetired) {
-      // Do nothing
-    } else if (base.spawnable) {
-      // Spawn coin
+    if (base.spawnable) {
       this.props.spawnCoin(base.ID, coin.coinID);
     }
   }

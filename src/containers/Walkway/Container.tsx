@@ -4,9 +4,10 @@ import { createStructuredSelector } from 'reselect';
 
 import { flatArray } from 'common/utils';
 import { Coin } from 'containers/Base/components/Coin';
+import { isDieRollValidSelector } from 'containers/Dice/state/selectors';
 import { moveCoin } from 'containers/Ludo/state/actions';
-import { CellType, ICell, IServerGameData, IWalkway } from 'containers/Ludo/state/interfaces';
-import { basesSelector, cellsSelector, linksSelector, coinsSelector } from 'containers/Ludo/state/selectors';
+import { CellType, ICell, ICoin, IServerGameData, IWalkway } from 'containers/Ludo/state/interfaces';
+import { basesSelector, cellsSelector, coinsSelector, linksSelector, currentTurnSelector } from 'containers/Ludo/state/selectors';
 import { getStyleObject } from 'containers/utils';
 import { COIN_SIZE, WALKWAY_LENGTH, WALKWAY_WIDTH } from 'globalConstants';
 import { hideContextMenu, showContextMenu } from 'services/contextMenu/service';
@@ -27,6 +28,8 @@ interface IStateProps {
   cells: ReturnType<typeof cellsSelector>;
   coins: ReturnType<typeof coinsSelector>;
   links: ReturnType<typeof linksSelector>;
+  isDieRollValid: ReturnType<typeof isDieRollValidSelector>;
+  currentTurn: ReturnType<typeof currentTurnSelector>;
 }
 
 interface IDispatchProps {
@@ -42,6 +45,8 @@ const mapStateToProps = createStructuredSelector<any, IStateProps>({
   bases: basesSelector,
   cells: cellsSelector,
   coins: coinsSelector,
+  currentTurn: currentTurnSelector,
+  isDieRollValid: isDieRollValidSelector,
   links: linksSelector,
 });
 
@@ -104,7 +109,7 @@ class WalkwayBare extends React.PureComponent<IProps> {
             <Coin
               baseColor={coins[coinID].color}
               coinSize={cellConfiguration.coinIDs.length > 1 ? COIN_SIZE / 2 : COIN_SIZE}
-              onCoinClicked={() => this.props.moveCoin(coinID, position, cellID)}
+              onCoinClicked={() => this.onCoinClicked(coinID, position, cellID)}
               key={index}
             />
           ))
@@ -190,6 +195,14 @@ class WalkwayBare extends React.PureComponent<IProps> {
       (window as any).cellLinks = cellLinks;
     }
     document.addEventListener('click', onClick);
+  }
+
+  private onCoinClicked = (coinID: ICoin['coinID'], position: WalkwayPosition, cellID: ICell['cellID']) => {
+    const { coins, currentTurn } = this.props;
+    const coin = coins[coinID];
+    if (this.props.isDieRollValid && coin.baseID === currentTurn) {
+      this.props.moveCoin(coinID, position, cellID);
+    }
   }
 }
 

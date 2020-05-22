@@ -3,17 +3,38 @@ import { IState, Rolls } from './interfaces';
 
 const initialState: IState = {
   isDieRollAllowed: true,
+  isDieRollValid: false,
   roll: Rolls.ONE,
 };
 
 export const reducer = (state: IState = initialState, action: Actions): IState => {
   switch (action.type) {
-    case ActionTypes.ROLL_DIE_COMPLETE:
+    case ActionTypes.ROLL_DIE_COMPLETE: {
+      return {
+        ...state,
+        isDieRollAllowed: false,
+        isDieRollValid: true,
+        roll: action.data!.value,
+      };
+    }
+    case ActionTypes.ENABLE_DIE: {
       return {
         ...state,
         isDieRollAllowed: true,
-        roll: action.data!.value,
+      };
+    }
+    case ActionTypes.DISABLE_DIE: {
+      return {
+        ...state,
+        isDieRollAllowed: false,
+      };
+    }
+    case ActionTypes.MARK_DIE_ROLL: {
+      return {
+        ...state,
+        isDieRollValid: action.data!.valid,
       }
+    }
     default:
       return state;
   }

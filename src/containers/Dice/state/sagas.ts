@@ -9,7 +9,7 @@ import {
 import { markCurrentBase, nextTurn, ActionTypes as LudoActionTypes } from 'containers/Ludo/state/actions';
 import { basesSelector, currentTurnSelector } from 'containers/Ludo/state/selectors';
 
-import { rollDieComplete, ActionTypes } from './actions';
+import { enableDie, rollDieComplete, ActionTypes } from './actions';
 import { Rolls } from './interfaces';
 
 const mt = MersenneTwister19937.autoSeed();
@@ -45,6 +45,8 @@ function * rollDieCompleteSaga(action: ReturnType<typeof rollDieComplete>) {
   } else {
     yield put(nextTurn());
   }
+
+  yield put(enableDie());
 }
 
 export const sagas = [

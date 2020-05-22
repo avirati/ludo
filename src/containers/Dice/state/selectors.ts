@@ -15,3 +15,8 @@ export const isDieRollAllowedSelector = createSelector(
   [diceStateSelector],
   (state) => state.isDieRollAllowed,
 );
+
+export const isDieRollValidSelector = createSelector(
+  [diceStateSelector],
+  (state) => state.isDieRollValid,
+);

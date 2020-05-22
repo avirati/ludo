@@ -10,4 +10,5 @@ export enum Rolls {
 export interface IState {
   roll: Rolls;
   isDieRollAllowed: boolean;
+  isDieRollValid: boolean;
 }
