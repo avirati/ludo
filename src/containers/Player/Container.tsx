@@ -1,25 +1,40 @@
 import classnames from 'classnames';
 import React from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
+import { Coin } from 'containers/Base/components/Coin';
 import { Dice } from 'containers/Dice/Container';
-
 import { IBase } from 'containers/Ludo/state/interfaces';
+import { coinsSelector, basesSelector } from 'containers/Ludo/state/selectors';
 import { PlayerAvatar } from './components/PlayerAvatar';
 
 import styles from './Container.module.css';
-import { Coin } from 'containers/Base/components/Coin';
 
-interface IProps {
-  base: IBase;
+interface IPublicProps {
+  baseID: IBase['ID'];
   placement: 'top' | 'bottom';
   disabled: boolean;
 }
 
-export class Player extends React.PureComponent<IProps> {
+interface IStateProps {
+  bases: ReturnType<typeof basesSelector>;
+  coins: ReturnType<typeof coinsSelector>;
+}
+
+interface IProps extends IStateProps, IPublicProps {}
+
+const mapStateToProps = createStructuredSelector<any, IStateProps>({
+  bases: basesSelector,
+  coins: coinsSelector,
+});
+
+class PlayerBare extends React.PureComponent<IProps> {
   render() {
-    const { base, placement, disabled } = this.props;
+    const { baseID, bases, placement, disabled } = this.props;
     const placementClass = placement === 'top' ? styles.TopPlacement : styles.BottomPlacement;
     const disabledClass = disabled ? styles.Disabled : null;
+    const base = bases[baseID];
     return base
     ? (
       <div className={classnames(styles.Container, placementClass, disabledClass)}>
@@ -28,8 +43,8 @@ export class Player extends React.PureComponent<IProps> {
           !disabled && <Dice baseColor={base.color}/>
         }
         {
-          base.coins
-          .filter((coin) => coin.isRetired)
+          base.coinIDs
+          .filter((coinID) => this.props.coins[coinID].isRetired)
           .map((coin, index) => (
             <Coin
               baseColor={base.color}
@@ -43,3 +58,5 @@ export class Player extends React.PureComponent<IProps> {
     : null;
   }
 }
+
+export const Player = connect(mapStateToProps)(PlayerBare) as unknown as React.ComponentClass<IPublicProps>;

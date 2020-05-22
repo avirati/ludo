@@ -1,9 +1,11 @@
 import classnames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { spawnCoin } from 'containers/Ludo/state/actions';
 import { IBase, ICoin } from 'containers/Ludo/state/interfaces';
+import { basesSelector, coinsSelector } from 'containers/Ludo/state/selectors';
 import { getStyleObject } from 'containers/utils';
 import { BASE_SIZE, INNER_BASE_SIZE } from 'globalConstants';
 
@@ -12,30 +14,41 @@ import { CoinPlaceholder } from './components/CoinPlaceholder';
 import styles from './Container.module.css';
 
 interface IPublicProps {
-  base: IBase;
+  baseID: IBase['ID'];
+}
+
+interface IStateProps {
+  bases: ReturnType<typeof basesSelector>;
+  coins: ReturnType<typeof coinsSelector>;
 }
 
 interface IDispatchProps {
   spawnCoin: typeof spawnCoin;
 }
 
-interface IProps extends IPublicProps, IDispatchProps {}
+interface IProps extends IPublicProps, IDispatchProps, IStateProps {}
 
 const mapDispatchToProps = {
   spawnCoin,
-}
+};
+
+const mapStateToProps = createStructuredSelector<any, IStateProps>({
+  bases: basesSelector,
+  coins: coinsSelector,
+});
 
 class BaseBare extends React.PureComponent<IProps> {
   render() {
-    const { base } = this.props;
-
+    const { baseID, bases } = this.props;
+    const base = bases[baseID];
     const spawnableClass = base.spawnable ? styles.Spawnable : null;
 
     return (
       <div className={styles.OuterContainer} style={getStyleObject(BASE_SIZE, BASE_SIZE, base.color)}>
         <div className={classnames(styles.InnerContainer, spawnableClass)} style={getStyleObject(INNER_BASE_SIZE, INNER_BASE_SIZE)}>
           {
-            base.coins.map((coin, index) => {
+            base.coinIDs.map((coinID, index) => {
+              const coin = this.props.coins[coinID];
               return (
                 <CoinPlaceholder
                   key={index}
@@ -58,4 +71,4 @@ class BaseBare extends React.PureComponent<IProps> {
   }
 }
 
-export const Base = connect(null, mapDispatchToProps)(BaseBare) as unknown as React.ComponentClass<IPublicProps>;
+export const Base = connect(mapStateToProps, mapDispatchToProps)(BaseBare) as unknown as React.ComponentClass<IPublicProps>;

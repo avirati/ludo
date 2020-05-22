@@ -39,8 +39,8 @@ export const spawnCoinSuccess = (
   coinID: ICoin['coinID'],
   baseID: IBase['ID'],
   position: IWalkway['position'],
-): IReduxAction<ActionTypes.SPAWN_COIN_SUCCESS, { cellID: ICell['cellID'], coinID: ICoin['coinID'], baseID: IBase['ID'], position: IWalkway['position'] }> => ({
-  data: { cellID, coinID, baseID, position },
+): IReduxAction<ActionTypes.SPAWN_COIN_SUCCESS, { cellID: ICell['cellID'], coinID: ICoin['coinID'], position: IWalkway['position'] }> => ({
+  data: { cellID, coinID, position },
   type: ActionTypes.SPAWN_COIN_SUCCESS,
 });
 
@@ -73,8 +73,8 @@ export const moveCoinSuccess = (bonusChance: boolean): IReduxAction<ActionTypes.
   type: ActionTypes.MOVE_COIN_SUCCESS,
 });
 
-export const disqualifyCoin = (coinID: ICoin['coinID'], baseID: IBase['ID'], walkwayPosition: WalkwayPosition, cellID: ICell['cellID']): IReduxAction<ActionTypes.DISQUALIFY_COIN, { coinID: ICoin['coinID'], baseID: IBase['ID'], walkwayPosition: WalkwayPosition, cellID: ICell['cellID'] }> => ({
-  data: { coinID, baseID, walkwayPosition, cellID },
+export const disqualifyCoin = (coinID: ICoin['coinID'], walkwayPosition: WalkwayPosition, cellID: ICell['cellID']): IReduxAction<ActionTypes.DISQUALIFY_COIN, { coinID: ICoin['coinID'], walkwayPosition: WalkwayPosition, cellID: ICell['cellID'] }> => ({
+  data: { coinID, walkwayPosition, cellID },
   type: ActionTypes.DISQUALIFY_COIN,
 });
 

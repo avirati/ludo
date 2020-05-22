@@ -43,11 +43,11 @@ const mapStateToProps = createStructuredSelector<any, IStateProps>({
   currentTurn: currentTurnSelector,
   relationships: relationshipsSelector,
   walkways: walkwaysSelector,
-})
+});
 
 const mapDispatchToProps = {
   getInitialGameData,
-}
+};
 
 class LudoBare extends React.PureComponent<IProps> {
   componentDidMount() {
@@ -55,12 +55,12 @@ class LudoBare extends React.PureComponent<IProps> {
   }
 
   render() {
-    const { bases, currentTurn } = this.props;
+    const { currentTurn } = this.props;
     return (
       <div className={styles.Container}>
         <div className={styles.PlayerContainer}>
-          <Player base={bases[BaseID.BASE_1]} placement='top' disabled={currentTurn !== BaseID.BASE_1}/>
-          <Player base={bases[BaseID.BASE_3]} placement='bottom' disabled={currentTurn !== BaseID.BASE_3}/>
+          <Player baseID={BaseID.BASE_1} placement='top' disabled={currentTurn !== BaseID.BASE_1}/>
+          <Player baseID={BaseID.BASE_3} placement='bottom' disabled={currentTurn !== BaseID.BASE_3}/>
         </div>
         <div className={styles.Board} style={getStyleObject(BOARD_SIZE, BOARD_SIZE)}>
           {
@@ -68,8 +68,8 @@ class LudoBare extends React.PureComponent<IProps> {
           }
         </div>
         <div className={styles.PlayerContainer}>
-          <Player base={bases[BaseID.BASE_2]} placement='top' disabled={currentTurn !== BaseID.BASE_2}/>
-          <Player base={bases[BaseID.BASE_4]} placement='bottom' disabled={currentTurn !== BaseID.BASE_4}/>
+          <Player baseID={BaseID.BASE_2} placement='top' disabled={currentTurn !== BaseID.BASE_2}/>
+          <Player baseID={BaseID.BASE_4} placement='bottom' disabled={currentTurn !== BaseID.BASE_4}/>
         </div>
         {
           process.env.NODE_ENV === 'development'
@@ -92,7 +92,7 @@ class LudoBare extends React.PureComponent<IProps> {
       const walkway = walkways[relationship.ID];
       switch (relationship.type) {
         case BoardEntities.BASE:
-          return <Base base={base!} key={index}/>;
+          return <Base baseID={base.ID} key={index}/>;
         case BoardEntities.HOME:
           return <Home baseIDs={relationship.baseIDs} key={index}/>;
         case BoardEntities.WALKWAY:

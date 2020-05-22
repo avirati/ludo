@@ -16,7 +16,7 @@ export enum BaseID {
 }
 
 export interface IBase {
-  coins: ICoin[];
+  coinIDs: ICoin['coinID'][];
   color: BaseColors;
   ID: BaseID;
   nextTurn: BaseID;
@@ -70,6 +70,7 @@ export interface IState {
 
 export interface IServerGameData {
   bases: IBase[];
+  coins: ICoin[];
   walkways: IWalkway[];
   relationships: IRelationship[];
   cells: {

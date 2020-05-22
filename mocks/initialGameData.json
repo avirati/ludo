@@ -2,93 +2,130 @@
   "bases": [
     {
       "ID": "BASE_1",
-      "coins": [{
-        "coinID": "BASE_1_COIN_1",
-        "isRetired": false,
-        "isSpawned": false
-      }, {
-        "coinID": "BASE_1_COIN_2",
-        "isRetired": false,
-        "isSpawned": false
-      }, {
-        "coinID": "BASE_1_COIN_3",
-        "isRetired": false,
-        "isSpawned": false
-      }, {
-        "coinID": "BASE_1_COIN_4",
-        "isRetired": false,
-        "isSpawned": false
-      }],
+      "coinIDs": [
+        "BASE_1_COIN_1",
+        "BASE_1_COIN_2",
+        "BASE_1_COIN_3",
+        "BASE_1_COIN_4"
+      ],
       "color": "BLUE",
       "nextTurn": "BASE_2"
     },
     {
       "ID": "BASE_2",
-      "coins": [{
-        "coinID": "BASE_2_COIN_1",
-        "isRetired": false,
-        "isSpawned": false
-      }, {
-        "coinID": "BASE_2_COIN_2",
-        "isRetired": false,
-        "isSpawned": false
-      }, {
-        "coinID": "BASE_2_COIN_3",
-        "isRetired": false,
-        "isSpawned": false
-      }, {
-        "coinID": "BASE_2_COIN_4",
-        "isRetired": false,
-        "isSpawned": false
-      }],
+      "coinIDs": [
+        "BASE_2_COIN_1",
+        "BASE_2_COIN_2",
+        "BASE_2_COIN_3",
+        "BASE_2_COIN_4"
+      ],
       "color": "GREEN",
       "nextTurn": "BASE_4"
     },
     {
       "ID": "BASE_3",
-      "coins": [{
-        "coinID": "BASE_3_COIN_1",
-        "isRetired": false,
-        "isSpawned": false
-      }, {
-        "coinID": "BASE_3_COIN_2",
-        "isRetired": false,
-        "isSpawned": false
-      }, {
-        "coinID": "BASE_3_COIN_3",
-        "isRetired": false,
-        "isSpawned": false
-      }, {
-        "coinID": "BASE_3_COIN_4",
-        "isRetired": false,
-        "isSpawned": false
-      }],
+      "coinIDs": [
+        "BASE_3_COIN_1",
+        "BASE_3_COIN_2",
+        "BASE_3_COIN_3",
+        "BASE_3_COIN_4"
+      ],
       "color": "RED",
       "nextTurn": "BASE_1"
     },
     {
       "ID": "BASE_4",
-      "coins": [{
-        "coinID": "BASE_4_COIN_1",
-        "isRetired": false,
-        "isSpawned": false
-      }, {
-        "coinID": "BASE_4_COIN_2",
-        "isRetired": false,
-        "isSpawned": false
-      }, {
-        "coinID": "BASE_4_COIN_3",
-        "isRetired": false,
-        "isSpawned": false
-      }, {
-        "coinID": "BASE_4_COIN_4",
-        "isRetired": false,
-        "isSpawned": false
-      }],
+      "coinIDs": [
+        "BASE_4_COIN_1",
+        "BASE_4_COIN_2",
+        "BASE_4_COIN_3",
+        "BASE_4_COIN_4"
+      ],
       "color": "YELLOW",
       "nextTurn": "BASE_3"
     }
   ],
+  "coins": [{
+    "coinID": "BASE_1_COIN_1",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_1"
+  }, {
+    "coinID": "BASE_1_COIN_2",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_1"
+  }, {
+    "coinID": "BASE_1_COIN_3",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_1"
+  }, {
+    "coinID": "BASE_1_COIN_4",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_1"
+  }, {
+    "coinID": "BASE_2_COIN_1",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_2"
+  }, {
+    "coinID": "BASE_2_COIN_2",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_2"
+  }, {
+    "coinID": "BASE_2_COIN_3",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_2"
+  }, {
+    "coinID": "BASE_2_COIN_4",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_2"
+  }, {
+    "coinID": "BASE_3_COIN_1",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_3"
+  }, {
+    "coinID": "BASE_3_COIN_2",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_3"
+  }, {
+    "coinID": "BASE_3_COIN_3",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_3"
+  }, {
+    "coinID": "BASE_3_COIN_4",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_3"
+  }, {
+    "coinID": "BASE_4_COIN_1",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_4"
+  }, {
+    "coinID": "BASE_4_COIN_2",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_4"
+  }, {
+    "coinID": "BASE_4_COIN_3",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_4"
+  }, {
+    "coinID": "BASE_4_COIN_4",
+    "isRetired": false,
+    "isSpawned": false,
+    "baseID": "BASE_4"
+  }],
   "walkways": [
     {
       "ID": "WALKWAY_1",

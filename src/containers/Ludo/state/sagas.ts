@@ -47,10 +47,11 @@ function * watchForGetInitialGameData() {
 
 function * getInitialGameDataSaga() {
   const data: IServerGameData = yield call(api.get, { url: 'http://localhost:8080/initialGameData.json' });
-  const coins = data.bases.reduce((result, current) => result.concat(current.coins.map((coin) => ({ ...coin, color: current.color, baseID: current.ID }))), [] as ICoin[]);
-  const bases = data.bases.map((base) => ({ ...base, spawnable: false }));
+  const basesArray = data.bases.map((base) => ({ ...base, spawnable: false }));
+  const bases = mapByProperty(basesArray, 'ID');
+  const coins = data.coins.map((coin) => ({ ...coin, color: bases[coin.baseID].color }));
   const gameData: IState = {
-    bases: mapByProperty(bases, 'ID'),
+    bases,
     cells: data.cells,
     coins: mapByProperty(coins, 'coinID'),
     currentTurn: BaseID.BASE_3,
@@ -74,9 +75,9 @@ function * spawnCoinSaga(action: ReturnType<typeof spawnCoin>) {
   const walkway = Object.values(walkways).find((walkway) => walkway.baseID === baseID)!;
   const walkwayCells = cells[walkway.position];
   const spawnCellForCoin = Object.values(walkwayCells).find((cell) => cell.cellType === CellType.SPAWN)!;
-  const coin = base.coins.find((coin) => coin.coinID === coinID)!;
+  const coinIDToSpawn = base.coinIDs.find((ID) => ID === coinID)!;
 
-  yield put(spawnCoinSuccess(spawnCellForCoin.cellID, coin.coinID, baseID, walkway.position));
+  yield put(spawnCoinSuccess(spawnCellForCoin.cellID, coinIDToSpawn, baseID, walkway.position));
   yield put(markDieRoll(false));
 }
 
@@ -180,7 +181,7 @@ function * performDisqualificationCheck(activeCoinID: ICoin['coinID'], walkwayPo
     for (const coinID of cellInWhichCoinLanded.coinIDs) {
       const coin = coins[coinID];
       if (activeCoin.baseID !== coin.baseID) {
-        yield put(disqualifyCoin(coinID, coin.baseID, walkwayPosition, cellID));
+        yield put(disqualifyCoin(coinID, walkwayPosition, cellID));
         return true;
       }
     }

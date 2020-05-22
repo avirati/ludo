@@ -7,7 +7,7 @@ import {
 } from 'redux-saga/effects';
 
 import { markCurrentBase, moveCoinSuccess, nextTurn, ActionTypes as LudoActionTypes } from 'containers/Ludo/state/actions';
-import { basesSelector, currentTurnSelector } from 'containers/Ludo/state/selectors';
+import { basesSelector, currentTurnSelector, coinsSelector } from 'containers/Ludo/state/selectors';
 
 import { enableDie, markDieRoll, rollDieComplete, ActionTypes } from './actions';
 import { Rolls } from './interfaces';
@@ -31,8 +31,9 @@ function * rollDieCompleteSaga(action: ReturnType<typeof rollDieComplete>) {
   const { value } = action.data!;
   const currentTurn: ReturnType<typeof currentTurnSelector> = yield select(currentTurnSelector);
   const bases: ReturnType<typeof basesSelector> = yield select(basesSelector);
+  const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
   const currentTurnBase = bases[currentTurn];
-  const isAnyCoinSpawned = Boolean(currentTurnBase.coins.find((coin) => coin.isSpawned));
+  const isAnyCoinSpawned = Boolean(currentTurnBase.coinIDs.find((coinID) => coins[coinID].isSpawned));
   if (value === Rolls.SIX) {
     yield put(markCurrentBase(true));
     // Wait for spawn coin or move coin
