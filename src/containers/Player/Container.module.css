@@ -1,0 +1,13 @@
+.Container {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-evenly;
+}
+
+.TopPlacement {
+  flex-direction: column;
+}
+
+.BottomPlacement {
+  flex-direction: column-reverse;
+}

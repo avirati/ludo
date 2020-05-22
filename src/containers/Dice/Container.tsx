@@ -6,10 +6,10 @@ import { createStructuredSelector } from 'reselect';
 
 import { getStyleObject } from 'containers/utils';
 import { DICE_SIZE } from 'globalConstants';
+import { BaseColors } from 'state/interfaces';
 
 import { rollDie } from './state/actions';
 import { CONFIGURATIONS } from './state/constants';
-import { Rolls } from './state/interfaces';
 import { currentDieRollSelector, isDieRollAllowedSelector } from './state/selectors';
 
 import styles from './Container.module.css';
@@ -23,7 +23,11 @@ interface IDispatchProps {
   rollDie: typeof rollDie,
 }
 
-interface IProps extends IStateProps, IDispatchProps {}
+interface IPublicProps {
+  baseColor: BaseColors;
+}
+
+interface IProps extends IStateProps, IDispatchProps, IPublicProps {}
 
 const mapStateToProps = createStructuredSelector<any, IStateProps>({
   currentDieRoll: currentDieRollSelector,
@@ -35,13 +39,12 @@ const mapDispatchToProps = {
 }
 
 class DiceBare extends React.PureComponent<IProps> {
-  state = { currentRoll: Rolls.SIX }
-
   render() {
+    const { baseColor } = this.props;
     const dieClassNames = this.props.isDieRollAllowed ? styles.Die : [styles.Die, styles.Disabled];
     return (
       <div className={styles.Container}>
-        <div className={classnames(dieClassNames)} style={getStyleObject(DICE_SIZE, DICE_SIZE)} onClick={() => this.props.rollDie()}>
+        <div className={classnames(dieClassNames)} style={getStyleObject(DICE_SIZE, DICE_SIZE, baseColor)} onClick={() => this.props.rollDie()}>
           {
             this.renderDots()
           }
@@ -66,4 +69,4 @@ class DiceBare extends React.PureComponent<IProps> {
   }
 }
 
-export const Dice = connect(mapStateToProps, mapDispatchToProps)(DiceBare) as unknown as React.ComponentClass<{}>;
+export const Dice = connect(mapStateToProps, mapDispatchToProps)(DiceBare) as unknown as React.ComponentClass<IPublicProps>;

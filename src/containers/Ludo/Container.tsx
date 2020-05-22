@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { Base } from 'containers/Base/Container';
-import { Dice } from 'containers/Dice/Container';
 import { Home } from 'containers/Home/Container';
 import { Walkway } from 'containers/Walkway/Container';
 import { getStyleObject } from 'containers/utils';
@@ -19,6 +18,8 @@ import {
 } from './state/selectors';
 
 import styles from './Container.module.css';
+import { Player } from 'containers/Player/Container';
+import { BaseColors } from 'state/interfaces';
 
 interface IDispatchProps {
   getInitialGameData: typeof getInitialGameData;
@@ -53,12 +54,25 @@ class LudoBare extends React.PureComponent<IProps> {
 
   render() {
     return (
-      <div className={styles.Container} style={getStyleObject(BOARD_SIZE, BOARD_SIZE)}>
+      <div className={styles.Container}>
+        <div className={styles.PlayerContainer}>
+          <Player baseColor={BaseColors.BLUE} placement='top'/>
+          <Player baseColor={BaseColors.RED} placement='bottom'/>
+        </div>
+        <div className={styles.Board} style={getStyleObject(BOARD_SIZE, BOARD_SIZE)}>
+          {
+            this.renderBoardEntities()
+          }
+        </div>
+        <div className={styles.PlayerContainer}>
+          <Player baseColor={BaseColors.GREEN} placement='top'/>
+          <Player baseColor={BaseColors.YELLOW} placement='bottom'/>
+        </div>
         {
-          this.renderBoardEntities()
+          process.env.NODE_ENV === 'development'
+          ? <ContextMenu />
+          : null
         }
-        <ContextMenu />
-        <Dice />
       </div>
     );
   }

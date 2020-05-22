@@ -1,5 +1,18 @@
 .Container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.Board {
   border: 1px solid #CCCCCC;
   display: flex;
   flex-wrap: wrap;
+}
+
+.PlayerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
