@@ -6,10 +6,10 @@ import {
   takeLatest,
 } from 'redux-saga/effects';
 
-import { markCurrentBase, nextTurn, ActionTypes as LudoActionTypes } from 'containers/Ludo/state/actions';
+import { markCurrentBase, moveCoinSuccess, nextTurn, ActionTypes as LudoActionTypes } from 'containers/Ludo/state/actions';
 import { basesSelector, currentTurnSelector } from 'containers/Ludo/state/selectors';
 
-import { enableDie, rollDieComplete, ActionTypes } from './actions';
+import { enableDie, markDieRoll, rollDieComplete, ActionTypes } from './actions';
 import { Rolls } from './interfaces';
 
 const mt = MersenneTwister19937.autoSeed();
@@ -40,9 +40,12 @@ function * rollDieCompleteSaga(action: ReturnType<typeof rollDieComplete>) {
 
     yield put(markCurrentBase(false));
   } else if (isAnyCoinSpawned) {
-    yield take([LudoActionTypes.MOVE_COIN_SUCCESS]);
-    yield put(nextTurn());
+    const result: ReturnType<typeof moveCoinSuccess> = yield take(LudoActionTypes.MOVE_COIN_SUCCESS);
+    if (!result.data!.bonusChance) {
+      yield put(nextTurn());
+    }
   } else {
+    yield put(markDieRoll(false));
     yield put(nextTurn());
   }
 

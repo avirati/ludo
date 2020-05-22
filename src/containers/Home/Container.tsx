@@ -2,7 +2,7 @@ import React from 'react';
 
 import { IRelationship } from 'containers/Ludo/state/interfaces';
 import { basesSelector } from 'containers/Ludo/state/selectors';
-import { getStyleObject, getBaseHexColor } from 'containers/utils';
+import { getBaseHexColor, getStyleObject } from 'containers/utils';
 import { CELL_DIMENSION, HOME_SIZE } from 'globalConstants';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -11,18 +11,18 @@ import { BaseColors } from 'state/interfaces';
 import styles from './Container.module.css';
 
 interface IStateProps {
-  bases: ReturnType<typeof basesSelector>
+  bases: ReturnType<typeof basesSelector>;
 }
 
 interface IPublicProps {
-  baseIDs: IRelationship['baseIDs']
+  baseIDs: IRelationship['baseIDs'];
 }
 
 interface IProps extends IStateProps, IPublicProps {}
 
 const mapStateToProps = createStructuredSelector<any, IStateProps>({
   bases: basesSelector,
-})
+});
 
 class HomeBare extends React.PureComponent<IProps> {
   render() {
@@ -52,7 +52,7 @@ class HomeBare extends React.PureComponent<IProps> {
     const cssProperties = {
       borderColor: `${colorHex} transparent transparent transparent`,
       borderWidth: `${size / 2}px ${size / 2}px 0 ${size / 2}px`,
-    }
+    };
 
     switch (index) {
       case 0:
@@ -76,7 +76,7 @@ class HomeBare extends React.PureComponent<IProps> {
           right: `${size / 4}px`,
           top: `${size / 4}px`,
           transform: 'rotate(-90deg)',
-        }
+        };
       default:
         return {};
     }

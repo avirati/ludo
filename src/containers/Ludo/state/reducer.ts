@@ -116,9 +116,83 @@ export const reducer = (state: IState = initialState, action: Actions): IState =
             spawnable: action.data!.spawnable,
           },
         },
-      }
+      };
+    }
+    case ActionTypes.DISQUALIFY_COIN: {
+      const { baseID, coinID, walkwayPosition, cellID } = action.data!;
+      const coins = [...state.bases[baseID].coins];
+      const coinIndexToUpdate = coins.findIndex((coin) => coin.coinID === coinID);
+      coins[coinIndexToUpdate].isSpawned = false;
+
+      const coinIDsInCell = [...state.cells[walkwayPosition][cellID].coinIDs];
+      const coinIndexToDelete = coinIDsInCell.findIndex((coinIDInCell) => coinIDInCell === coinID);
+      coinIDsInCell.splice(coinIndexToDelete, 1);
+      return {
+        ...state,
+        bases: {
+          ...state.bases,
+          [baseID]: {
+            ...state.bases[baseID],
+            coins,
+          },
+        },
+        cells: {
+          ...state.cells,
+          [walkwayPosition]: {
+            ...state.cells[walkwayPosition],
+            [cellID]: {
+              ...state.cells[walkwayPosition][cellID],
+              coinIDs: coinIDsInCell,
+            },
+          },
+        },
+        coins: {
+          ...state.coins,
+          [coinID]: {
+            ...state.coins[coinID],
+            isSpawned: false,
+          },
+        },
+      };
+    }
+    case ActionTypes.HOME_COIN: {
+      const { cellID, coinID, walkwayPosition } = action.data!;
+      const baseID = state.coins[coinID].baseID;
+      const coins = [...state.bases[baseID].coins];
+      const coinToRetireIndex = coins.findIndex((coin) => coin.coinID === coinID);
+      coins[coinToRetireIndex].isRetired = true;
+      const coinIDs = [...state.cells[walkwayPosition][cellID].coinIDs];
+      const coinIDToRemoveIndex = coinIDs.findIndex((ID) => ID === coinID);
+      coinIDs.splice(coinIDToRemoveIndex, 1);
+      return {
+        ...state,
+        bases: {
+          ...state.bases,
+          [baseID]: {
+            ...state.bases[baseID],
+            coins,
+          },
+        },
+        cells: {
+          ...state.cells,
+          [walkwayPosition]: {
+            ...state.cells[walkwayPosition],
+            [cellID]: {
+              ...state.cells[walkwayPosition][cellID],
+              coinIDs,
+            },
+          },
+        },
+        coins: {
+          ...state.coins,
+          [coinID]: {
+            ...state.coins[coinID],
+            isRetired: true,
+          },
+        },
+      };
     }
     default:
       return state;
   }
-}
+};

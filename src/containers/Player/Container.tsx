@@ -7,6 +7,7 @@ import { IBase } from 'containers/Ludo/state/interfaces';
 import { PlayerAvatar } from './components/PlayerAvatar';
 
 import styles from './Container.module.css';
+import { Coin } from 'containers/Base/components/Coin';
 
 interface IProps {
   base: IBase;
@@ -26,8 +27,19 @@ export class Player extends React.PureComponent<IProps> {
         {
           !disabled && <Dice baseColor={base.color}/>
         }
+        {
+          base.coins
+          .filter((coin) => coin.isRetired)
+          .map((coin, index) => (
+            <Coin
+              baseColor={base.color}
+              onCoinClicked={() => null}
+              key={index}
+            />
+          ))
+        }
       </div>
     )
-    : null
+    : null;
   }
 }

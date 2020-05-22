@@ -76,6 +76,18 @@ export interface IServerGameData {
     [walkwayPosition: string]: {
       [cellID: string]: ICell;
     };
-  },
+  };
   links: { [cellID: string]: Pick<ICell, 'position' | 'cellID'>[] };
+}
+
+export interface IPathway {
+  from: {
+    cellID: ICell['cellID'];
+    walkwayPosition: WalkwayPosition;
+  };
+  to: {
+    cellID: ICell['cellID'];
+    walkwayPosition: WalkwayPosition;
+  };
+  coinID: ICoin['coinID'];
 }

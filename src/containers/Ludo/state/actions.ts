@@ -1,6 +1,6 @@
 import { IReduxAction, WalkwayPosition } from 'state/interfaces';
 
-import { IState, IBase, ICoin, ICell, IWalkway } from './interfaces';
+import { IBase, ICell, ICoin, IState, IWalkway } from './interfaces';
 
 export enum ActionTypes {
   GET_INITIAL_GAME_DATA = 'ludo/GET_INITIAL_GAME_DATA',
@@ -12,6 +12,8 @@ export enum ActionTypes {
   MOVE_COIN_SUCCESS = 'ludo/MOVE_COIN_SUCCESS',
   LIFT_COIN = 'ludo/LIFT_COIN',
   PLACE_COIN = 'ludo/PLACE_COIN',
+  DISQUALIFY_COIN = 'ludo/DISQUALIFY_COIN',
+  HOME_COIN = 'ludo/HOME_COIN',
 
   NEXT_TURN = 'ludo/NEXT_TURN',
 
@@ -66,9 +68,20 @@ export const markCurrentBase = (spawnable: boolean): IReduxAction<ActionTypes.MA
   type: ActionTypes.MARK_CURRENT_BASE,
 });
 
-export const moveCoinSuccess = (): IReduxAction<ActionTypes.MOVE_COIN_SUCCESS, void> => ({
+export const moveCoinSuccess = (bonusChance: boolean): IReduxAction<ActionTypes.MOVE_COIN_SUCCESS, { bonusChance: boolean }> => ({
+  data: { bonusChance },
   type: ActionTypes.MOVE_COIN_SUCCESS,
-})
+});
+
+export const disqualifyCoin = (coinID: ICoin['coinID'], baseID: IBase['ID'], walkwayPosition: WalkwayPosition, cellID: ICell['cellID']): IReduxAction<ActionTypes.DISQUALIFY_COIN, { coinID: ICoin['coinID'], baseID: IBase['ID'], walkwayPosition: WalkwayPosition, cellID: ICell['cellID'] }> => ({
+  data: { coinID, baseID, walkwayPosition, cellID },
+  type: ActionTypes.DISQUALIFY_COIN,
+});
+
+export const homeCoin = (cellID: ICell['cellID'], coinID: ICoin['coinID'], walkwayPosition: WalkwayPosition): IReduxAction<ActionTypes.HOME_COIN, { coinID: ICoin['coinID']; walkwayPosition: WalkwayPosition; cellID: ICell['cellID']; }> => ({
+  data: { cellID, coinID, walkwayPosition },
+  type: ActionTypes.HOME_COIN,
+});
 
 export type Actions =
   | ReturnType<typeof getInitialGameDataSuccess>
@@ -80,4 +93,6 @@ export type Actions =
   | ReturnType<typeof nextTurn>
   | ReturnType<typeof markCurrentBase>
   | ReturnType<typeof moveCoinSuccess>
+  | ReturnType<typeof disqualifyCoin>
+  | ReturnType<typeof homeCoin>
   ;
