@@ -11,6 +11,7 @@ import {
   moveCoinFailure,
   moveCoinSuccess,
   nextTurn,
+  spawnCoin,
   ActionTypes as LudoActionTypes,
 } from 'containers/Ludo/state/actions';
 import { basesSelector, coinsSelector, currentTurnSelector } from 'containers/Ludo/state/selectors';
@@ -39,15 +40,18 @@ function * rollDieCompleteSaga(action: ReturnType<typeof rollDieComplete>) {
   const bases: ReturnType<typeof basesSelector> = yield select(basesSelector);
   const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
   const currentTurnBase = bases[currentTurn];
-  const isAnyCoinSpawned = Boolean(currentTurnBase.coinIDs.find((coinID) => coins[coinID].isSpawned));
+  const spawnedCoinIDs = currentTurnBase.coinIDs.filter((coinID) => coins[coinID].isSpawned);
   if (value === Rolls.SIX) {
-    yield put(markCurrentBase(true));
-    // Wait for spawn coin or move coin
-    yield take([LudoActionTypes.SPAWN_COIN_SUCCESS, LudoActionTypes.MOVE_COIN_SUCCESS]);
-
-    yield put(markCurrentBase(false));
+    if (spawnedCoinIDs.length === 0) {
+      yield put(spawnCoin(currentTurnBase.ID, bases[currentTurnBase.ID].coinIDs[0]));
+      yield take([LudoActionTypes.SPAWN_COIN_SUCCESS, LudoActionTypes.MOVE_COIN_SUCCESS]);
+    } else {
+      yield put(markCurrentBase(true));
+      yield take([LudoActionTypes.SPAWN_COIN_SUCCESS, LudoActionTypes.MOVE_COIN_SUCCESS]);
+      yield put(markCurrentBase(false));
+    }
     yield put(enableDie());
-  } else if (isAnyCoinSpawned) {
+  } else if (spawnedCoinIDs.length > 0) {
     const result: ReturnType<typeof moveCoinSuccess | typeof moveCoinFailure> = yield take([
       LudoActionTypes.MOVE_COIN_SUCCESS,
       LudoActionTypes.MOVE_COIN_FAILURE,

@@ -8,8 +8,10 @@ import {
 
 import { api } from 'common/http';
 import { mapByProperty } from 'common/utils';
-import { invalidateDieRoll } from 'containers/Dice/state/actions';
+import { enableDie, invalidateDieRoll } from 'containers/Dice/state/actions';
+import { Rolls } from 'containers/Dice/state/interfaces';
 import { currentDieRollSelector } from 'containers/Dice/state/selectors';
+import { WINNING_MOVES } from 'globalConstants';
 import { WalkwayPosition } from 'state/interfaces';
 
 import {
@@ -17,12 +19,13 @@ import {
   getInitialGameDataSuccess,
   liftCoin,
   moveCoin,
+  moveCoinFailure,
   moveCoinSuccess,
+  nextTurn,
   placeCoin,
   spawnCoin,
   spawnCoinSuccess,
   ActionTypes,
-  moveCoinFailure,
 } from './actions';
 import {
   BaseID,
@@ -36,11 +39,10 @@ import {
   basesSelector,
   cellsSelector,
   coinsSelector,
+  currentTurnSelector,
   linksSelector,
   walkwaysSelector,
 } from './selectors';
-import { Rolls } from 'containers/Dice/state/interfaces';
-import { WINNING_MOVES } from 'globalConstants';
 
 function * watchForGetInitialGameData() {
   yield takeLatest(ActionTypes.GET_INITIAL_GAME_DATA, getInitialGameDataSaga);
@@ -86,10 +88,24 @@ function * watchForMoveCoin() {
   yield takeLatest(ActionTypes.MOVE_COIN, moveCoinSaga);
 }
 
-function * isMoveValid(coinID: ICoin['coinID'], stepsToTake: Rolls) {
+function * isCurrentMoveValid(coinID: ICoin['coinID'], stepsToTake: Rolls) {
   const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
   const coin = coins[coinID];
   return coin.steps + stepsToTake <= WINNING_MOVES;
+}
+
+function * isAnyMoveValid(stepsToTake: Rolls) {
+  const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
+  const currentTurnBase: ReturnType<typeof currentTurnSelector> = yield select(currentTurnSelector);
+  const bases: ReturnType<typeof basesSelector> = yield select(basesSelector);
+  const movableCoin =
+    bases[currentTurnBase].coinIDs
+    .find((coinID) =>
+      coins[coinID].isSpawned
+      && !coins[coinID].isRetired
+      && coins[coinID].steps + stepsToTake <= WINNING_MOVES,
+    );
+  return Boolean(movableCoin);
 }
 
 function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
@@ -97,9 +113,15 @@ function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
   const { coinID } = action.data!;
   const currentDieRoll: ReturnType<typeof currentDieRollSelector> = yield select(currentDieRollSelector);
 
-  const isMovePossible: boolean = yield call(isMoveValid, coinID, currentDieRoll);
+  const isAnyMovePossible: boolean = yield call(isAnyMoveValid, currentDieRoll);
+  const isCurrentMovePossible: boolean = yield call(isCurrentMoveValid, coinID, currentDieRoll);
 
-  if (!isMovePossible) {
+  if (!isAnyMovePossible) {
+    yield put(moveCoinFailure());
+    yield put(nextTurn());
+    yield put(enableDie());
+    return;
+  } else if (!isCurrentMovePossible) {
     yield put(moveCoinFailure());
     return;
   }
