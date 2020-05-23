@@ -33,7 +33,7 @@ export const reducer = (state: IState = initialState, action: Actions): IState =
       return {
         ...state,
         isDieRollValid: false,
-      }
+      };
     }
     default:
       return state;

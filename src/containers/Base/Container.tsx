@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
+import { isDieRollValidSelector } from 'containers/Dice/state/selectors';
 import { spawnCoin } from 'containers/Ludo/state/actions';
 import { IBase, ICoin } from 'containers/Ludo/state/interfaces';
 import { basesSelector, coinsSelector } from 'containers/Ludo/state/selectors';
@@ -22,6 +23,7 @@ interface IPublicProps {
 interface IStateProps {
   bases: ReturnType<typeof basesSelector>;
   coins: ReturnType<typeof coinsSelector>;
+  isDieRollValid: ReturnType<typeof isDieRollValidSelector>;
 }
 
 interface IDispatchProps {
@@ -37,6 +39,7 @@ const mapDispatchToProps = {
 const mapStateToProps = createStructuredSelector<any, IStateProps>({
   bases: basesSelector,
   coins: coinsSelector,
+  isDieRollValid: isDieRollValidSelector,
 });
 
 class BaseBare extends React.PureComponent<IProps> {
@@ -67,7 +70,7 @@ class BaseBare extends React.PureComponent<IProps> {
   }
 
   private onCoinClicked = (base: IBase, coin: ICoin) => {
-    if (base.spawnable) {
+    if (base.spawnable && this.props.isDieRollValid) {
       this.props.spawnCoin(base.ID, coin.coinID);
     }
   }

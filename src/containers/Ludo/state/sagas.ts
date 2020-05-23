@@ -130,6 +130,8 @@ function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
     return;
   }
 
+  yield put(invalidateDieRoll());
+
   let bonusChanceForHomeCoin = false;
 
   for (let i = 0; i < currentDieRoll; i++) {
@@ -168,7 +170,6 @@ function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
   ;
 
   yield put(moveCoinSuccess(bonusChance, coinID, currentDieRoll));
-  yield put(invalidateDieRoll());
 
   if (!bonusChance) {
     yield put(nextTurn());
