@@ -94,7 +94,7 @@ function * isCurrentMoveValid(coinID: ICoin['coinID'], stepsToTake: Rolls) {
   return coin.steps + stepsToTake <= WINNING_MOVES;
 }
 
-function * isAnyMoveValid(stepsToTake: Rolls) {
+export function * isAnyMoveValid(stepsToTake: Rolls) {
   const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
   const currentTurnBase: ReturnType<typeof currentTurnSelector> = yield select(currentTurnSelector);
   const bases: ReturnType<typeof basesSelector> = yield select(basesSelector);
@@ -151,9 +151,16 @@ function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
     walkwayPosition = nextCell.position;
   }
 
-  const bonusChance = yield call(performDisqualificationCheck, action.data!.coinID, walkwayPosition, cellID);
+  const bonusChanceForDisqualification = yield call(performDisqualificationCheck, action.data!.coinID, walkwayPosition, cellID);
+  const bonusChanceForRollingSix = currentDieRoll === Rolls.SIX;
+  const bonusChance = (bonusChanceForDisqualification || bonusChanceForRollingSix);
   yield put(moveCoinSuccess(bonusChance, coinID, currentDieRoll));
   yield put(invalidateDieRoll());
+
+  if (!bonusChance) {
+    yield put(nextTurn());
+  }
+  yield put(enableDie());
 }
 
 function * performDisqualificationCheck(activeCoinID: ICoin['coinID'], walkwayPosition: WalkwayPosition, cellID: ICell['cellID']) {
