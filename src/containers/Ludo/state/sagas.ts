@@ -16,6 +16,7 @@ import { WalkwayPosition } from 'state/interfaces';
 
 import {
   disqualifyCoin,
+  enableBase,
   getInitialGameDataSuccess,
   homeCoin,
   liftCoin,
@@ -23,11 +24,12 @@ import {
   moveCoinFailure,
   moveCoinSuccess,
   nextTurn,
+  passTurnTo,
   placeCoin,
+  setPlayers,
   spawnCoin,
   spawnCoinSuccess,
   ActionTypes,
-  passTurnTo,
 } from './actions';
 import {
   BaseID,
@@ -220,9 +222,37 @@ function * nextTurnSaga() {
   yield put(passTurnTo(nextTurn));
 }
 
+function * watchForSetPlayers() {
+  yield takeLatest(ActionTypes.SET_PLAYERS, setPlayersSaga);
+}
+
+function * setPlayersSaga(action: ReturnType<typeof setPlayers>) {
+  const { playerCount } = action.data!;
+  switch (playerCount) {
+    case 2:
+      yield put(enableBase(BaseID.BASE_2));
+      yield put(enableBase(BaseID.BASE_3));
+      break;
+    case 3:
+      yield put(enableBase(BaseID.BASE_2));
+      yield put(enableBase(BaseID.BASE_3));
+      yield put(enableBase(BaseID.BASE_4));
+      break;
+    case 4:
+      yield put(enableBase(BaseID.BASE_1));
+      yield put(enableBase(BaseID.BASE_2));
+      yield put(enableBase(BaseID.BASE_3));
+      yield put(enableBase(BaseID.BASE_4));
+      break;
+    default:
+      return;
+  }
+}
+
 export const sagas = [
   watchForGetInitialGameData,
   watchForSpawnCoin,
   watchForMoveCoin,
   watchForNextTurn,
+  watchForSetPlayers,
 ];

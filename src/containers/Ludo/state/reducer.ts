@@ -182,6 +182,19 @@ export const reducer = (state: IState = initialState, action: Actions): IState =
         },
       };
     }
+    case ActionTypes.ENABLE_BASE: {
+      const { baseID } = action.data!;
+      return {
+        ...state,
+        bases: {
+          ...state.bases,
+          [baseID]: {
+            ...state.bases[baseID],
+            enabled: true,
+          },
+        },
+      };
+    }
     default:
       return state;
   }

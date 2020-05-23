@@ -1,5 +1,12 @@
 .Container {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.GameContainer {
+  display: flex;
   flex-wrap: wrap;
   align-items: stretch;
   justify-content: center;
@@ -15,4 +22,19 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.GameConfiguration {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 20px;
+}
+
+.Button {
+  font-size: 20px;
+  padding: 10px;
+  color: #555;
+  font-family: Arial;
 }

@@ -10,7 +10,7 @@
       ],
       "color": "BLUE",
       "nextTurn": "BASE_2",
-      "enabled": true,
+      "enabled": false,
       "hasWon": false
     },
     {
@@ -23,7 +23,7 @@
       ],
       "color": "GREEN",
       "nextTurn": "BASE_4",
-      "enabled": true,
+      "enabled": false,
       "hasWon": false
     },
     {
@@ -36,7 +36,7 @@
       ],
       "color": "RED",
       "nextTurn": "BASE_1",
-      "enabled": true,
+      "enabled": false,
       "hasWon": false
     },
     {
@@ -49,7 +49,7 @@
       ],
       "color": "YELLOW",
       "nextTurn": "BASE_3",
-      "enabled": true,
+      "enabled": false,
       "hasWon": false
     }
   ],

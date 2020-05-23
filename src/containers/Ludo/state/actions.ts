@@ -1,7 +1,7 @@
 import { Rolls } from 'containers/Dice/state/interfaces';
 import { IReduxAction, WalkwayPosition } from 'state/interfaces';
 
-import { IBase, ICell, ICoin, IState, IWalkway } from './interfaces';
+import { IBase, ICell, ICoin, IState, IWalkway, BaseID } from './interfaces';
 
 export enum ActionTypes {
   GET_INITIAL_GAME_DATA = 'ludo/GET_INITIAL_GAME_DATA',
@@ -21,6 +21,9 @@ export enum ActionTypes {
   PASS_TURN_TO = 'ludo/PASS_TURN_TO',
 
   MARK_CURRENT_BASE = 'ludo/MARK_CURRENT_BASE',
+
+  SET_PLAYERS = 'ludo/SET_PLAYERS',
+  ENABLE_BASE = 'ludo/ENABLE_BASE',
 }
 
 export const getInitialGameData = (): IReduxAction<ActionTypes.GET_INITIAL_GAME_DATA, void> => ({
@@ -95,6 +98,16 @@ export const homeCoin = (coinID: ICoin['coinID']): IReduxAction<ActionTypes.HOME
   type: ActionTypes.HOME_COIN,
 });
 
+export const setPlayers = (playerCount: number): IReduxAction<ActionTypes.SET_PLAYERS, { playerCount: number }> => ({
+  data: { playerCount },
+  type: ActionTypes.SET_PLAYERS,
+});
+
+export const enableBase = (baseID: BaseID): IReduxAction<ActionTypes.ENABLE_BASE, { baseID: BaseID }> => ({
+  data: { baseID },
+  type: ActionTypes.ENABLE_BASE,
+});
+
 export type Actions =
   | ReturnType<typeof getInitialGameDataSuccess>
   | ReturnType<typeof spawnCoin>
@@ -108,4 +121,6 @@ export type Actions =
   | ReturnType<typeof moveCoinSuccess>
   | ReturnType<typeof disqualifyCoin>
   | ReturnType<typeof homeCoin>
+  | ReturnType<typeof setPlayers>
+  | ReturnType<typeof enableBase>
   ;

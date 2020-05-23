@@ -10,7 +10,7 @@ import { getStyleObject } from 'containers/utils';
 import { BOARD_SIZE } from 'globalConstants';
 import { ContextMenu } from 'services/contextMenu/Container';
 
-import { getInitialGameData } from './state/actions';
+import { getInitialGameData, setPlayers } from './state/actions';
 import { BaseID, BoardEntities } from './state/interfaces';
 import {
   basesSelector,
@@ -23,6 +23,7 @@ import styles from './Container.module.css';
 
 interface IDispatchProps {
   getInitialGameData: typeof getInitialGameData;
+  setPlayers: typeof setPlayers;
 }
 
 interface IStateProps {
@@ -38,6 +39,10 @@ interface IPublicProps {
 
 interface IProps extends IPublicProps, IStateProps, IDispatchProps {}
 
+interface IState {
+  showPlayerConfiguration: boolean;
+}
+
 const mapStateToProps = createStructuredSelector<any, IStateProps>({
   bases: basesSelector,
   currentTurn: currentTurnSelector,
@@ -46,10 +51,13 @@ const mapStateToProps = createStructuredSelector<any, IStateProps>({
 });
 
 const mapDispatchToProps = {
+  setPlayers,
   getInitialGameData,
 };
 
-class LudoBare extends React.PureComponent<IProps> {
+class LudoBare extends React.PureComponent<IProps, IState> {
+  state: IState = { showPlayerConfiguration: true }
+
   componentDidMount() {
     this.props.getInitialGameData();
   }
@@ -58,19 +66,32 @@ class LudoBare extends React.PureComponent<IProps> {
     const { currentTurn } = this.props;
     return (
       <div className={styles.Container}>
-        <div className={styles.PlayerContainer}>
-          <Player baseID={BaseID.BASE_1} placement='top' disabled={currentTurn !== BaseID.BASE_1}/>
-          <Player baseID={BaseID.BASE_3} placement='bottom' disabled={currentTurn !== BaseID.BASE_3}/>
+        <div className={styles.GameContainer}>
+          <div className={styles.PlayerContainer}>
+            <Player baseID={BaseID.BASE_1} placement='top' disabled={currentTurn !== BaseID.BASE_1}/>
+            <Player baseID={BaseID.BASE_3} placement='bottom' disabled={currentTurn !== BaseID.BASE_3}/>
+          </div>
+          <div className={styles.Board} style={getStyleObject(BOARD_SIZE, BOARD_SIZE)}>
+            {
+              this.renderBoardEntities()
+            }
+          </div>
+          <div className={styles.PlayerContainer}>
+            <Player baseID={BaseID.BASE_2} placement='top' disabled={currentTurn !== BaseID.BASE_2}/>
+            <Player baseID={BaseID.BASE_4} placement='bottom' disabled={currentTurn !== BaseID.BASE_4}/>
+          </div>
         </div>
-        <div className={styles.Board} style={getStyleObject(BOARD_SIZE, BOARD_SIZE)}>
-          {
-            this.renderBoardEntities()
-          }
-        </div>
-        <div className={styles.PlayerContainer}>
-          <Player baseID={BaseID.BASE_2} placement='top' disabled={currentTurn !== BaseID.BASE_2}/>
-          <Player baseID={BaseID.BASE_4} placement='bottom' disabled={currentTurn !== BaseID.BASE_4}/>
-        </div>
+        {
+          this.state.showPlayerConfiguration
+          ? (
+            <div className={styles.GameConfiguration}>
+            <button className={styles.Button} onClick={() => this.startGame(2)}>2 Players</button>
+            <button className={styles.Button} onClick={() => this.startGame(3)}>3 Players</button>
+            <button className={styles.Button} onClick={() => this.startGame(4)}>4 Players</button>
+          </div>
+          )
+          : null
+        }
         {
           process.env.NODE_ENV === 'development'
           ? <ContextMenu />
@@ -100,6 +121,13 @@ class LudoBare extends React.PureComponent<IProps> {
         default:
           return null;
       }
+    });
+  }
+
+  private startGame = (playerCount: number) => {
+    this.props.setPlayers(playerCount);
+    this.setState({
+      showPlayerConfiguration: false,
     });
   }
 }
