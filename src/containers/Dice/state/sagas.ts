@@ -41,10 +41,10 @@ function * rollDieCompleteSaga(action: ReturnType<typeof rollDieComplete>) {
   const bases: ReturnType<typeof basesSelector> = yield select(basesSelector);
   const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
   const currentTurnBase = bases[currentTurn];
-  const spawnedCoinIDs = currentTurnBase.coinIDs.filter((coinID) => coins[coinID].isSpawned);
+  const spawnedCoinIDs = currentTurnBase.coinIDs.filter((coinID) => coins[coinID].isSpawned && !coins[coinID].isRetired);
   const movableCoins: ICoin['coinID'][] = yield call(getMovableCoins, value);
-  const spawnableCoins = bases[currentTurn].coinIDs.filter((coinID) => !coins[coinID].isSpawned);
-  if (value === Rolls.SIX) {
+  const spawnableCoins = bases[currentTurn].coinIDs.filter((coinID) => !coins[coinID].isSpawned && !coins[coinID].isRetired);
+  if (value === Rolls.SIX && (spawnableCoins.length > 0 || movableCoins.length > 0)) {
     if ((spawnedCoinIDs.length === 0 || movableCoins.length === 0) && spawnableCoins.length > 0) {
       yield put(spawnCoin(currentTurnBase.ID, spawnableCoins[0]));
       yield take([LudoActionTypes.SPAWN_COIN_SUCCESS, LudoActionTypes.MOVE_COIN_SUCCESS]);

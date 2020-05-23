@@ -42,6 +42,7 @@ class PlayerBare extends React.PureComponent<IProps> {
         {
           !disabled && <Dice baseColor={base.color}/>
         }
+        <div className={styles.RetiredCoins}>
         {
           base.coinIDs
           .filter((coinID) => this.props.coins[coinID].isRetired)
@@ -53,6 +54,7 @@ class PlayerBare extends React.PureComponent<IProps> {
             />
           ))
         }
+        </div>
       </div>
     )
     : null;
