@@ -84,8 +84,8 @@ export const disqualifyCoin = (coinID: ICoin['coinID'], walkwayPosition: Walkway
   type: ActionTypes.DISQUALIFY_COIN,
 });
 
-export const homeCoin = (cellID: ICell['cellID'], coinID: ICoin['coinID'], walkwayPosition: WalkwayPosition): IReduxAction<ActionTypes.HOME_COIN, { coinID: ICoin['coinID']; walkwayPosition: WalkwayPosition; cellID: ICell['cellID']; }> => ({
-  data: { cellID, coinID, walkwayPosition },
+export const homeCoin = (coinID: ICoin['coinID']): IReduxAction<ActionTypes.HOME_COIN, { coinID: ICoin['coinID'] }> => ({
+  data: { coinID },
   type: ActionTypes.HOME_COIN,
 });
 

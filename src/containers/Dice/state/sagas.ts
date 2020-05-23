@@ -14,7 +14,8 @@ import {
   spawnCoin,
   ActionTypes as LudoActionTypes,
 } from 'containers/Ludo/state/actions';
-import { isAnyMoveValid } from 'containers/Ludo/state/sagas';
+import { ICoin } from 'containers/Ludo/state/interfaces';
+import { getMovableCoins } from 'containers/Ludo/state/sagas';
 import { basesSelector, coinsSelector, currentTurnSelector } from 'containers/Ludo/state/selectors';
 
 import { enableDie, invalidateDieRoll, rollDieComplete, ActionTypes } from './actions';
@@ -42,11 +43,11 @@ function * rollDieCompleteSaga(action: ReturnType<typeof rollDieComplete>) {
   const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
   const currentTurnBase = bases[currentTurn];
   const spawnedCoinIDs = currentTurnBase.coinIDs.filter((coinID) => coins[coinID].isSpawned);
-  const isAnyMovePossible = yield call(isAnyMoveValid, value);
+  const movableCoins: ICoin['coinID'][] = yield call(getMovableCoins, value);
   const spawnableCoins = bases[currentTurn].coinIDs.filter((coinID) => !coins[coinID].isSpawned);
   if (value === Rolls.SIX) {
-    if ((spawnedCoinIDs.length === 0 || !isAnyMovePossible) && spawnableCoins.length > 0) {
-      yield put(spawnCoin(currentTurnBase.ID, bases[currentTurnBase.ID].coinIDs[0]));
+    if ((spawnedCoinIDs.length === 0 || movableCoins.length === 0) && spawnableCoins.length > 0) {
+      yield put(spawnCoin(currentTurnBase.ID, spawnableCoins[0]));
       yield take([LudoActionTypes.SPAWN_COIN_SUCCESS, LudoActionTypes.MOVE_COIN_SUCCESS]);
     } else {
       yield put(markCurrentBase(true));
@@ -58,6 +59,10 @@ function * rollDieCompleteSaga(action: ReturnType<typeof rollDieComplete>) {
     // Automove if only one coin is spawned
     if (spawnedCoinIDs.length === 1) {
       const coinID = spawnedCoinIDs[0];
+      const coin = coins[coinID];
+      yield put(moveCoin(coinID, coin.position, coin.cellID));
+    } else if (movableCoins.length === 1) {
+      const coinID = movableCoins[0];
       const coin = coins[coinID];
       yield put(moveCoin(coinID, coin.position, coin.cellID));
     }

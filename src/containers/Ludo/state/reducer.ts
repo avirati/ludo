@@ -1,5 +1,6 @@
 import { Actions, ActionTypes } from './actions';
 import { BaseID, IState } from './interfaces';
+import { WINNING_MOVES } from 'globalConstants';
 
 const initialState: IState = {
   bases: {},
@@ -154,27 +155,15 @@ export const reducer = (state: IState = initialState, action: Actions): IState =
       };
     }
     case ActionTypes.HOME_COIN: {
-      const { cellID, coinID, walkwayPosition } = action.data!;
-      const coinIDs = [...state.cells[walkwayPosition][cellID].coinIDs];
-      const coinIDToRemoveIndex = coinIDs.findIndex((ID) => ID === coinID);
-      coinIDs.splice(coinIDToRemoveIndex, 1);
+      const { coinID } = action.data!;
       return {
         ...state,
-        cells: {
-          ...state.cells,
-          [walkwayPosition]: {
-            ...state.cells[walkwayPosition],
-            [cellID]: {
-              ...state.cells[walkwayPosition][cellID],
-              coinIDs,
-            },
-          },
-        },
         coins: {
           ...state.coins,
           [coinID]: {
             ...state.coins[coinID],
             isRetired: true,
+            steps: WINNING_MOVES,
           },
         },
       };

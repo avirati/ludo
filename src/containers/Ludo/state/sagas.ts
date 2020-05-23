@@ -26,6 +26,7 @@ import {
   spawnCoin,
   spawnCoinSuccess,
   ActionTypes,
+  homeCoin,
 } from './actions';
 import {
   BaseID,
@@ -94,18 +95,18 @@ function * isCurrentMoveValid(coinID: ICoin['coinID'], stepsToTake: Rolls) {
   return coin.steps + stepsToTake <= WINNING_MOVES;
 }
 
-export function * isAnyMoveValid(stepsToTake: Rolls) {
+export function * getMovableCoins(stepsToTake: Rolls) {
   const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
   const currentTurnBase: ReturnType<typeof currentTurnSelector> = yield select(currentTurnSelector);
   const bases: ReturnType<typeof basesSelector> = yield select(basesSelector);
-  const movableCoin =
+  const movableCoins =
     bases[currentTurnBase].coinIDs
-    .find((coinID) =>
+    .filter((coinID) =>
       coins[coinID].isSpawned
       && !coins[coinID].isRetired
       && coins[coinID].steps + stepsToTake <= WINNING_MOVES,
     );
-  return Boolean(movableCoin);
+  return movableCoins;
 }
 
 function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
@@ -113,10 +114,10 @@ function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
   const { coinID } = action.data!;
   const currentDieRoll: ReturnType<typeof currentDieRollSelector> = yield select(currentDieRollSelector);
 
-  const isAnyMovePossible: boolean = yield call(isAnyMoveValid, currentDieRoll);
+  const movableCoins: ICoin['coinID'][] = yield call(getMovableCoins, currentDieRoll);
   const isCurrentMovePossible: boolean = yield call(isCurrentMoveValid, coinID, currentDieRoll);
 
-  if (!isAnyMovePossible) {
+  if (movableCoins.length === 0) {
     yield put(moveCoinFailure());
     yield put(nextTurn());
     yield put(enableDie());
@@ -125,6 +126,8 @@ function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
     yield put(moveCoinFailure());
     return;
   }
+
+  let bonusChanceForHomeCoin = false;
 
   for (let i = 0; i < currentDieRoll; i++) {
     const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
@@ -143,7 +146,12 @@ function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
     : nextCells[0];
 
     yield put(liftCoin(cellID, coinID, walkwayPosition));
-    yield put(placeCoin(nextCell.cellID, coinID, nextCell.position));
+    if (nextCell.cellID === 'HOME') {
+      yield put(homeCoin(coinID));
+      bonusChanceForHomeCoin = true;
+    } else {
+      yield put(placeCoin(nextCell.cellID, coinID, nextCell.position));
+    }
 
     yield delay(100);
 
@@ -151,9 +159,11 @@ function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
     walkwayPosition = nextCell.position;
   }
 
-  const bonusChanceForDisqualification = yield call(performDisqualificationCheck, action.data!.coinID, walkwayPosition, cellID);
-  const bonusChanceForRollingSix = currentDieRoll === Rolls.SIX;
-  const bonusChance = (bonusChanceForDisqualification || bonusChanceForRollingSix);
+  const bonusChance = bonusChanceForHomeCoin
+  || (yield call(performDisqualificationCheck, action.data!.coinID, walkwayPosition, cellID))
+  || (currentDieRoll === Rolls.SIX)
+  ;
+
   yield put(moveCoinSuccess(bonusChance, coinID, currentDieRoll));
   yield put(invalidateDieRoll());
 
@@ -164,11 +174,15 @@ function * moveCoinSaga(action: ReturnType<typeof moveCoin>) {
 }
 
 function * performDisqualificationCheck(activeCoinID: ICoin['coinID'], walkwayPosition: WalkwayPosition, cellID: ICell['cellID']) {
+  if (cellID === 'HOME') {
+    return false;
+  }
   const cells: ReturnType<typeof cellsSelector> = yield select(cellsSelector);
   const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
 
   const activeCoin = coins[activeCoinID];
   const cellInWhichCoinLanded = cells[walkwayPosition][cellID];
+  console.log(cellInWhichCoinLanded, activeCoin);
   if (cellInWhichCoinLanded.cellType === CellType.NORMAL) {
     // Check if the coin disqualifies another of a different base
     for (const coinID of cellInWhichCoinLanded.coinIDs) {
