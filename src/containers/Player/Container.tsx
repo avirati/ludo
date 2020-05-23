@@ -6,7 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import { Coin } from 'containers/Base/components/Coin';
 import { Dice } from 'containers/Dice/Container';
 import { IBase } from 'containers/Ludo/state/interfaces';
-import { coinsSelector, basesSelector } from 'containers/Ludo/state/selectors';
+import { basesSelector, coinsSelector } from 'containers/Ludo/state/selectors';
 import { PlayerAvatar } from './components/PlayerAvatar';
 
 import styles from './Container.module.css';
@@ -35,7 +35,7 @@ class PlayerBare extends React.PureComponent<IProps> {
     const placementClass = placement === 'top' ? styles.TopPlacement : styles.BottomPlacement;
     const disabledClass = disabled ? styles.Disabled : null;
     const base = bases[baseID];
-    return base
+    return base && base.enabled
     ? (
       <div className={classnames(styles.Container, placementClass, disabledClass)}>
         <PlayerAvatar baseColor={base.color}/>

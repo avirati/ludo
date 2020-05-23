@@ -21,13 +21,12 @@ import { basesSelector, coinsSelector, currentTurnSelector } from 'containers/Lu
 import { enableDie, invalidateDieRoll, rollDieComplete, ActionTypes } from './actions';
 import { Rolls } from './interfaces';
 
-const mt = MersenneTwister19937.autoSeed();
-
 function * watchForRollDie() {
   yield takeLatest(ActionTypes.ROLL_DIE, rollDieSaga);
 }
 
 function * rollDieSaga() {
+  const mt = MersenneTwister19937.autoSeed();
   const dieRoll: Rolls = integer(Rolls.ONE, Rolls.SIX)(mt);
   yield put(rollDieComplete(dieRoll));
 }

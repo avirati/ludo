@@ -15,6 +15,8 @@ import styles from './Container.module.css';
 
 interface IPublicProps {
   baseID: IBase['ID'];
+  enabled: boolean;
+  hasWon: boolean;
 }
 
 interface IStateProps {
@@ -53,10 +55,10 @@ class BaseBare extends React.PureComponent<IProps> {
                 <CoinPlaceholder
                   key={index}
                   baseColor={base.color}
-                  isCoinHidden={coin.isSpawned || coin.isRetired}
+                  isCoinHidden={!this.props.enabled || (coin.isSpawned || coin.isRetired)}
                   onCoinClicked={() => this.onCoinClicked(base, coin)}
                 />
-              )
+              );
             })
           }
         </div>

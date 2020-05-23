@@ -1,6 +1,7 @@
+import { WINNING_MOVES } from 'globalConstants';
+
 import { Actions, ActionTypes } from './actions';
 import { BaseID, IState } from './interfaces';
-import { WINNING_MOVES } from 'globalConstants';
 
 const initialState: IState = {
   bases: {},
@@ -107,11 +108,11 @@ export const reducer = (state: IState = initialState, action: Actions): IState =
         },
       };
     }
-    case ActionTypes.NEXT_TURN: {
-      const nextTurn = state.bases[state.currentTurn].nextTurn;
+    case ActionTypes.PASS_TURN_TO: {
+      const { baseID } = action.data!;
       return {
         ...state,
-        currentTurn: nextTurn,
+        currentTurn: baseID,
       };
     }
     case ActionTypes.MARK_CURRENT_BASE: {

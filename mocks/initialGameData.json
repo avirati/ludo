@@ -9,7 +9,9 @@
         "BASE_1_COIN_4"
       ],
       "color": "BLUE",
-      "nextTurn": "BASE_2"
+      "nextTurn": "BASE_2",
+      "enabled": true,
+      "hasWon": false
     },
     {
       "ID": "BASE_2",
@@ -20,7 +22,9 @@
         "BASE_2_COIN_4"
       ],
       "color": "GREEN",
-      "nextTurn": "BASE_4"
+      "nextTurn": "BASE_4",
+      "enabled": true,
+      "hasWon": false
     },
     {
       "ID": "BASE_3",
@@ -31,7 +35,9 @@
         "BASE_3_COIN_4"
       ],
       "color": "RED",
-      "nextTurn": "BASE_1"
+      "nextTurn": "BASE_1",
+      "enabled": true,
+      "hasWon": false
     },
     {
       "ID": "BASE_4",
@@ -42,7 +48,9 @@
         "BASE_4_COIN_4"
       ],
       "color": "YELLOW",
-      "nextTurn": "BASE_3"
+      "nextTurn": "BASE_3",
+      "enabled": true,
+      "hasWon": false
     }
   ],
   "coins": [{

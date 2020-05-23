@@ -18,6 +18,7 @@ export enum ActionTypes {
   HOME_COIN = 'ludo/HOME_COIN',
 
   NEXT_TURN = 'ludo/NEXT_TURN',
+  PASS_TURN_TO = 'ludo/PASS_TURN_TO',
 
   MARK_CURRENT_BASE = 'ludo/MARK_CURRENT_BASE',
 }
@@ -65,6 +66,11 @@ export const nextTurn = (): IReduxAction<ActionTypes.NEXT_TURN, void> => ({
   type: ActionTypes.NEXT_TURN,
 });
 
+export const passTurnTo = (baseID: IBase['ID']): IReduxAction<ActionTypes.PASS_TURN_TO, { baseID: IBase['ID'] }> => ({
+  data: { baseID },
+  type: ActionTypes.PASS_TURN_TO,
+});
+
 export const markCurrentBase = (spawnable: boolean): IReduxAction<ActionTypes.MARK_CURRENT_BASE, { spawnable: boolean }> => ({
   data: { spawnable },
   type: ActionTypes.MARK_CURRENT_BASE,
@@ -97,6 +103,7 @@ export type Actions =
   | ReturnType<typeof liftCoin>
   | ReturnType<typeof placeCoin>
   | ReturnType<typeof nextTurn>
+  | ReturnType<typeof passTurnTo>
   | ReturnType<typeof markCurrentBase>
   | ReturnType<typeof moveCoinSuccess>
   | ReturnType<typeof disqualifyCoin>

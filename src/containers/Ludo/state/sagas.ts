@@ -17,6 +17,7 @@ import { WalkwayPosition } from 'state/interfaces';
 import {
   disqualifyCoin,
   getInitialGameDataSuccess,
+  homeCoin,
   liftCoin,
   moveCoin,
   moveCoinFailure,
@@ -26,7 +27,7 @@ import {
   spawnCoin,
   spawnCoinSuccess,
   ActionTypes,
-  homeCoin,
+  passTurnTo,
 } from './actions';
 import {
   BaseID,
@@ -197,8 +198,31 @@ function * performDisqualificationCheck(activeCoinID: ICoin['coinID'], walkwayPo
   return false;
 }
 
+function * watchForNextTurn() {
+  yield takeLatest(ActionTypes.NEXT_TURN, nextTurnSaga);
+}
+
+function * nextTurnSaga() {
+  const currentTurnBase: ReturnType<typeof currentTurnSelector> = yield select(currentTurnSelector);
+  const bases: ReturnType<typeof basesSelector> = yield select(basesSelector);
+  let nextTurn = bases[currentTurnBase].nextTurn;
+  let nextBaseID = currentTurnBase;
+  for (const key in bases) {
+    if (bases[key]) {
+      nextBaseID = bases[nextBaseID].nextTurn;
+      const nextBase = bases[nextBaseID];
+      if (nextBase.enabled) {
+        nextTurn = nextBaseID;
+        break;
+      }
+    }
+  }
+  yield put(passTurnTo(nextTurn));
+}
+
 export const sagas = [
   watchForGetInitialGameData,
   watchForSpawnCoin,
   watchForMoveCoin,
+  watchForNextTurn,
 ];

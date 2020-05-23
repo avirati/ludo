@@ -24,6 +24,8 @@ export interface IBase {
   ID: BaseID;
   nextTurn: BaseID;
   spawnable: boolean;
+  hasWon: boolean;
+  enabled: boolean;
 }
 
 export interface IWalkway {

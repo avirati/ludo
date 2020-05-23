@@ -92,7 +92,7 @@ class LudoBare extends React.PureComponent<IProps> {
       const walkway = walkways[relationship.ID];
       switch (relationship.type) {
         case BoardEntities.BASE:
-          return <Base baseID={base.ID} key={index}/>;
+          return <Base baseID={base.ID} key={index} enabled={base.enabled} hasWon={base.hasWon}/>;
         case BoardEntities.HOME:
           return <Home baseIDs={relationship.baseIDs} key={index}/>;
         case BoardEntities.WALKWAY:
