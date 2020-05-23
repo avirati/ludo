@@ -20,6 +20,7 @@ import {
   getInitialGameDataSuccess,
   homeCoin,
   liftCoin,
+  markWinner,
   moveCoin,
   moveCoinFailure,
   moveCoinSuccess,
@@ -214,7 +215,7 @@ function * nextTurnSaga() {
     if (bases[key]) {
       nextBaseID = bases[nextBaseID].nextTurn;
       const nextBase = bases[nextBaseID];
-      if (nextBase.enabled) {
+      if (nextBase.enabled && !nextBase.hasWon) {
         nextTurn = nextBaseID;
         break;
       }
@@ -250,10 +251,30 @@ function * setPlayersSaga(action: ReturnType<typeof setPlayers>) {
   }
 }
 
+function * watchForHomeCoin() {
+  yield takeLatest(ActionTypes.HOME_COIN, homeCoinSaga);
+}
+
+function * homeCoinSaga(action: ReturnType<typeof homeCoin>) {
+  const { coinID } = action.data!;
+
+  const coins: ReturnType<typeof coinsSelector> = yield select(coinsSelector);
+  const bases: ReturnType<typeof basesSelector> = yield select(basesSelector);
+  const { baseID } = coins[coinID];
+  const base = bases[baseID];
+  const retiredCoins = base.coinIDs.filter((coinID) => coins[coinID].isRetired);
+
+  const hasWon = retiredCoins.length === base.coinIDs.length;
+  if (hasWon) {
+    yield put(markWinner(baseID));
+  }
+}
+
 export const sagas = [
   watchForGetInitialGameData,
   watchForSpawnCoin,
   watchForMoveCoin,
   watchForNextTurn,
   watchForSetPlayers,
+  watchForHomeCoin,
 ];

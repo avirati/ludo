@@ -195,6 +195,19 @@ export const reducer = (state: IState = initialState, action: Actions): IState =
         },
       };
     }
+    case ActionTypes.MARK_WINNER: {
+      const { baseID } = action.data!;
+      return {
+        ...state,
+        bases: {
+          ...state.bases,
+          [baseID]: {
+            ...state.bases[baseID],
+            hasWon: true,
+          },
+        },
+      };
+    }
     default:
       return state;
   }

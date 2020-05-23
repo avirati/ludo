@@ -21,6 +21,7 @@ export enum ActionTypes {
   PASS_TURN_TO = 'ludo/PASS_TURN_TO',
 
   MARK_CURRENT_BASE = 'ludo/MARK_CURRENT_BASE',
+  MARK_WINNER = 'ludo/MARK_WINNER',
 
   SET_PLAYERS = 'ludo/SET_PLAYERS',
   ENABLE_BASE = 'ludo/ENABLE_BASE',
@@ -79,6 +80,11 @@ export const markCurrentBase = (spawnable: boolean): IReduxAction<ActionTypes.MA
   type: ActionTypes.MARK_CURRENT_BASE,
 });
 
+export const markWinner = (baseID: BaseID): IReduxAction<ActionTypes.MARK_WINNER, { baseID: BaseID }> => ({
+  data: { baseID },
+  type: ActionTypes.MARK_WINNER,
+});
+
 export const moveCoinSuccess = (bonusChance: boolean, coinID: ICoin['coinID'], currentDieRoll: Rolls): IReduxAction<ActionTypes.MOVE_COIN_SUCCESS, { bonusChance: boolean, coinID: ICoin['coinID'], currentDieRoll: Rolls }> => ({
   data: { bonusChance, currentDieRoll, coinID },
   type: ActionTypes.MOVE_COIN_SUCCESS,
@@ -123,4 +129,5 @@ export type Actions =
   | ReturnType<typeof homeCoin>
   | ReturnType<typeof setPlayers>
   | ReturnType<typeof enableBase>
+  | ReturnType<typeof markWinner>
   ;
