@@ -53,7 +53,7 @@ function * watchForGetInitialGameData() {
 }
 
 function * getInitialGameDataSaga() {
-  const data: IServerGameData = yield call(api.get, { url: 'http://localhost:8080/initialGameData.json' });
+  const data: IServerGameData = yield call(api.get, { url: '/initialGameData.json' });
   const basesArray = data.bases.map((base) => ({ ...base, spawnable: false }));
   const bases = mapByProperty(basesArray, 'ID');
   const coins = data.coins.map((coin) => ({ ...coin, color: bases[coin.baseID].color }));
