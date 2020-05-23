@@ -8,6 +8,7 @@ import {
 
 import {
   markCurrentBase,
+  moveCoin,
   moveCoinFailure,
   moveCoinSuccess,
   nextTurn,
@@ -52,6 +53,12 @@ function * rollDieCompleteSaga(action: ReturnType<typeof rollDieComplete>) {
     }
     yield put(enableDie());
   } else if (spawnedCoinIDs.length > 0) {
+    // Automove if only one coin is spawned
+    if (spawnedCoinIDs.length === 1) {
+      const coinID = spawnedCoinIDs[0];
+      const coin = coins[coinID];
+      yield put(moveCoin(coinID, coin.position, coin.cellID));
+    }
     const result: ReturnType<typeof moveCoinSuccess | typeof moveCoinFailure> = yield take([
       LudoActionTypes.MOVE_COIN_SUCCESS,
       LudoActionTypes.MOVE_COIN_FAILURE,

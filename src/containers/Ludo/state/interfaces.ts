@@ -7,6 +7,8 @@ export interface ICoin {
   color: BaseColors;
   baseID: IBase['ID'];
   steps: number;
+  cellID: ICell['cellID'];
+  position: WalkwayPosition;
 }
 
 export enum BaseID {

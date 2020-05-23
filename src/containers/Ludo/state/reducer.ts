@@ -53,7 +53,9 @@ export const reducer = (state: IState = initialState, action: Actions): IState =
           ...state.coins,
           [coinID]: {
             ...state.coins[coinID],
+            cellID,
             isSpawned: true,
+            position,
           },
         },
       };
@@ -92,6 +94,14 @@ export const reducer = (state: IState = initialState, action: Actions): IState =
                 coinID,
               ],
             },
+          },
+        },
+        coins: {
+          ...state.coins,
+          [coinID]: {
+            ...state.coins[coinID],
+            cellID,
+            position: walkwayPosition,
           },
         },
       };
