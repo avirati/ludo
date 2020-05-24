@@ -1,44 +1,66 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Ludo
 
-## Available Scripts
+Ludo is a strategy board game for two to four players, in which the players race their four tokens from start to finish according to the rolls of a single die. Like other cross and circle games, Ludo is derived from the Indian game Pachisi, but simpler.
+This game is aimed to be the offline version, network based multiplayer game is not yet supported.
 
-In the project directory, you can run:
+# Inspiration
 
-### `yarn start`
+As the covid situation is progressing, I found the old Ludo game to be a good time killer, I started playing on a popular app and soon became convinced that luck was not with me in this game. Then I started seeing a pattern which made me believe that Die rolls are not so random and they are nudged carefully to drive the game very close. The sheer frustration of it pushed me to go forward with this project. I was on leave for a week and that's how I came up with a plan to make an offline implementation of the game in a week. So, apologies if the code isn't upto the standards :D.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Demo
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Here is a link to Heroku Deploy of the game - [Demo](http://ludo-classic.herokuapp.com/)
+![alt tag](https://raw.githubusercontent.com/avirati/ludo/master/Ludo.jpg)
 
-### `yarn test`
+# How I went about developing this game
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  - The game board consists of a couple of building blocks, namely BASES (4 Count), Walkways (4 Count) and a HOME. These can be arranged in order to build the visual representation needed. For example :
+  [BASE1, WALKWAY_NORTH, BASE2],
+  [WALKWAY_WEST, HOME, WALKWAY_EAST],
+  [BASE3, WALKWAY_SOUTH, BASE4]
+  - Each Walkway has 18 cells, either 6 x 3 or 3 x 6, depending on orientation
+  - Each cell would have an ID
+  - Cell can be of type - NORMAL, STAR, SPAWN and HOMEPATH
+  - In dev build, there is a context menu that can be opened for each of the cell. This context menu was created and used to mark cells and to link them. This is how coins "know" which cell to go to next.
+  - After generating the data needed for the game visuals, the data is put into a json file which the application fetches upon start. This data is supposed to come from BE, the application should work the same if this JSON was replaced by BE in future.
+  - Each Coin, Base and Cell have properties with which Game rules have been implemented.
+  - The Die uses MersenneTwister19937's seeded algorithm for rolls.
+  - The game state is managed completely by Redux, so with redux-persist, it will be super easy to "save" the game (to IndexedDB or similar)
+  - A Coin is declared HOMECOIN when it has completed 56 Steps (Total number of steps needed for a coin to "RETIRE")
+  - More of the minute strategies in the code itself, happy browsing :)
 
-### `yarn build`
+### Tech
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Ludo uses the following tech stack
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+* [React]
+* [Redux]
+* [Typescript]
+* [Webpack]
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation
 
-### `yarn eject`
+```sh
+$ yarn dev
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+For production environments...
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```sh
+$ yarn build
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Todos
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+ - Add Animation to Die Roll
+ - Mark Players winner as they finish the game
+ - Write a BE and make it a Multiplayer Game !
+ - Find some time to write tests
 
-## Learn More
+License
+----
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+MIT
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+
+**Free Software, Hell Yeah!**
