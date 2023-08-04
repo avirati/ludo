@@ -9,7 +9,7 @@ As the covid situation is progressing, I found the old Ludo game to be a good ti
 
 # Demo
 
-Here is a link to Heroku Deploy of the game - [Demo](http://ludo-classic.herokuapp.com/)
+Here is a link to try it out - [Demo](https://ludo.avinashv.dev)
 ![alt tag](https://raw.githubusercontent.com/avirati/ludo/master/Ludo.jpg)
 
 # How I went about developing this game
